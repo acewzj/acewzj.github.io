@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next mist use-motion" lang="zh">
+<html class="theme-next mist" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -105,16 +103,15 @@
 
 
 
-<meta name="description" content="这篇文章主要记述了Python应用的一些笔记。 1、Python操作Excel简化操作需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。 输入：人的名字（文本形式） 输出：排序好的excel表 若文本中的名字存在，打印出该行值  逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分">
+<meta name="description" content="这篇文章主要记述了Python应用的一些笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python应用技巧">
 <meta property="og:url" content="http://acewzj.github.io/2020/03/16/2020-03-16-Python/index.html">
 <meta property="og:site_name" content="acewzj">
-<meta property="og:description" content="这篇文章主要记述了Python应用的一些笔记。 1、Python操作Excel简化操作需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。 输入：人的名字（文本形式） 输出：排序好的excel表 若文本中的名字存在，打印出该行值  逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分">
-<meta property="og:locale" content="zh">
+<meta property="og:description" content="这篇文章主要记述了Python应用的一些笔记。">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png">
 <meta property="article:published_time" content="2020-03-16T08:31:18.000Z">
-<meta property="article:modified_time" content="2020-04-02T09:55:52.389Z">
+<meta property="article:modified_time" content="2020-04-02T10:25:38.934Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="Python Numpy">
 <meta name="twitter:card" content="summary">
@@ -131,10 +128,10 @@
     sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
     fancybox: true,
     tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -166,7 +163,7 @@
 
 <meta name="generator" content="Hexo 4.2.0"></head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -214,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -224,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            About
+            关于
           </a>
         </li>
       
@@ -234,7 +231,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -244,7 +241,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            分类
           </a>
         </li>
       
@@ -254,7 +251,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -318,9 +315,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-16T16:31:18+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-16T16:31:18+08:00">
                 2020-03-16
               </time>
             
@@ -339,7 +336,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -380,8 +377,12 @@
       
 
       
-        <a id="more"></a>
-<p>这篇文章主要记述了Python应用的一些笔记。</p>
+        <p>这篇文章主要记述了Python应用的一些笔记。</p>
+<a id="more"></a>
+
+
+
+
 <h2 id="1、Python操作Excel简化操作"><a href="#1、Python操作Excel简化操作" class="headerlink" title="1、Python操作Excel简化操作"></a>1、Python操作Excel简化操作</h2><p>需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。</p>
 <p>输入：人的名字（文本形式）</p>
 <p>输出：排序好的excel表</p>
@@ -455,16 +456,16 @@
       <div>
         <ul class="post-copyright">
   <li class="post-copyright-author">
-    <strong>Post author:</strong>
+    <strong>本文作者：</strong>
     acewzj
   </li>
   <li class="post-copyright-link">
-    <strong>Post link:</strong>
+    <strong>本文链接：</strong>
     <a href="http://acewzj.github.io/2020/03/16/2020-03-16-Python/" title="Python应用技巧">http://acewzj.github.io/2020/03/16/2020-03-16-Python/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice: </strong>
-    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 
@@ -556,10 +557,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
@@ -579,8 +580,8 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">22</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
@@ -591,7 +592,7 @@
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">categories</span>
+                  <span class="site-state-item-name">分类</span>
                 </a>
               </div>
             
@@ -602,7 +603,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">标签</span>
                 </a>
               </div>
             
@@ -654,7 +655,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -664,7 +665,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -672,7 +673,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -723,12 +724,12 @@
 
 
 
-
-
-
-
   
   
+
+
+
+
 
 
 
@@ -771,7 +772,7 @@
 
   
   
-    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
   
 
 

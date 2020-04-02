@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next mist use-motion" lang="zh">
+<html class="theme-next mist" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -105,13 +103,12 @@
 
 
 
-<meta name="description" content="这篇文章主要记述了GPU并行编程CUDA的一些笔记。  32是考虑流水线【取指–执行—-】   均匀分布比起高斯分布具有更高的信息熵（更混乱，因为均匀分布说明物体很多且分布均匀，而高斯分布集中在峰值那块，更整齐一些）   第二个式子是保证正负号的，也就是保证分类正确（因为求w最小求出两个值）  可以使用 nvidia-smi (Systems Management Interface) 命令行命">
+<meta name="description" content="这篇文章主要记述了GPU并行编程CUDA的一些笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GPU并行编程--CUDA模型学习">
 <meta property="og:url" content="http://acewzj.github.io/2020/03/08/2020-03-08-GPU/index.html">
 <meta property="og:site_name" content="acewzj">
-<meta property="og:description" content="这篇文章主要记述了GPU并行编程CUDA的一些笔记。  32是考虑流水线【取指–执行—-】   均匀分布比起高斯分布具有更高的信息熵（更混乱，因为均匀分布说明物体很多且分布均匀，而高斯分布集中在峰值那块，更整齐一些）   第二个式子是保证正负号的，也就是保证分类正确（因为求w最小求出两个值）  可以使用 nvidia-smi (Systems Management Interface) 命令行命">
-<meta property="og:locale" content="zh">
+<meta property="og:description" content="这篇文章主要记述了GPU并行编程CUDA的一些笔记。">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/HtDAjOmXqVnLKgb.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/Lp1crIB4K5EmHQX.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/gJCWhvV6HkwqTd2.png">
@@ -124,7 +121,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/03/29/jewqLO3yNzpb8Fm.png">
 <meta property="og:image" content="http://acewzj.github.io/2020/03/08/2020-03-08-GPU/1584367353177.png">
 <meta property="article:published_time" content="2020-03-08T02:16:18.000Z">
-<meta property="article:modified_time" content="2020-04-02T09:55:52.377Z">
+<meta property="article:modified_time" content="2020-04-02T10:25:33.356Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="GPU">
@@ -142,10 +139,10 @@
     sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
     fancybox: true,
     tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -177,7 +174,7 @@
 
 <meta name="generator" content="Hexo 4.2.0"></head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -225,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -235,7 +232,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            About
+            关于
           </a>
         </li>
       
@@ -245,7 +242,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -255,7 +252,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            分类
           </a>
         </li>
       
@@ -265,7 +262,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -329,9 +326,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-08T10:16:18+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-08T10:16:18+08:00">
                 2020-03-08
               </time>
             
@@ -350,7 +347,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -391,8 +388,14 @@
       
 
       
-        <a id="more"></a>
-<p>这篇文章主要记述了GPU并行编程CUDA的一些笔记。</p>
+        <p>这篇文章主要记述了GPU并行编程CUDA的一些笔记。</p>
+<a id="more"></a>
+
+
+
+
+
+
 <p><img src="https://i.loli.net/2020/03/30/HtDAjOmXqVnLKgb.png" alt="1583476702566"></p>
 <p>32是考虑流水线【取指–执行—-】</p>
 <p><img src="https://i.loli.net/2020/03/30/Lp1crIB4K5EmHQX.png" alt="1583478205636"></p>
@@ -630,16 +633,16 @@
       <div>
         <ul class="post-copyright">
   <li class="post-copyright-author">
-    <strong>Post author:</strong>
+    <strong>本文作者：</strong>
     acewzj
   </li>
   <li class="post-copyright-link">
-    <strong>Post link:</strong>
+    <strong>本文链接：</strong>
     <a href="http://acewzj.github.io/2020/03/08/2020-03-08-GPU/" title="GPU并行编程--CUDA模型学习">http://acewzj.github.io/2020/03/08/2020-03-08-GPU/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>Copyright Notice: </strong>
-    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 
@@ -733,10 +736,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
@@ -756,8 +759,8 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">22</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
@@ -768,7 +771,7 @@
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">categories</span>
+                  <span class="site-state-item-name">分类</span>
                 </a>
               </div>
             
@@ -779,7 +782,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">标签</span>
                 </a>
               </div>
             
@@ -831,7 +834,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -841,7 +844,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -849,7 +852,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -900,12 +903,12 @@
 
 
 
-
-
-
-
   
   
+
+
+
+
 
 
 
@@ -948,7 +951,7 @@
 
   
   
-    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
   
 
 
