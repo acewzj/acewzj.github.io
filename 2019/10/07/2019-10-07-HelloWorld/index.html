@@ -1,114 +1,32 @@
 <!DOCTYPE html>
-
-
-
-
-<html class="theme-next mist" lang="zh-Hans">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
 
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="C++," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="这篇文章主要介绍了HelloWorld的运行原理。">
+  <meta name="description" content="这篇文章主要介绍了HelloWorld的运行原理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HelloWorld的运行原理">
 <meta property="og:url" content="http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/index.html">
 <meta property="og:site_name" content="acewzj">
 <meta property="og:description" content="这篇文章主要介绍了HelloWorld的运行原理。">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2019/09/13/WKjeIC2MX3Av7Zc.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/13/rY6jE8gQv25zSfi.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/13/IusO7Gy4AYmxJP1.png">
@@ -125,39 +43,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2019/09/13/WKjeIC2MX3Av7Zc.png">
 
+<link rel="canonical" href="http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/">
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
   };
 </script>
-
-
-
-  <link rel="canonical" href="http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/"/>
-
-
-
-
 
   <title>HelloWorld的运行原理 | acewzj</title>
   
@@ -167,222 +64,171 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+</head>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-right page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">acewzj</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-      
-        <p class="site-subtitle">王忠杰</p>
-      
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">王忠杰</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
+
+
+
 <nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
-          <a href="/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
         <li class="menu-item menu-item-about">
-          <a href="/about/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
-          <a href="/tags/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
         <li class="menu-item menu-item-categories">
-          <a href="/categories/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
 
-      
-    </ul>
-  
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
-  
+  </li>
+  </ul>
 </nav>
 
 
 
- </div>
+
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="acewzj">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">HelloWorld的运行原理</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          HelloWorld的运行原理
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-07T10:16:18+08:00">
-                2019-10-07
-              </time>
-            
+              <span class="post-meta-item-text">Posted on</span>
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
+              <time title="Created: 2019-10-07 10:16:18" itemprop="dateCreated datePublished" datetime="2019-10-07T10:16:18+08:00">2019-10-07</time>
             </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-02 18:25:13" itemprop="dateModified" datetime="2020-04-02T18:25:13+08:00">2020-04-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
 
           
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>这篇文章主要介绍了HelloWorld的运行原理。</p>
@@ -524,279 +370,189 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">acewzj@acewzj:/etc$ cat ~/.bashrc</span><br><span class="line"><span class="meta">#</span><span class="bash"> ~/.bashrc: executed by bash(1) <span class="keyword">for</span> non-login shells.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> see /usr/share/doc/bash/examples/startup-files (<span class="keyword">in</span> the package bash-doc)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">for</span> examples</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> If not running interactively, don<span class="string">'t do anything</span></span></span><br><span class="line">case $- in</span><br><span class="line">    *i*) ;;</span><br><span class="line">      *) return;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> don<span class="string">'t put duplicate lines or lines starting with space in the history.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> See bash(1) <span class="keyword">for</span> more options</span></span><br><span class="line">HISTCONTROL=ignoreboth</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> append to the <span class="built_in">history</span> file, don<span class="string">'t overwrite it</span></span></span><br><span class="line">shopt -s histappend</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">for</span> setting <span class="built_in">history</span> length see HISTSIZE and HISTFILESIZE <span class="keyword">in</span> bash(1)</span></span><br><span class="line">HISTSIZE=1000</span><br><span class="line">HISTFILESIZE=2000</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> check the window size after each <span class="built_in">command</span> and, <span class="keyword">if</span> necessary,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> update the values of LINES and COLUMNS.</span></span><br><span class="line">shopt -s checkwinsize</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> If <span class="built_in">set</span>, the pattern <span class="string">"**"</span> used <span class="keyword">in</span> a pathname expansion context will</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> match all files and zero or more directories and subdirectories.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">shopt</span> -s globstar</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> make less more friendly <span class="keyword">for</span> non-text input files, see lesspipe(1)</span></span><br><span class="line">[ -x /usr/bin/lesspipe ] &amp;&amp; eval "$(SHELL=/bin/sh lesspipe)"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> variable identifying the chroot you work <span class="keyword">in</span> (used <span class="keyword">in</span> the prompt below)</span></span><br><span class="line">if [ -z "$&#123;debian_chroot:-&#125;" ] &amp;&amp; [ -r /etc/debian_chroot ]; then</span><br><span class="line">    debian_chroot=$(cat /etc/debian_chroot)</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> a fancy prompt (non-color, unless we know we <span class="string">"want"</span> color)</span></span><br><span class="line">case "$TERM" in</span><br><span class="line">    xterm-color|*-256color) color_prompt=yes;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> uncomment <span class="keyword">for</span> a colored prompt, <span class="keyword">if</span> the terminal has the capability; turned</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> off by default to not distract the user: the focus <span class="keyword">in</span> a terminal window</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> should be on the output of commands, not on the prompt</span></span><br><span class="line"><span class="meta">#</span><span class="bash">force_color_prompt=yes</span></span><br><span class="line"></span><br><span class="line">if [ -n "$force_color_prompt" ]; then</span><br><span class="line">    if [ -x /usr/bin/tput ] &amp;&amp; tput setaf 1 &gt;&amp;/dev/null; then</span><br><span class="line"><span class="meta">	#</span><span class="bash"> We have color support; assume it<span class="string">'s compliant with Ecma-48</span></span></span><br><span class="line"><span class="meta">	#</span><span class="bash"> (ISO/IEC-6429). (Lack of such support is extremely rare, and such</span></span><br><span class="line"><span class="meta">	#</span><span class="bash"> a <span class="keyword">case</span> would tend to support setf rather than setaf.)</span></span><br><span class="line">	color_prompt=yes</span><br><span class="line">    else</span><br><span class="line">	color_prompt=</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ "$color_prompt" = yes ]; then</span><br><span class="line">    PS1='$&#123;debian_chroot:+($debian_chroot)&#125;\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '</span><br><span class="line">else</span><br><span class="line">    PS1='$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$ '</span><br><span class="line">fi</span><br><span class="line">unset color_prompt force_color_prompt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> If this is an xterm <span class="built_in">set</span> the title to user@host:dir</span></span><br><span class="line">case "$TERM" in</span><br><span class="line">xterm*|rxvt*)</span><br><span class="line">    PS1="\[\e]0;$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h: \w\a\]$PS1"</span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> color support of ls and also add handy aliases</span></span><br><span class="line">if [ -x /usr/bin/dircolors ]; then</span><br><span class="line">    test -r ~/.dircolors &amp;&amp; eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"</span><br><span class="line">    alias ls='ls --color=auto'</span><br><span class="line">    #alias dir='dir --color=auto'</span><br><span class="line">    #alias vdir='vdir --color=auto'</span><br><span class="line"></span><br><span class="line">    alias grep='grep --color=auto'</span><br><span class="line">    alias fgrep='fgrep --color=auto'</span><br><span class="line">    alias egrep='egrep --color=auto'</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> colored GCC warnings and errors</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">export</span> GCC_COLORS=<span class="string">'error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> some more ls aliases</span></span><br><span class="line">alias ll='ls -alF'</span><br><span class="line">alias la='ls -A'</span><br><span class="line">alias l='ls -CF'</span><br><span class="line">alias mm='tldr'</span><br><span class="line"><span class="meta">#</span><span class="bash"> Add an <span class="string">"alert"</span> <span class="built_in">alias</span> <span class="keyword">for</span> long running commands.  Use like so:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   sleep 10; alert</span></span><br><span class="line">alias alert='notify-send --urgency=low -i "$([ $? = 0 ] &amp;&amp; echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&amp;|]\s*alert$//'\'')"'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Alias definitions.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> You may want to put all your additions into a separate file like</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ~/.bash_aliases, instead of adding them here directly.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> See /usr/share/doc/bash-doc/examples <span class="keyword">in</span> the bash-doc package.</span></span><br><span class="line"></span><br><span class="line">if [ -f ~/.bash_aliases ]; then</span><br><span class="line">    . ~/.bash_aliases</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> programmable completion features (you don<span class="string">'t need to enable</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> this, <span class="keyword">if</span> it<span class="string">'s already enabled in /etc/bash.bashrc and /etc/profile</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sources /etc/bash.bashrc).</span></span><br><span class="line">if ! shopt -oq posix; then</span><br><span class="line">  if [ -f /usr/share/bash-completion/bash_completion ]; then</span><br><span class="line">    . /usr/share/bash-completion/bash_completion</span><br><span class="line">  elif [ -f /etc/bash_completion ]; then</span><br><span class="line">    . /etc/bash_completion</span><br><span class="line">  fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 
 
-      
     </div>
+
     
     
     
 
-    
-
-    
-
-    
-      <div>
-        <ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者：</strong>
-    acewzj
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/" title="HelloWorld的运行原理">http://acewzj.github.io/2019/10/07/2019-10-07-HelloWorld/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>
-    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-
-      </div>
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/" rel="tag"># C++</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/09/07/2019-09-07-Linux/" rel="next" title="Linux下关于软链接和硬链接，动态链接库">
-                <i class="fa fa-chevron-left"></i> Linux下关于软链接和硬链接，动态链接库
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/02/2019-12-02-C++STL/" rel="prev" title="C++ && STL 知识点">
-                C++ && STL 知识点 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/07/2019-09-07-Linux/" rel="prev" title="Linux下关于软链接和硬链接，动态链接库">
+      <i class="fa fa-chevron-left"></i> Linux下关于软链接和硬链接，动态链接库
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/02/2019-12-02-C++STL/" rel="next" title="C++ && STL 知识点">
+      C++ && STL 知识点 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
 
 
           </div>
           
 
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-      <div id="sidebar-dimmer"></div>
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">acewzj</p>
-              <p class="site-description motion-element" itemprop="description">acewzj</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/%20%7C%7C%20archive">
-              
-                  <span class="site-state-item-count">21</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HelloWorld的运行原理（不断更新）"><span class="nav-number">1.</span> <span class="nav-text">HelloWorld的运行原理（不断更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-编译链接阶段"><span class="nav-number">1.1.</span> <span class="nav-text">1. 编译链接阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-预处理"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-编译-生成汇编代码-main-s"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 编译(生成汇编代码 main.s)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-汇编-生成main-o文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 汇编(生成main.o文件)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-链接（生成可执行程序）"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 链接（生成可执行程序）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-装载运行阶段"><span class="nav-number">1.2.</span> <span class="nav-text">2. 装载运行阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-C语言内存模型及运行时内存布局"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 C语言内存模型及运行时内存布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、代码段（TEXT）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1、代码段（TEXT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、只读数据段-RO-Data"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2、只读数据段(RO Data)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#只读全局变量"><span class="nav-number">1.2.1.2.0.1.</span> <span class="nav-text">只读全局变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#只读局部变量"><span class="nav-number">1.2.1.2.0.2.</span> <span class="nav-text">只读局部变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#程序中使用的常量"><span class="nav-number">1.2.1.2.0.3.</span> <span class="nav-text">程序中使用的常量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、读写数据段（RW-Data）"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3、读写数据段（RW Data）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#已初始化全局变量"><span class="nav-number">1.2.1.3.0.1.</span> <span class="nav-text">已初始化全局变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#已初始化局部静态变量"><span class="nav-number">1.2.1.3.0.2.</span> <span class="nav-text">已初始化局部静态变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、未初始化数据段-BSS"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4、未初始化数据段(BSS)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-内核模式和用户模式"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 内核模式和用户模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#？？为什么要区分两种模式"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">？？为什么要区分两种模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#？？为什么内核和用户程序要共用地址空间"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">？？为什么内核和用户程序要共用地址空间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-进程运行时"><span class="nav-number">1.3.</span> <span class="nav-text">3. 进程运行时</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-进程是如何执行的"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 进程是如何执行的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-进程是如何退出的"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 进程是如何退出的</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">acewzj</span>
-
-  
-</div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HelloWorld的运行原理（不断更新）"><span class="nav-number">1.</span> <span class="nav-text">HelloWorld的运行原理（不断更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-编译链接阶段"><span class="nav-number">1.1.</span> <span class="nav-text">1. 编译链接阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-预处理"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-编译-生成汇编代码-main-s"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 编译(生成汇编代码 main.s)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-汇编-生成main-o文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 汇编(生成main.o文件)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-链接（生成可执行程序）"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 链接（生成可执行程序）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-装载运行阶段"><span class="nav-number">1.2.</span> <span class="nav-text">2. 装载运行阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-C语言内存模型及运行时内存布局"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 C语言内存模型及运行时内存布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、代码段（TEXT）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1、代码段（TEXT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、只读数据段-RO-Data"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2、只读数据段(RO Data)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#只读全局变量"><span class="nav-number">1.2.1.2.0.1.</span> <span class="nav-text">只读全局变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#只读局部变量"><span class="nav-number">1.2.1.2.0.2.</span> <span class="nav-text">只读局部变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#程序中使用的常量"><span class="nav-number">1.2.1.2.0.3.</span> <span class="nav-text">程序中使用的常量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、读写数据段（RW-Data）"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3、读写数据段（RW Data）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#已初始化全局变量"><span class="nav-number">1.2.1.3.0.1.</span> <span class="nav-text">已初始化全局变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#已初始化局部静态变量"><span class="nav-number">1.2.1.3.0.2.</span> <span class="nav-text">已初始化局部静态变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、未初始化数据段-BSS"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4、未初始化数据段(BSS)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-内核模式和用户模式"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 内核模式和用户模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#？？为什么要区分两种模式"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">？？为什么要区分两种模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#？？为什么内核和用户程序要共用地址空间"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">？？为什么内核和用户程序要共用地址空间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-进程运行时"><span class="nav-number">1.3.</span> <span class="nav-text">3. 进程运行时</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-进程是如何执行的"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 进程是如何执行的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-进程是如何退出的"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 进程是如何退出的</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
 
 
 
 
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
 
 
 
@@ -806,8 +562,6 @@
 
 
 
-  
-  
 
 
 
@@ -817,142 +571,6 @@
 
 
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/three/three.min.js"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
 
 
   
