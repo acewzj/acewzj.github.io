@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记述了docker容器的一些知识。 docker –name 参数，这是给容器实例起了个名字方便后续的守护进程调用，如果不加这个参数会随机产生一个名字。如果加名字切记如果多次run会提示名字冲突，需要先删除之前run的实例。  通过 docker ps -a 命令查看已经在运行的容器，然后使用容器 ID 进入容器。  使用“docker attach”命令进入container（容器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker">
+<meta property="og:url" content="http://acewzj.github.io/2019/12/16/2019-12-16-DockerMaven/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了docker容器的一些知识。 docker –name 参数，这是给容器实例起了个名字方便后续的守护进程调用，如果不加这个参数会随机产生一个名字。如果加名字切记如果多次run会提示名字冲突，需要先删除之前run的实例。  通过 docker ps -a 命令查看已经在运行的容器，然后使用容器 ID 进入容器。  使用“docker attach”命令进入container（容器">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://i.loli.net/2019/12/14/2IHTljsdOekP1VC.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/PmGn7tiMgNFvH3S.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/bJABw2XkElynpzc.png">
+<meta property="article:published_time" content="2019-12-16T02:16:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.386Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/14/2IHTljsdOekP1VC.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2019/12/16/2019-12-16-DockerMaven/"/>
+
+
+
+
+
+  <title>Docker | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/12/16/2019-12-16-DockerMaven/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-16T10:16:18+08:00">
+                2019-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>这篇文章主要记述了docker容器的一些知识。</p>
+<h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><p><img src="https://i.loli.net/2019/12/14/2IHTljsdOekP1VC.png" alt=""></p>
+<p>–name 参数，这是给容器实例起了个名字方便后续的守护进程调用，如果不加这个参数会随机产生一个名字。如果加名字切记如果多次run会提示名字冲突，需要先删除之前run的实例。</p>
+<ul>
+<li><p>通过 <strong>docker ps -a</strong> 命令查看已经在运行的容器，然后使用容器 ID 进入容器。</p>
+</li>
+<li><p>使用“docker attach”命令进入container（容器）有一个缺点，那就是每次从container中退出到前台时，container也跟着退出了。要想退出container时，让container仍然在后台运行着，可以使用“docker exec -it”命令。每次使用这个命令进入container，当退出container后，container仍然在后台运行，命令使用方法如下：</p>
+</li>
+</ul>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> exec -<span class="keyword">it </span>goofy_almeida /<span class="keyword">bin/bash</span></span><br><span class="line"><span class="keyword">goofy_almeida：要启动的container的名称</span></span><br></pre></td></tr></table></figure>
+
+<p>/bin/bash：在container中启动一个bash shell</p>
+<p>这样输入“exit”或者按键“Ctrl + C”退出container时，这个container仍然在后台运行，通过：<code>docker ps</code><br>就可以查找到</p>
+<ul>
+<li>elasticsearch 经常启动后退出，exit返回137，后来重启服务器就好了，推测可能跟虚拟内存有关，我的内存才2G。</li>
+<li>docker: Error response from daemon: OCI runtime create failed: container_linux.go:346<strong>导致</strong>kibana安装失败</li>
+</ul>
+<p><img src="https://i.loli.net/2020/03/29/PmGn7tiMgNFvH3S.png" alt=""></p>
+<p>这里有误应为<code>docker container cp ./mall.sql mysql:/</code></p>
+<h4 id="让Docker支持http上传镜像"><a href="#让Docker支持http上传镜像" class="headerlink" title="让Docker支持http上传镜像"></a>让Docker支持http上传镜像</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">'&#123; "insecure-registries":["47.97.25.88:5000"] &#125;'</span> &gt; /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;dockerHost&gt;http://47.97.25.88:2375&lt;/dockerHost&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Docker-Compose常用命令"><a href="#Docker-Compose常用命令" class="headerlink" title="Docker Compose常用命令"></a>Docker Compose常用命令</h2><h3 id="构建、创建、启动相关容器："><a href="#构建、创建、启动相关容器：" class="headerlink" title="构建、创建、启动相关容器："></a>构建、创建、启动相关容器：</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># -d表示在后台运行docker-compose up -d</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="停止所有相关容器："><a href="#停止所有相关容器：" class="headerlink" title="停止所有相关容器："></a>停止所有相关容器：</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="built_in">stop</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="列出所有容器信息："><a href="#列出所有容器信息：" class="headerlink" title="列出所有容器信息："></a>列出所有容器信息：</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose ps</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><p>为什么我已经有一个pom.xml了，每一个模块里面还有一个pom.xml?</p>
+<ul>
+<li><p>project：pom.xml的顶级元素。</p>
+</li>
+<li><p>groupId：指出创建这个工程的组织或团队的唯一标识。</p>
+</li>
+<li><p>plugins：插件。</p>
+</li>
+<li><p>artifactId：基本名称。</p>
+</li>
+<li><p>packaging：类型（如JAR、WAR、EAR等等），默认是JAR，所有带有子模块的项目的packaging</p>
+<p>都为pom。</p>
+</li>
+<li><p>version：版本号。</p>
+</li>
+<li><p>modelVersion：指出POM使用哪个版本的对象模型。</p>
+</li>
+</ul>
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>明白了反向代理，是通过nginx服务器代理，访问不同的域名不同的端口（多个服务器域名和端口不可能重复）之间转发，比如，我想用户访问域名为<a href="http://www.web.cn:8888，nginx会帮我转发请求到其中一个apache什么的web服务器，如果是www.java.cn:8080，nginx就帮我转发给其他一个tomcat服务器做处理。要做到这样多站点多域名的转发，我们只要配置一下nginx代理服务器的nginx.conf文件就可以了，可以直接在里面配置，也可以多建立几个conf文件，让nginx.conf文件include包含他们，系统会自动扫描那些conf文件。这样配置后，当我们访问某个域名时候，nginx会主动转发到配置那个域名的conf文件，里面的root配置的就是服务器指向的项目运行根目录，或者配置反向代理proxy_pass">www.web.cn:8888，nginx会帮我转发请求到其中一个apache什么的web服务器，如果是www.java.cn:8080，nginx就帮我转发给其他一个tomcat服务器做处理。要做到这样多站点多域名的转发，我们只要配置一下nginx代理服务器的nginx.conf文件就可以了，可以直接在里面配置，也可以多建立几个conf文件，让nginx.conf文件include包含他们，系统会自动扫描那些conf文件。这样配置后，当我们访问某个域名时候，nginx会主动转发到配置那个域名的conf文件，里面的root配置的就是服务器指向的项目运行根目录，或者配置反向代理proxy_pass</a> 转发的域名，这样就反向代理转发到你想转发的服务器路径。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//部署多个应用</span></span><br><span class="line">docker run -p <span class="number">80</span>:<span class="number">80</span> --name nginxhtml \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/www/</span><span class="string">html:</span><span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span>html \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/logs:/</span>var<span class="regexp">/log/</span>nginx  \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/conf:/</span>etc/nginx \</span><br><span class="line">-d <span class="string">nginx:</span><span class="number">1.10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//原始的</span></span><br><span class="line">docker run -p <span class="number">10010</span>:<span class="number">80</span> --name nginxmall \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/html:/</span>usr<span class="regexp">/share/</span>nginx/html \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/logs:/</span>var<span class="regexp">/log/</span>nginx  \</span><br><span class="line">-v <span class="regexp">/mydata/</span>nginx<span class="regexp">/conf:/</span>etc/nginx \</span><br><span class="line">-d <span class="string">nginx:</span><span class="number">1.10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//开启防火墙</span></span><br><span class="line">firewall-cmd --zone=<span class="keyword">public</span> --add-port=<span class="number">9200</span>/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux查看某一端口被哪个进程占用"><a href="#Linux查看某一端口被哪个进程占用" class="headerlink" title="Linux查看某一端口被哪个进程占用"></a>Linux查看某一端口被哪个进程占用</h2><p><code>lsof -i:8080</code>lsof命令,即ls open files</p>
+<p><code>netstat -tunpl | grep 端口号</code></p>
+<h2 id="挖矿程序查杀"><a href="#挖矿程序查杀" class="headerlink" title="挖矿程序查杀"></a>挖矿程序查杀</h2><p>Linux的所有进程都保存在/proc/目录下，保存形式为：/proc/进程号。进入到进程号目录后，里面有一个cwd链接文件即指向的进程的的目录。</p>
+<p><img src="https://i.loli.net/2020/03/30/bJABw2XkElynpzc.png" alt="image-20191223105729894"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2019/12/16/2019-12-16-DockerMaven/" title="Docker">http://acewzj.github.io/2019/12/16/2019-12-16-DockerMaven/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/02/2019-12-02-C++STL/" rel="next" title="C++ && STL 知识点">
+                <i class="fa fa-chevron-left"></i> C++ && STL 知识点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/18/2019-12-02-EverNote/" rel="prev" title="印象笔记">
+                印象笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#docker"><span class="nav-number">1.</span> <span class="nav-text">docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#让Docker支持http上传镜像"><span class="nav-number">1.0.1.</span> <span class="nav-text">让Docker支持http上传镜像</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Compose常用命令"><span class="nav-number">2.</span> <span class="nav-text">Docker Compose常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建、创建、启动相关容器："><span class="nav-number">2.1.</span> <span class="nav-text">构建、创建、启动相关容器：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#停止所有相关容器："><span class="nav-number">2.2.</span> <span class="nav-text">停止所有相关容器：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出所有容器信息："><span class="nav-number">2.3.</span> <span class="nav-text">列出所有容器信息：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven"><span class="nav-number">3.</span> <span class="nav-text">maven</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx"><span class="nav-number">4.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux查看某一端口被哪个进程占用"><span class="nav-number">5.</span> <span class="nav-text">Linux查看某一端口被哪个进程占用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挖矿程序查杀"><span class="nav-number">6.</span> <span class="nav-text">挖矿程序查杀</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

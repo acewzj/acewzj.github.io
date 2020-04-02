@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="STL C++," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记述了STL和一些算法和知识点。 An Overview of Programs and Programming LanguagesCompiled languages are translated to the target machine’s native language by a program called a compiler. This can result in ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ &amp;&amp; STL 知识点">
+<meta property="og:url" content="http://acewzj.github.io/2019/12/02/2019-12-02-C++STL/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了STL和一些算法和知识点。 An Overview of Programs and Programming LanguagesCompiled languages are translated to the target machine’s native language by a program called a compiler. This can result in ve">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://i.loli.net/2019/12/06/2eK3CMPjGTDgvmX.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/fK1yzJdoSA7VRWg.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/02/G4CH2ypvqLIKT9M.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/qOHBIDR8TVUbaGp.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/mDnCTt48ZzyhaXF.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/wAq2eMDOSRUjl5a.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/VQPYsLJjzCTWnfr.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/aKpUckOP2NVDQJl.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/TQuPz1cew8p6atl.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/1ntR6YcLUVMK7WO.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/caYW31lkdThB7qR.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/NKdZD8fH1anhATQ.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/KFsXC3H18rieR4S.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/w2KsNOf4ypomkzG.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png">
+<meta property="article:published_time" content="2019-12-02T02:16:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.375Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="STL C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/06/2eK3CMPjGTDgvmX.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2019/12/02/2019-12-02-C++STL/"/>
+
+
+
+
+
+  <title>C++ && STL 知识点 | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/12/02/2019-12-02-C++STL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++ && STL 知识点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-02T10:16:18+08:00">
+                2019-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>这篇文章主要记述了STL和一些算法和知识点。</p>
+<h2 id="An-Overview-of-Programs-and-Programming-Languages"><a href="#An-Overview-of-Programs-and-Programming-Languages" class="headerlink" title="An Overview of Programs and Programming Languages"></a>An Overview of Programs and Programming Languages</h2><p><strong>Compiled languages</strong> are translated to the target machine’s native language by a program called a compiler. This can result in very fast code, especially if the compiler is effective at optimizing, however the resulting code may not port well across operating systems and the compilation process may take a while.<br><strong>Interpreted languages</strong> are read by a program called an interpreter and are executed by that program. While they are as portable as their interpreter and have no long compile times, interpreted languages are usually <em>much</em> slower than an equivalent compiled program.<br>Finally, <strong>just-in-time compiled</strong> (or JIT-compiled) languages are languages that are quickly compiled when programs written in them need to be run (usually with very little optimization), offering a balance between performance and portability.</p>
+<p>High or Low Level Level, in this case, refers to how much the nature of the language reflects the underlying system. In other words, a programming language’s level refers to how similar the language is to a computer’s native language. The higher the level, the <em>less</em> similar it is.<br>A <strong>low-level language</strong> is generally quite similar to machine code, and thus is more suitable for programs like device drivers or very high performance programs that really need access to the hardware. Generally, the term is reserved for machine code itself and assembly languages, though many languages offer low-level elements. Since a low-level language is subject to all the nuances of the hardware it’s accessing, however, a program written in a low-level language is generally difficult to port to other platforms. Low level languages are practically never interpreted, as this generally defeats the purpose.<br>A <strong>high-level language</strong> focuses more on concepts that are easy to understand by the human mind, such as objects or mathematical functions. A high-level language usually is easier to understand than a low-level language, and it usually takes less time to develop a program in a high-level language than it does in a low-level language. As a trade-off one generally needs to sacrifice some degree of control over what the resulting program actually does. It is not, however, impossible to mix high-level and low-level functionality in a language.</p>
+<p>Type System</p>
+<p>A <strong>type system</strong> refers to the rules that the different types of variables of a language have to follow. Some languages (including most assembly languages) do not have types and thus this section does not apply to them. However, as most languages (including C++) have types, this information is important.</p>
+<ul>
+<li><strong>Type Strength: Strong or Weak</strong><br>A strong typing system puts restrictions on how different types of variables can be converted to each other without any converting statements. An ideal strong typing system would forbid implicit “casts” to types that do not make any sense, such as an integer to a Fruit object. A weak typing system would try to find some way to make the cast work.</li>
+</ul>
+<ul>
+<li><strong>Type Expression: Manifest or Inferred</strong><br>This deals with how the compiler/interpreter for a language infers the types of variables. Many languages require variables’ types to be explicitly defined, and thus rely on manifest typing. Some however, will infer the type of the variable based on the contexts in which it is used, and thus use inferred typing.</li>
+</ul>
+<ul>
+<li><strong>Type Checking: Static or Dynamic</strong><br>If a language is statically typed, then the compiler/interpreter does the type checking once before the program runs/is compiled. If the language is dynamically type checked, then the types are checked at run-time.</li>
+</ul>
+<ul>
+<li><strong>Type Safety: Safe or Unsafe</strong><br>These refer to the degree to which a language will prohibit operations on typed variables that might lead to undefined behavior or errors. A safe language will do more to ensure that such operations or conversions do not occur, while an unsafe language will give more responsibility to the user in this regard.</li>
+</ul>
+<p>These typing characteristics are not necessarily mutually exclusive, and some languages mix them.</p>
+<h2 id="The-Features-of-C-as-a-Language"><a href="#The-Features-of-C-as-a-Language" class="headerlink" title="The Features of C++ as a Language"></a>The Features of C++ as a Language</h2><p>Now that all the necessary theory has been covered, now it is possible to explain what C++ has to offer as a programming language. C++…</p>
+<ul>
+<li>…is an open ISO-standardized language.<br>For a time, C++ had no official standard and was maintained by a de-facto standard, however since 1998, C++ is standardized by a committee of the ISO. Their page may be accessed <a href="http://www.open-std.org/jtc1/sc22/wg21/" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<ul>
+<li>…is a compiled language.<br>C++ compiles directly to a machine’s native code, allowing it to be one of the fastest languages in the world, if optimized.</li>
+</ul>
+<ul>
+<li>…is a strongly-typed unsafe language.<br>C++ is a language that expects the programmer to know what he or she is doing, but allows for incredible amounts of control as a result.</li>
+</ul>
+<ul>
+<li>…supports both manifest and inferred typing.<br>As of the latest C++ standard, C++ supports both manifest and inferred typing, allowing flexibility and a means of avoiding verbosity where desired.</li>
+</ul>
+<ul>
+<li>…supports both static and dynamic type checking.<br>C++ allows type conversions to be checked either at compile-time or at run-time, again offering another degree of flexibility. Most C++ type checking is, however, static.</li>
+</ul>
+<ul>
+<li>…offers many paradigm choices.<br>C++ offers remarkable support for procedural, generic, and object-oriented programming paradigms, with many other paradigms being possible as well.</li>
+</ul>
+<ul>
+<li>…is <em>portable.</em><br>As one of the most frequently used languages in the world and as an open language, C++ has a wide range of <a href="http://www2.research.att.com/~bs/compilers.html" target="_blank" rel="noopener">compilers</a> that run on many different platforms that support it. Code that exclusively uses C++’s standard library will run on many platforms with few to no changes.</li>
+</ul>
+<ul>
+<li>…is upwards compatible with C<br>C++, being a language that directly builds off C, is compatible with almost all C code. C++ can use C libraries with few to no modifications of the libraries’ code.</li>
+</ul>
+<ul>
+<li>…has incredible library support.<br>A search for “library” on the popular project-management website <a href="http://www.sourceforge.net/" target="_blank" rel="noopener">SourceForge</a> will yield over 3000 results for C++ libraries. A link to the results of the search may be found <a href="http://sourceforge.net/directory/language:C%2B%2B/?q=library" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<p>STL有六种序列容器类型：</p>
+<ul>
+<li>1 Vector:相当于一个数组，在内存中分配一块连续的内存空间进行存储；STL内部实现时首先分配一个非常大的内存空间预备进行存储（可以通过capacity()函数返回其大小）</li>
+<li>2 List：双向链表</li>
+<li>3 Deque:双端队列<br>人们习惯上把程序员分三个等级，知其然，知其所以然，造其所以然</li>
+</ul>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>hash也称散列，哈希。基本原理就是将<strong>任意长度</strong>的输入变成<strong>固定长度</strong>的输出。这个映射的规则就是哈希算法，而原始数据经过映射形成的二进制字符串就是哈希值。开发中的MD5和SHA都是历史悠久的哈希算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo md5(<span class="string">"This is a test md5!"</span>);</span><br><span class="line">//output <span class="number">2124968</span>af757ed51e7abecd04f98e</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="hash的优点"><a href="#hash的优点" class="headerlink" title="hash的优点"></a>hash的优点</h3><p>1 不能从hash值反向推导出原始的数据</p>
+<p>2 输入数据的微小变化会得到完全不同的hash值，相同的数据会得到相同的值</p>
+<p>3 哈希算法的执行效率要高效，长的文本也能快速的计算出哈希值</p>
+<p>4 哈希算法的冲突概率要小</p>
+<p>由于哈希的原理就是将输入空间的值映射成hash空间内，而hash值的空间远小于输入的空间，根据鸽笼原理，一定会存在不同的输入被映射成相同输出的情况。</p>
+<h3 id="hash碰撞的解决方案"><a href="#hash碰撞的解决方案" class="headerlink" title="hash碰撞的解决方案"></a>hash碰撞的解决方案</h3><p>前面提到了哈希算法是一定会有碰撞的，那么如果我们遇到了hash冲突需要解决的时候该怎么处理呢？常用的方法就是 <strong>链地址法</strong>和<strong>开放地址法</strong>。</p>
+<p>开放地址法就是构造一个M的数组保存N个键值对（M&gt;N)。我们需要依靠数组中的空位解决碰撞冲突。基于这种策略的所以方法统称为“开放地址法”。线性探测法，就是比较常见的一种实现方式。它的核心思想是当冲突发生时，顺序查看表的下一个单元，直到找到一个空单元或查遍全表。只要散列表足够大，空的散列地址总能找到。</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>就是个数组，不能扩充。</p>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>vector的增长是2倍2倍的扩充容量（capacity）,注意这里不是在原来的基础上成长：它是在另外的地方找一个两倍的空间然后一个一个元素搬过去。。。。。。所以vector的size是元素的数量，但是capacity却是扩充 的2的倍数。补充：容器的data指的是在内存中首元素的地址。</p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>list与vector不同，它是采用的环状双向链表</p>
+<p>某些容器（如list）自带sort，这个要比全局的sort要快</p>
+<p><img src="https://i.loli.net/2019/12/06/2eK3CMPjGTDgvmX.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/08/fK1yzJdoSA7VRWg.png" alt=""></p>
+<p>c++中箭头运算符-&gt;，相当于把解引用和成员访问符两个操作符结合在一起，换句话说，</p>
+<p>p-&gt;func()和(*p).func()所表示的意思一样。</p>
+<p>地址-&gt;一个东西   <em>ite去解引用了ite这个地址<br>&amp;（</em>ite）又取回来这个地址</p>
+<h2 id="Deque"><a href="#Deque" class="headerlink" title="Deque"></a>Deque</h2><p>分段连续，类似于二维指针：由一个指针指向一个缓冲区</p>
+<p><img src="https://i.loli.net/2019/12/02/G4CH2ypvqLIKT9M.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/08/qOHBIDR8TVUbaGp.png" alt=""></p>
+<ul>
+<li><p>这里：node指向deque的控制大脑，first指向某一段的开头，last指向某一段的结尾，前闭后开区间，cur指向当前的这一段里面的节点。当走到头时，会由node进行段的切换；</p>
+</li>
+<li><p>控制中心是一个vector。如果你想在前面插入的话，且前面空间不够了，你依旧也是需要开辟一个2倍原来空间的控制中心区域一个一个的拷贝构造一下。但是它很狡猾的拷贝到2倍区域的中段来，这样可以让首尾控制中心的扩充更为均衡一些；</p>
+</li>
+<li><p>start与finish指向的是deque中所有元素的首跟尾；</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/08/mDnCTt48ZzyhaXF.png" alt=""></p>
+<ul>
+<li><p>区分前++与后++的方法是：后++会传int的形参，这是规定</p>
+</li>
+<li><p>后++会生成一个临时的tmp对象，然后对原对象进行前++操作，再把tmp对象返回</p>
+</li>
+<li><h3 id="self的用处是？？？？？"><a href="#self的用处是？？？？？" class="headerlink" title="self的用处是？？？？？"></a>self的用处是？？？？？</h3></li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/08/wAq2eMDOSRUjl5a.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/08/VQPYsLJjzCTWnfr.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/08/aKpUckOP2NVDQJl.png" alt="4.9"></p>
+<p><img src="https://i.loli.net/2019/12/08/TQuPz1cew8p6atl.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/08/1ntR6YcLUVMK7WO.png" alt=""></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>multimap&lt;key,value&gt;//multi允许重复</p>
+<p>snprintf(buf,10,”%d”,rand（）)；//如果格式化后的字符串长度 &gt;= size，则只将其中的(size-1)个字符复制到str中，并给其后添加一个字符串结束符(‘\0’)，返回值为欲写入的字符串长度</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> a[<span class="number">16</span>];</span><br><span class="line">  <span class="keyword">size_t</span> i;</span><br><span class="line"> </span><br><span class="line">  i = <span class="built_in">snprintf</span>(a, <span class="number">13</span>, <span class="string">"%012d"</span>, <span class="number">12345</span>);  <span class="comment">// 第 1 种情况 12位宽</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"i = %lu, a = %s\n"</span>, i, a);    <span class="comment">// 输出：i = 12, a = 000000012345</span></span><br><span class="line"> </span><br><span class="line">  i = <span class="built_in">snprintf</span>(a, <span class="number">9</span>, <span class="string">"%012d"</span>, <span class="number">12345</span>);   <span class="comment">// 第 2 种情况 0000 0001 2345</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"i = %lu, a = %s\n"</span>, i, a);    <span class="comment">// 输出：i = 12, a = 00000001</span></span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c.insert(pair&lt;long,string&gt;(i,buf))</p>
+<ul>
+<li>multimap不可以用[作Insertion,map却可以，注意重复与不重复.</li>
+</ul>
+<h2 id="OOP：-amp-GP：Generic-Programming"><a href="#OOP：-amp-GP：Generic-Programming" class="headerlink" title="OOP：&amp;GP：Generic Programming"></a>OOP：&amp;GP：Generic Programming</h2><p>Object-Oriented-Programming</p>
+<p>GP 可以使得两个团队可以专注于闭门造车</p>
+<p>OOP相当于菜谱（数据相当于原材料，方法相当于烹饪步骤）</p>
+<p>标准库用的全局的：：sort排序需要的是RandomAccessIterator，随机的迭代器，而list不能随意的像数组那样一下子蹦5个单元，所以List不能使用全局的：：sort排序。</p>
+<h2 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h2><p>类模板与函数模板</p>
+<p><img src="https://i.loli.net/2019/12/03/caYW31lkdThB7qR.jpg" alt=""></p>
+<p><img src="https://i.loli.net/2019/12/03/NKdZD8fH1anhATQ.jpg" alt=""></p>
+<p>类模板如果不进行<double> <int>的绑定，它不知道该给T初始化为多少？毕竟2.5初始化为float也行，初始化为double也行。</p>
+<p>但是函数模板就不一样了，因为编译器可以进行类型推导，从r1那个Stone r1就可以推出T的类型，进而重载Stone类的&lt;操作符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;和下面相同  </span></span><br><span class="line"><span class="class"><span class="title">template</span>&lt;typename T&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">complex</span>&#123;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="泛化与特化"><a href="#泛化与特化" class="headerlink" title="泛化与特化"></a>泛化与特化</h2><ul>
+<li>类模板中我可以通过T来形成各种各样的类的蓝图。但是如果你是一种特定的类型比如int，我可以提供给你一种更为有效的做法，这就叫做特化。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/03/KFsXC3H18rieR4S.png" alt="特化"></p>
+<ul>
+<li><p>template&lt;&gt;有时候是__STL_TEMPLATE_NULL</p>
+</li>
+<li><p>以上是FULL 特化，还有偏特化    Partial Specialization</p>
+<img src="https://i.loli.net/2019/12/03/w2KsNOf4ypomkzG.png" style="zoom:75%;" />
+
+
+
+
+
+
+
+</li>
+</ul>
+<h2 id="traits"><a href="#traits" class="headerlink" title="traits"></a>traits</h2><p>  萃取，特征，一种人为制造的萃取机器：我丢给它一些东西，它可以萃取出我想要的特征</p>
+<p>  iterator_category：描述了迭代器的性质：有的迭代器可以一往无前的向前冲++，有的还可以后退–，有的可以跳着走……</p>
+<p>  diffrence_type：两个迭代器之间的距离用啥来表示？比如int表示你的容器的两个迭代器的距离范围最大是2^32。一般设为ptrdiff_t，是一个Unsigned long类型的</p>
+<p>  value_type：迭代器所指的容器里面的元素的类型</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Tp&gt; <span class="keyword">inline</span></span><br><span class="line">Mat_&lt;_Tp&gt;::Mat_(<span class="keyword">int</span> _rows, <span class="keyword">int</span> _cols)</span><br><span class="line">    : Mat(_rows, _cols, traits::Type&lt;_Tp&gt;::value)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   traits::Type&lt;_Tp&gt;::value</p>
+<p>我对这段话的理解是，cv::DataType&lt;&gt;是一个模板类，当OpenCV中库函数需要传递特定数据类型的某些概念信息时，那么就可以通过创建cv::DataType&lt;&gt; 类型的对象来实现。我们使用的不是它本身，而是它特定的实例化对象。C++中这种用法叫做Traits。</p>
+<p>  说实话，第一次看这一篇章，我也没有看懂cv::DataType&lt;&gt;到底是做什么用的，不过下面讲解一下Traits后，就能明白上面说意思了。</p>
+<p>  简单来说，如果我们封装了一个算法，这个算法可能会由于输入数据类型的不同导致算法内部处理逻辑的不同（比如说传入的是int类型我们做一种操作，而传入的是double类型我们将进行另外一种操作），而我们并不想由于这种原因修改算法的封装时，Traits就派上用场了，它可以帮我们很方便的实现功能，而又不破坏函数的封装。<br>  Traits在开发者中运用特别多，主要也就是为了解决用户的负担，让一些复杂逻辑处理留给开发者来做，用户只需要根据要求调用API函数即可。</p>
+<p>  <a href="https://blog.csdn.net/XiangJiaoJun_/article/details/84843194![](https://i.loli.net/2019/12/06/5FO9TWbmznukGlx.png)" target="_blank" rel="noopener">https://blog.csdn.net/XiangJiaoJun_/article/details/84843194![](https://i.loli.net/2019/12/06/5FO9TWbmznukGlx.png)</a></p>
+<h2 id="RB-Tree"><a href="#RB-Tree" class="headerlink" title="RB_Tree"></a>RB_Tree</h2><p>关联式容器。红黑树。散列表。</p>
+<ul>
+<li>红黑树的++操作类似于中序遍历，它是按照元素增大的顺序进行遍历的</li>
+<li>我们不应该使用红黑树的迭代器进行修改值的操作：因为会破坏严谨的红黑树的平衡</li>
+</ul>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">BinaryTree</span> &#123;</span></span><br><span class="line">	BinaryTree *Lchild;</span><br><span class="line">	BinaryTree *Rchild;</span><br><span class="line">	<span class="keyword">int</span> data;</span><br><span class="line">&#125;BinaryTree;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Construct</span><span class="params">(BinaryTree **T)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ch;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; ch;</span><br><span class="line">	<span class="keyword">if</span> (ch == <span class="number">-1</span>) &#123;</span><br><span class="line">		*T = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		*T = (BinaryTree *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(BinaryTree));</span><br><span class="line">		<span class="keyword">if</span> (T == <span class="literal">NULL</span>)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"malloc failed!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			(*T)-&gt;data = ch;</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入"</span> &lt;&lt; ch &lt;&lt; <span class="string">"的左子节点："</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">			Construct(&amp;((*T)-&gt;Lchild));</span><br><span class="line">			Construct(&amp;((*T)-&gt;Rchild));</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"BinaryTree Construct Stage..."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	BinaryTree *Btree;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入二叉树第一个节点的值，-1代表叶子节点..."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	Construct(&amp;Btree);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BTree本来是一个指向BinaryTree的指针，</p>
+<p>因为有小伙伴问了，可否在构建二叉树传入的参数为一级地址。上述的方法是一定要传二级参数的，但是这里给出一个传一级参数的方法，小伙伴也可以通过对比两种方法，对二叉树的构建和传参方式有更深的理解。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct TreeNode* <span class="title">Create</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;val);</span><br><span class="line">	</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>* <span class="title">root</span> = (<span class="title">struct</span> <span class="title">TreeNode</span>*)<span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">TreeNode</span>*));</span></span><br><span class="line">	<span class="keyword">if</span> (val &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (!root) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"创建失败\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">if</span> (val &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		root-&gt;val = val;</span><br><span class="line">		root-&gt;left = Create();</span><br><span class="line">		root-&gt;right = Create();</span><br><span class="line">	&#125;</span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="从文本读取数据C"><a href="#从文本读取数据C" class="headerlink" title="从文本读取数据C++"></a>从文本读取数据C++</h2><p>包含头文件#include <fstream></p>
+<p>逐词读取</p>
+<p>逐行读取</p>
+<pre><code>ifstream filestream(&quot;text.txt&quot;);
+if (filestream.is_open()) {
+
+}</code></pre><p><img src="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png" alt="image-20191221120517828"></p>
+<h2 id="C-编程技巧Tips"><a href="#C-编程技巧Tips" class="headerlink" title="C++编程技巧Tips"></a>C++编程技巧Tips</h2><ul>
+<li><p>定义变量的时候可以不用缩进然后避免在开头集中定义，又方便查找—-侯捷</p>
+</li>
+<li><p>抽空研究一下快速排序，红黑树</p>
+</li>
+<li><p>：：find是循序查找， </p>
+</li>
+<li><p>关键字typedef在编译阶段有效，由于是在编译阶段，因此typedef有类型检查的功能。</p>
+<p>#define则是宏定义，发生在预处理阶段，也就是编译之前，它只进行简单而机械的字符串替换，而不进行任何检查。</p>
+<p>typedef用来定义类型的别名，定义与平台无关的数据类型，与struct的结合使用等。</p>
+<p>#define不只是可以为类型取别名，还可以定义常量、变量、编译开关等。</p>
+<p>#define没有作用域的限制，只要是之前预定义过的宏，在以后的程序中都可以使用。</p>
+<p>而typedef有自己的作用域。</p>
+</li>
+</ul>
+<ul>
+<li>c++的一个语法：</li>
+</ul>
+<p>  将typedef和typename关键字联用。</p>
+  <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">template &lt;<span class="keyword">class</span> <span class="symbol">T,<span class="symbol">class</span></span> <span class="symbol">Alloc</span>=<span class="symbol">alloc</span>&gt;<span class="symbol">class</span> <span class="symbol">vector</span>&#123;<span class="keyword">public</span>:<span class="comment">//...typedef size_t size_type;//...&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>  从vector的类定义可以看出，<code>vector::size_type</code>是<code>vector</code>嵌套类型定义，其实际等价于 <code>size_t</code>类型。</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::size_type ssize;<span class="comment">//就等价于size_t ssize;</span></span><br></pre></td></tr></table></figure>
+
+<p>  为什么要在typedef后面加上typename关键字？</p>
+<p>  原因：</p>
+<p>  实际上，模板类型在实例化之前，编译器并不知道<code>vector&lt;T&gt;::size_type</code>是什么东西，事实上一共有三种可能：</p>
+<blockquote>
+<p>静态数据成员<br>静态成员函数<br>嵌套类型</p>
+</blockquote>
+<p>  那么此时<code>typename</code>的作用就在此时体现出来了——定义就不再模棱两可。</p>
+<p>  <code>typedef</code>创建了存在类型的别名，而<code>typename</code>告诉编译器<code>std::vector&lt;T&gt;::size_type</code>是一个类型而不是一个成员。</p>
+<h2 id="C-string-成员函数-length-size-和-strlen-的区别"><a href="#C-string-成员函数-length-size-和-strlen-的区别" class="headerlink" title="C++ string 成员函数 length() size() 和 strlen() 的区别"></a>C++ string 成员函数 length() size() 和 strlen() 的区别</h2><p>sizeof()是运算符，在编译期间就计算好了，所以对于字符串来说会统计到‘\0’的个数。</p>
+<p>而size()是由于string 毕竟也是一个容器，容器会为了统一都有一个size()函数</p>
+<p>size()、length()是c++中string的类的方法，只有string类的对象才可以用该方法，而字符串数组不可用，而strlen、strcpy等源于C语言的字符串处理函数库，需要include&lt;string.h&gt;,同时也只有字符串数组才可以用<br>size()与length()完全等同，遇到空字符不会被截断，可以返回字符串真实长度<br>strlen(),源于C语言，遇到空字符会截断，从而无法返回字符串真实长度<br>strlen同样也可以用于C++的string。但是需要用c_str()将C++ string转换为char*类型。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2019/12/02/2019-12-02-C++STL/" title="C++ && STL 知识点">http://acewzj.github.io/2019/12/02/2019-12-02-C++STL/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/STL-C/" rel="tag"># STL C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/07/2019-10-07-HelloWorld/" rel="next" title="HelloWorld的运行原理">
+                <i class="fa fa-chevron-left"></i> HelloWorld的运行原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/16/2019-12-16-DockerMaven/" rel="prev" title="Docker">
+                Docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#An-Overview-of-Programs-and-Programming-Languages"><span class="nav-number">1.</span> <span class="nav-text">An Overview of Programs and Programming Languages</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Features-of-C-as-a-Language"><span class="nav-number">2.</span> <span class="nav-text">The Features of C++ as a Language</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash"><span class="nav-number">3.</span> <span class="nav-text">hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hash的优点"><span class="nav-number">3.1.</span> <span class="nav-text">hash的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hash碰撞的解决方案"><span class="nav-number">3.2.</span> <span class="nav-text">hash碰撞的解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array"><span class="nav-number">4.</span> <span class="nav-text">Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector"><span class="nav-number">5.</span> <span class="nav-text">Vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">6.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deque"><span class="nav-number">7.</span> <span class="nav-text">Deque</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#self的用处是？？？？？"><span class="nav-number">7.1.</span> <span class="nav-text">self的用处是？？？？？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">8.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOP：-amp-GP：Generic-Programming"><span class="nav-number">9.</span> <span class="nav-text">OOP：&amp;GP：Generic Programming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Template"><span class="nav-number">10.</span> <span class="nav-text">Template</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛化与特化"><span class="nav-number">11.</span> <span class="nav-text">泛化与特化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#traits"><span class="nav-number">12.</span> <span class="nav-text">traits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RB-Tree"><span class="nav-number">13.</span> <span class="nav-text">RB_Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树"><span class="nav-number">14.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文本读取数据C"><span class="nav-number">15.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-编程技巧Tips"><span class="nav-number">16.</span> <span class="nav-text">C++编程技巧Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-成员函数-length-size-和-strlen-的区别"><span class="nav-number">17.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

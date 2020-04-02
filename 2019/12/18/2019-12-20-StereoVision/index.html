@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CV," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记述了双目立体视觉的一些笔记。 论文摘抄立体匹配是计算机视觉中研究最广泛的问题之一。立体匹配算法设计中的两个主要问题是匹配精度和处理效率。尽管每年都会引入许多算法，但是在报告的结果中这两个问题往往是矛盾的：准确的立体方法通常很耗时，而基于GPU的方法实现了较高的处理速度，并且视差相对较低精度]。据我们所知，大多数排名前10的Middlebridge算法至少需要10秒才能处理384×2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stereo_Vision">
+<meta property="og:url" content="http://acewzj.github.io/2019/12/18/2019-12-20-StereoVision/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了双目立体视觉的一些笔记。 论文摘抄立体匹配是计算机视觉中研究最广泛的问题之一。立体匹配算法设计中的两个主要问题是匹配精度和处理效率。尽管每年都会引入许多算法，但是在报告的结果中这两个问题往往是矛盾的：准确的立体方法通常很耗时，而基于GPU的方法实现了较高的处理速度，并且视差相对较低精度]。据我们所知，大多数排名前10的Middlebridge算法至少需要10秒才能处理384×2">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/YFRG3gsWqcaKNHS.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/SzqEX9Fcrp6boJv.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/UM7wueaFz8NYHOh.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/e5UZLkOwYBDEnxR.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/vbdLBYe2RDNMkQx.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/8OfCBzF9gtiLvZ4.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/buKD1eiTymXoNBQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/NDTKwRxUpfnjHBY.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/pxrBIXukhefKE36.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/ukBfDqr6tngUMS8.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/UKDT5LXv3ey8Cm2.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/qjcZ2mADX1WGdYU.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/QrKXDnvIfiLy3ux.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/BxdLDkMjN7eynX4.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/5EHZ1xgz8nPMjGt.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/N4CMjAUvXw8GthK.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/D2h5xj9TqAXUzLH.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/CwR4hsUfi8edvNF.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/UkrpEWsePXwxvS3.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/3E2MwSqzFOnZe4R.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/4x3DJ7bXTQYpq6A.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/uqhUwGvLtXzBTcC.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/Qqct3xFmIMSEobJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/Og7HRikLVJTIjYs.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/x7RoVkEubmIpc1h.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/pOWLxoZuMC3wznc.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/ZLKUYolNk7cRisA.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/nSOd2vy9PKWCwxE.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/wFSm389bdTJezrM.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/gqirTzsxBR6E1YC.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/zhZuJtaCAKXcEjT.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/VwMlQpBmTrznWAt.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/3gVdlc8LJRo21qW.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/EFmLYzlXK4AUhuJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/D2LWKHYrcu9UAPg.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/ny5pbPQoXRIKFqE.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/yFfm3vZC5eaE4nb.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/ghKbdeqAX5DwLkG.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/AfmkbQCPGzBViN7.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/iawqlndyt3g2GcU.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/QWEwaCDkbfeLJ1v.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/oXs5JEiKnPQcOA3.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/9eZdbnQas5SjIBY.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/iRJLwet3TKaINzS.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/TrBQMzuCO3E46LK.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/fCDUd5GLIs8olg7.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/OEkSHUCpNmuW3RX.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/ymxC36JlchMZ7Ba.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/RlzvDBSPuYpndfg.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/uHJs1AY9hOvNpgB.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/pePqy1cVSBmUvFK.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/FmCKeQ5tTMzbWk2.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/nkRLmKpv5Q2UwoB.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/KS6mMe3yThlEuRH.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/xdQYebCsry4mO3K.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/avcsrYTZi8o6fFG.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/93peBV8jldiboHA.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/yLuBJrV8DnoMlt5.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/1l7JwnKTRIfXW4P.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/JO5B36srdezMhLE.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/AI9FgxoERXMOGdj.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/VKzC7keTPbHntOR.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/LcZkbJvSgmuRCzr.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/2dTaJ4kSLPsqYwO.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/4JWyClMSIPQdDKo.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/ZAserD1ohnIYtzx.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/tcJA3rQspfKbYG8.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/JshpvSeCFaMHWyz.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/TuWz7rU1gIAbtaF.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/1GKs75YTejSfZqo.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/XCAEOnS5UhcoK8H.png">
+<meta property="article:published_time" content="2019-12-18T02:16:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.368Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/29/YFRG3gsWqcaKNHS.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2019/12/18/2019-12-20-StereoVision/"/>
+
+
+
+
+
+  <title>Stereo_Vision | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/12/18/2019-12-20-StereoVision/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Stereo_Vision</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-18T10:16:18+08:00">
+                2019-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>这篇文章主要记述了双目立体视觉的一些笔记。</p>
+<h2 id="论文摘抄"><a href="#论文摘抄" class="headerlink" title="论文摘抄"></a>论文摘抄</h2><p>立体匹配是计算机视觉中研究最广泛的问题之一。<br>立体匹配算法设计中的两个主要问题是匹配精度和处理效率。<br>尽管每年都会引入许多算法，但是在报告的结果中这两个问题往往是矛盾的：准确的立体方法通常很耗时，而基于GPU的方法实现了较高的处理速度，并且视差相对较低精度]。据我们所知，大多数排名前10的Middlebridge算法至少需要10秒才能处理384×288图像对，排名前20的基于GPU的仅有两种方法是CostFilter [9]和Plane-FitBP 。 两者都具有接近实时的性能。<br>该矛盾背后的原因很简单：准确的立体算法采用的某些关键技术不适合并行GPU实现。对领先的Middlebury算法的仔细分析表明，这些算法在匹配过程中具有几种常用技术：它们使用大的支持窗口进行稳健的成本汇总；他们将视差计算步骤公式化为能量最小化问题，并使用慢速收敛的优化器对其进行求解。</p>
+<h2 id="Realistic-CG-Stereo-Image-Dataset-with-Ground-Truth-Disparity-Maps"><a href="#Realistic-CG-Stereo-Image-Dataset-with-Ground-Truth-Disparity-Maps" class="headerlink" title="Realistic CG Stereo Image Dataset with Ground Truth Disparity Maps"></a>Realistic CG Stereo Image Dataset with Ground Truth Disparity Maps</h2><p>双目匹配问题是计算机视觉领域最热门的研究方向之一。随着一系列和双目匹配相关的算法被研究出来，由于可用的真实视差图的立体数据集数量有限，该领域的一些分支的研究受到了限制。拥有一个具有真实视差图的大型立体图像数据集将促进对新的立体匹配方法的研究，例如，基于机器学习的方法。在这项工作中，我们使用高度真实的计算机图形技术开发了一个很大的数据集与真实地图。我们还应用一些最常见的立体匹配技术到我们的数据集，以确认我们的高度逼真的cg立体图像仍然具有现实世界立体图像的挑战性。这个数据集对摄像机跟踪算法也有很大的用处，因为我们在每帧中都提供了精确的相机位置和旋转角度。</p>
+<p>立体视觉是一个非常活跃的研究课题，每年都会介绍几种新的立体匹配方法。这些立体匹配算法的目标是准确地生成一个密集的视差图，该视差图描述了左右摄像头看到的对应特征在位置上的差异。为了测量和比较这些算法的性能，必须知道地面真值视差图。一些具有已知地面真值非奇偶校验图的立体数据集是可用的[5,6]，但立体成像的数量非常有限。这个限制限制了t</p>
+<p>该数据集的目的是提供地面真实数据，这些数据可用于评估计算机视觉算法的性能，尤其是对于立体视觉和摄像机跟踪方法。本节介绍我们为这个数据集生成的不同类型的地面真实数据。图4描述了此数据集可用的一些groundtruth数据。</p>
+<p>地面真值视差图可用于评价立体匹配算法的整体质量。在对场景建模之后，渲染引擎的输出为每一帧提供两个RGB图像和两个灰度图像。灰度图像cre-ated使用自定义渐变着色器和代表的depthmap场景(图5)。这个深度地图可以eas-ily变成差距地图知道cam-era固有参数(成立于相机prop-erties CG软件)和以下公式foreach像素的深度图像</p>
+<p><img src="https://i.loli.net/2020/03/29/YFRG3gsWqcaKNHS.png" alt="image-20191223150640328"></p>
+<p>但是，这种方法有一个小限制：渲染的深度图的分辨率只有8位，这意味着只有256种可能的值来表示深度，这很快就不足以表示所有深度值。 一个大场景，这反过来会导致视差图不正确。</p>
+<p>我们通过迭代绘制深度图来解决这个问题，改变近距离和远距离剪切平面的值，使得两个平面之间的距离很小足够有一个良好的深度分辨率，只有256个值。然后，我们得到一个单一的视差映射使用上述公式和所有深度映射不同配置的剪切平面。迭代渲染深度图部分的方法允许我们生成任意分辨率的地面真值视差图。在这项工作中，我们生成了具有像素精度的非奇偶映射(亚像素精度有待进一步的工作)。我们为左右摄像头提供视差图。见图4</p>
+<p>除了视差图之外，对于立体匹配方法的评估，有一个无遮挡的区域蒙版是很有趣的。这个遮罩用白色表示场景中两个摄像头都能看到的像素，用黑色表示只能从一个摄像头看到的像素。为了得到无遮挡的区域蒙版，我们简单地交叉检查了左右的视差图。在两个相机中可见的像素在两个视差图中具有相同的值，但是对于被遮挡的像素，左右视差值将不同。立体匹配算法的性能涉及领域</p>
+<p>如果在其他图像上看不到像素中的一个像素，则很难找到它的匹配点。我们为左右相机提供了非遮挡区域遮罩。 见图4.3.3。 近深度不连续区域蒙版与视差图和非遮挡区域蒙版一起，近深度不连续区域蒙版是用于标准立体匹配算法评估的第三类地面真实数据。 这种遮罩允许在接近深度不连续性（即对象的边界）的区域内评估算法的性能。 这是特别有趣的，因为大多数方法在这些区域中表现较差。要获得这种蒙版，我们检测了非遮挡蒙版的边界。 这样，灰度值代表两个摄像机都可见的像素，黑色像素代表被遮挡的像素，白色像素代表被遮挡/不被遮挡的像素之间的过渡附近的像素。 。 参见图4</p>
+<h2 id="On-Building-an-Accurate-Stereo-Matching-System-on-Graphics-Hardware"><a href="#On-Building-an-Accurate-Stereo-Matching-System-on-Graphics-Hardware" class="headerlink" title="On Building an Accurate Stereo Matching System on Graphics Hardware"></a>On Building an Accurate Stereo Matching System on Graphics Hardware</h2><p>本文提出了一种基于gpu的立体匹配系统，该系统具有良好的精度和速度性能。匹配的成本体积初始化与AD-Censusmeasure，聚集在动态的交叉区域，并在扫描线优化框架生产的差异结果。对视差结果中的各种误差进行了多步细化处理。该系统的每个阶段都采用并行设计，这样计算就可以通过CUDA实现来加速。实验结果验证了该方法的准确性和有效性</p>
+<p>立体匹配是计算机视觉[11]中最广泛研究的问题之一。立体匹配算法设计的两个主要问题是匹配精度和处理效率。尽管每年都会引入许多算法，但在报告的结果中，这两个问题往往是矛盾的:精确的立体方法通常很耗时[6,17,20]，而基于gpu的方法则可以在相对较低的视差精度下实现较高的处理速度[10,18,24]。据我们所知，大多数top10Middlebury算法至少需要10秒来处理a384 288imag</p>
+<p>∙一个系统的优化过程，可通过迭代区域投票，插值，深度不连续调整和子像素增强来处理各种视差误差。<br>事实证明，此多步骤过程对于改善视差结果非常有效。 </p>
+<p><img src="https://i.loli.net/2020/03/29/SzqEX9Fcrp6boJv.png" alt="image-20191228192736094"></p>
+<p>立体匹配算法分类：从算法本身的角度来说，立体匹配从大的方面分为两种，全局匹配和局部匹配。全局匹配比较经典的有动态规划、图割和置信度传播等，全局匹配算法优点是精度高，缺点是计算速度慢，实时性差；而局部匹配又分为基于区域的匹配，基于特征的匹配等。局部匹配优点是速度快，可以满足实时的要求，但是精度不如前者，基于区域的匹配精度尚可以接受，基于特征的匹配则只能得到稀疏的视差，需要靠插值完成视差图重建，如果要考察整个图的视差精度，则基于特征法不可靠。</p>
+<p>图割，置信传播等全局优化立体匹配算法，由于运算过程中需要迭代求精，运算时间长，无法达到实时计算立体匹配的需求，然而实时性需求却广泛存在立体匹配的应用场景中。很多基于局部匹配的算法虽然运算时间短，但由于仅考虑匹配窗内的代价聚合，效果很差，视差图只有很多稀疏的视差点，还要经过插值计算，显然无法用于汽车导航，目标拾取等需要精确结果且对运算速度有一定要求的场景。</p>
+<h3 id="1局部代价聚合"><a href="#1局部代价聚合" class="headerlink" title="1局部代价聚合"></a>1局部代价聚合</h3><p>基于窗结构局部立体匹配算法，按照匹配约束来搜索最佳的匹配点，在搜索求取左右两幅图像在视差d下一点的匹配代价时，实际是求得以该点为中心的匹配窗内所有点的代价的平均值（或者其他的度量方式）。如图（4-1）：<br><img src="https://i.loli.net/2020/03/29/UM7wueaFz8NYHOh.png" alt="image-20191228192046004"><br>图 4-1 局部匹配算法的代价传递<br>Figure 4-1 Cost delivery of local aggregation<br>我们把这一过程叫做代价聚类（Cost aggregation），这种基于区域的匹配方法利用局部窗口之间的相似性度量来匹配对应基元的空间坐标，对于连续性细节明显的区域效果较好。显然，此类方法对于匹配窗以外的点却无法影响该点的代价值，使得代价聚类的值不具有全局特性，也就丧失了匹配基元的全局结构特性，因此在纹理特征较低的区域非常容易产生误匹配。<br>如何在代价聚类中获取匹配基元的全局特征，进而使得局部代价聚合方法克服上述缺点，本章相对于基于区域的局部窗立体匹配方法，采用图论中的最小生成树方法，利用树结构进行全局代价聚合。</p>
+<p>双边滤波（Bilateral filter）是一种可以保边去噪的滤波器。简单的说就是一种同时考虑了像素空间差异与强度差异的滤波器，因此具有保持图像边缘的特性。该滤波器可以由两个滤波参数进行控制。一个控制几何空间距离。另一个控制像素差。</p>
+<p><img src="https://i.loli.net/2020/03/29/e5UZLkOwYBDEnxR.png" alt="image-20191228192031108"></p>
+<p>公式（4-1）是一个归一加权平均，和分别衡量图像I的滤除量，前者控制距离信息的权重，后者控制颜色信息的权重。因此总体而言，在像素强度变换不大的区域，双边滤波有类似于高斯滤波的效果，而在图像边缘等强度梯度较大的地方，可以保持梯度。该特性在立体匹配问题中可以取代图像分割方法，或者作为图像分割方法的预处理手段，降低核心匹配算法的计算量。</p>
+<h2 id="12-21-工作汇报"><a href="#12-21-工作汇报" class="headerlink" title="12-21-工作汇报"></a>12-21-工作汇报</h2><p>最近根据标准<a href="http://vision.middlebury.edu/stereo/data/scenes2014/" target="_blank" rel="noopener">双目数据集</a>利用一系列双目匹配算法进行了实验，本次实验共选取BM、SGBM、GC算法进行比较。其中各个算法的原理论文分别为:</p>
+<ul>
+<li>BM:<a href="http://vision.deis.unibo.it/~smatt/Seminars/StereoVision.pdf" target="_blank" rel="noopener">介绍双目匹配原理非常清晰的PDF</a></li>
+<li>SGBM:<a href="https://ieeexplore.ieee.org/abstract/document/4359315/" target="_blank" rel="noopener">Stereo Processing by Semi-global Matching and Mutual Information</a></li>
+<li>GC:<a href="http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/trakmark2012.pdf" target="_blank" rel="noopener">Realistic CG Stereo Image Dataset with Ground Truth Disparity </a></li>
+</ul>
+<p>以上原理的论文资料均已整理至/reference文件夹内.</p>
+<blockquote>
+<p>另外关于近20年双目匹配的<a href="https://blog.csdn.net/xuyuhua1985/article/details/26283389" target="_blank" rel="noopener">论文整理</a></p>
+</blockquote>
+<h3 id="论文实验结果如下："><a href="#论文实验结果如下：" class="headerlink" title="论文实验结果如下："></a>论文实验结果如下：</h3><p>我们采用的数据集标准图片为:</p>
+<p><img src="https://i.loli.net/2020/03/29/vbdLBYe2RDNMkQx.png" alt="image-20191219222637363"></p>
+<p><strong>SADWindowSize</strong>：匹配代价计算的窗口的大小,容许范围是<code>[5,255]</code>，一般应该在 <code>5x5</code> 至<code>21x21</code>之间，参数必须是奇数.<code>blockSize(SADWindowSize)</code> 越小，也就是匹配代价计算的窗口越小，视差图噪声越大；<code>blockSize</code>越大，视差图越平滑；太大的<code>size</code>容易导致过平滑，并且误匹配增多，体现在视差图中空洞增多；</p>
+<p><strong>numberOfDisparities</strong>:控制视差的数量.最大的深度值减去最小得到的值</p>
+<h3 id="使用BM算法"><a href="#使用BM算法" class="headerlink" title="使用BM算法:"></a>使用BM算法:</h3><p><img src="https://i.loli.net/2020/03/29/8OfCBzF9gtiLvZ4.png" alt="image-20191221161231075"></p>
+<h3 id="使用SGBM算法"><a href="#使用SGBM算法" class="headerlink" title="使用SGBM算法:"></a>使用SGBM算法:</h3><p><img src="https://i.loli.net/2020/03/29/buKD1eiTymXoNBQ.png" alt="image-20191221161355163"></p>
+<h3 id="使用GC算法"><a href="#使用GC算法" class="headerlink" title="使用GC算法:"></a>使用GC算法:</h3><p><img src="https://i.loli.net/2020/03/30/NDTKwRxUpfnjHBY.png" alt=""></p>
+<p><img src="https://i.loli.net/2020/03/29/pxrBIXukhefKE36.png" alt="image-20191219222703531"></p>
+<h2 id="接下来工作进展"><a href="#接下来工作进展" class="headerlink" title="接下来工作进展:"></a>接下来工作进展:</h2><p>进一步理解<code>SGB</code>算法代码实现原理,采用自己拍摄的牙齿图片用上述算法进行测试,进而整理出文档出来.</p>
+<h2 id="12-25-工作汇报"><a href="#12-25-工作汇报" class="headerlink" title="12-25-工作汇报"></a>12-25-工作汇报</h2><ul>
+<li><p>移植了<code>ADCensus</code>算法，算法相关原理参考论文 <a href="http://www.nlpr.ia.ac.cn/2011papers/gjhy/gh75.pdf" target="_blank" rel="noopener">On Building an Accurate Stereo Matching System on Graphics Hardware</a></p>
+<blockquote>
+<p><code>ADCensus</code>双目立体匹配算法曾一度排在<code>MiddleBurry</code>官网上第一的位置，引用量很高。其主要优点是并行加速，精度又好，能有效兼顾这两点。</p>
+<p><a href="https://www.cnblogs.com/sinbad360/p/7842009.html" target="_blank" rel="noopener">ADCensus详细介绍链接</a></p>
+</blockquote>
+</li>
+<li><p>对<code>ADCensus</code>进行标准<code>midleburry</code>数据集测试，测试结果如下图：</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/03/29/ukBfDqr6tngUMS8.png" alt="image-20191225220436594"></p>
+<blockquote>
+<p>使用标准数据集进行匹配可以看出匹配效果还不错。</p>
+</blockquote>
+<ul>
+<li>对<code>ADCensus</code>进行双目相机测试，测试结果如下图：</li>
+</ul>
+<p><img src="https://i.loli.net/2020/03/29/UKDT5LXv3ey8Cm2.png" alt="image-20191225220552499"></p>
+<blockquote>
+<p>使用自己买的双目相机进行匹配可以看出匹配效果非常不好。</p>
+</blockquote>
+<p>我开始猜想可能是因为我的双目相机左右成像色调差别太大导致的，根据<code>PS</code>调出的直方图可以看出标准数据集的左右照片直方图相似度很高；而我们自己买的双目相机拍出来的左右相机的直方图差别却很大。</p>
+<p><img src="https://i.loli.net/2020/03/29/qjcZ2mADX1WGdYU.png" alt="image-20191225210751049"></p>
+<p><img src="https://i.loli.net/2020/03/29/QrKXDnvIfiLy3ux.png" alt="image-20191225210727207"></p>
+<p><img src="https://i.loli.net/2020/03/30/BxdLDkMjN7eynX4.png" alt="image-20191225210823719"></p>
+<p><img src="https://i.loli.net/2020/03/29/5EHZ1xgz8nPMjGt.png" alt="image-20191225210808554"></p>
+<p>为了验证自己的猜想，我又选取了另外一套用于自动驾驶的双目数据集<code>KITTI</code>，在经过<code>ADCensus</code>算法运行之后，匹配效果如图：</p>
+<p><img src="https://i.loli.net/2020/03/29/N4CMjAUvXw8GthK.png" alt="image-20191225221540846"></p>
+<blockquote>
+<p>可以看出使用<code>KITTI</code>数据集匹配的效果也还不错。</p>
+</blockquote>
+<p>综上：我打算接下来将自己买的双目相机拍出来的左右照片进行一下直方图匹配，看一下<code>ADCensus</code>算法在牙齿模型的匹配效果究竟如何，然后撰写最近一个星期的工作总结。</p>
+<p>另外，我重新整理了<code>SVN</code>的代码与参考资料，对<code>OpenCV</code>3.40重新<code>CMake</code>，对于一些将来可能会用到的<code>CUDA</code>模块熟悉了一下。</p>
+<h2 id="12-28工作汇报"><a href="#12-28工作汇报" class="headerlink" title="12-28工作汇报"></a>12-28工作汇报</h2><p>1.发现David 3D对于牙齿的建模效果不错，于是调研了一下：它们是采用双目相机+结构光来对牙齿模型进行建模的。</p>
+<p><img src="https://i.loli.net/2020/03/30/D2h5xj9TqAXUzLH.png" alt=""></p>
+<blockquote>
+<p><strong>DAVID Laserscanner</strong> is a software package for low-cost 3D laser scanning. It allows scanning and digitizing of three-dimensional objects using a camera (e.g. a web cam), a hand-held <a href="https://en.wikipedia.org/wiki/Line_laser" target="_blank" rel="noopener">line laser</a> (i.e. one that projects a line, not just a point), and two plain boards in the background. Its most distinctive feature is that the laser line can simply be swept over the object by hand (like a virtual brush) until the results are satisfactory. At the same time, DAVID Laserscanner generates 3D data in real time and shows them on the computer screen.</p>
+<p>The resulting 3D mesh can be exported into well-known file formats and can thus be imported and processed in most 3D applications. The software is also able to grab the texture and “stitch together” scans made from different viewing directions.</p>
+</blockquote>
+<p><a href="https://www.bilibili.com/video/av80957886/" target="_blank" rel="noopener">关于David 3D的视频的详细介绍Intro to DAVID SLS-2 3D Scanner</a></p>
+<p><img src="https://i.loli.net/2020/03/29/CwR4hsUfi8edvNF.png" alt="image-20191228122640270"></p>
+<p>2.联系了深圳威鑫视界公司对之前购买的双目摄像头重新进行烧录，这是烧录之前一对有着明显色调差异的双目照片：</p>
+<p><img src="https://i.loli.net/2020/03/29/UkrpEWsePXwxvS3.png" alt="image-20191227204722135"></p>
+<p>经过对方重新烧录之后，可以看出两幅图片起码色调一致了：</p>
+<p><img src="https://i.loli.net/2020/03/29/3E2MwSqzFOnZe4R.png" alt="image-20191228213354929"></p>
+<p>接着重新进行相机的标定与图片的矫正，此次共拍摄8组照片，双目匹配结果如下：</p>
+<p><img src="https://i.loli.net/2020/03/29/4x3DJ7bXTQYpq6A.png" alt="image-20191228213816820"></p>
+<p><img src="https://i.loli.net/2020/03/29/uqhUwGvLtXzBTcC.png" alt="image-20191228213855628"></p>
+<p><img src="https://i.loli.net/2020/03/29/Qqct3xFmIMSEobJ.png" alt="image-20191228214240868"></p>
+<blockquote>
+<p>可以看出前两幅图建的不好，原因是左右图没有经过预处理，左右直方图区别过大导致匹配效果不好。从《基于双目立体视觉的三维重建方法研究_党乐》一文中可以根据他的做法进行左右图的预处理。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/03/29/Og7HRikLVJTIjYs.png" alt="image-20191227161700855"></p>
+<p><img src="https://i.loli.net/2020/03/29/x7RoVkEubmIpc1h.png" alt="image-20191227161716225"></p>
+<p>3.下一步计划看一下下面的这个方法：</p>
+<blockquote>
+<p>Tatsunori Taniai, Yasuyuki Matsushita, Yoichi Sato, and Takeshi Naemura. <a href="http://taniai.space/projects/stereo/" target="_blank" rel="noopener">Continuous 3D label stereo matching using local expansion moves</a>. PAMI 40(11):2725-2739, 2018. <a href="https://github.com/t-taniai/LocalExpStereo" target="_blank" rel="noopener">Code</a>.</p>
+</blockquote>
+<p>以及经过预处理之后的牙齿匹配结果如何。</p>
+<p>4.一些走的弯路;</p>
+<blockquote>
+<p>双目经过棋盘格标定之后，在拍摄牙齿模型时，由于双目相机不具备自动变焦功能导致看不清楚，所以会手动拧镜头螺纹导致焦距发生变化，之前标定好的和焦距相关的数据有的就会发生变化，进而导致后续的工作出现差错。</p>
+<p>和学姐讨论了一波，之所以我们双目匹配的效果不如人家的标准数据集好，是因为标准数据集经过了非常严格的光线调节，它们的左右图差距很小，这一点从直方图就可以看出来。我们能不能达到这样好的效果呢？一部分取决于预处理的效果，一部分取决于摄像头：如果摄像头拍的特别差，后期软件再怎么处理也是收效甚微。</p>
+</blockquote>
+<h2 id="1-3工作汇报"><a href="#1-3工作汇报" class="headerlink" title="1-3工作汇报"></a>1-3工作汇报</h2><h5 id="全像素点云及重建结果"><a href="#全像素点云及重建结果" class="headerlink" title="全像素点云及重建结果"></a>全像素点云及重建结果</h5><p><img src="https://i.loli.net/2020/03/29/pOWLxoZuMC3wznc.png" alt="image-20200104163734005"></p>
+<p><img src="https://i.loli.net/2020/03/30/ZLKUYolNk7cRisA.png" alt="image-20200104165024323"></p>
+<h5 id="0度像素点云及重建结果"><a href="#0度像素点云及重建结果" class="headerlink" title="0度像素点云及重建结果"></a>0度像素点云及重建结果</h5><p><img src="https://i.loli.net/2020/03/30/nSOd2vy9PKWCwxE.png" alt="image-20200104163806059"></p>
+<p><img src="https://i.loli.net/2020/03/29/wFSm389bdTJezrM.png" alt="image-20200104165929665"></p>
+<h5 id="45度点云及重建结果"><a href="#45度点云及重建结果" class="headerlink" title="45度点云及重建结果"></a>45度点云及重建结果</h5><p><img src="https://i.loli.net/2020/03/29/gqirTzsxBR6E1YC.png" alt="image-20200104171514994"></p>
+<p><img src="https://i.loli.net/2020/03/29/zhZuJtaCAKXcEjT.png" alt="image-20200104171921350"></p>
+<h5 id="90度点云及重建结果（失败）"><a href="#90度点云及重建结果（失败）" class="headerlink" title="90度点云及重建结果（失败）"></a>90度点云及重建结果（失败）</h5><p><img src="https://i.loli.net/2020/03/29/VwMlQpBmTrznWAt.png" alt="image-20200104172657147"></p>
+<p><img src="https://i.loli.net/2020/03/29/3gVdlc8LJRo21qW.png" alt="image-20200104173018825"></p>
+<h5 id="135度点云及重建结果（失败）"><a href="#135度点云及重建结果（失败）" class="headerlink" title="135度点云及重建结果（失败）"></a>135度点云及重建结果（失败）</h5><p><img src="https://i.loli.net/2020/03/29/EFmLYzlXK4AUhuJ.png" alt="image-20200104181416265"></p>
+<hr>
+<h5 id="预处理左右原图："><a href="#预处理左右原图：" class="headerlink" title="预处理左右原图："></a>预处理左右原图：</h5><p><img src="https://i.loli.net/2020/03/30/D2LWKHYrcu9UAPg.png" alt="image-20191231132610545"></p>
+<p><img src="https://i.loli.net/2020/03/30/ny5pbPQoXRIKFqE.png" alt="image-20191231132624181"></p>
+<h5 id="经过中值滤波之后："><a href="#经过中值滤波之后：" class="headerlink" title="经过中值滤波之后："></a>经过中值滤波之后：</h5><p><img src="https://i.loli.net/2020/03/29/yFfm3vZC5eaE4nb.png" alt="image-20191231132210206"></p>
+<p><img src="https://i.loli.net/2020/03/29/ghKbdeqAX5DwLkG.png" alt="image-20191231132223593"></p>
+<h5 id="经过clahe直方图均衡化之后"><a href="#经过clahe直方图均衡化之后" class="headerlink" title="经过clahe直方图均衡化之后"></a>经过clahe直方图均衡化之后</h5><p><img src="https://i.loli.net/2020/03/29/AfmkbQCPGzBViN7.png" alt="image-20191231134546847"></p>
+<p><img src="https://i.loli.net/2020/03/29/iawqlndyt3g2GcU.png" alt="image-20191231134602453"></p>
+<h5 id="经过直方图匹配之后："><a href="#经过直方图匹配之后：" class="headerlink" title="经过直方图匹配之后："></a>经过直方图匹配之后：</h5><p><img src="https://i.loli.net/2020/03/29/QWEwaCDkbfeLJ1v.png" alt="image-20191231134624053"></p>
+<p><img src="https://i.loli.net/2020/03/29/oXs5JEiKnPQcOA3.png" alt="image-20191231134647789"></p>
+<h5 id="unsharpMasking之后："><a href="#unsharpMasking之后：" class="headerlink" title="unsharpMasking之后："></a>unsharpMasking之后：</h5><p><img src="https://i.loli.net/2020/03/29/9eZdbnQas5SjIBY.png" alt="image-20191231135358167"></p>
+<p><img src="https://i.loli.net/2020/03/29/iRJLwet3TKaINzS.png" alt="image-20191231135407136"></p>
+<p><img src="https://i.loli.net/2020/03/29/TrBQMzuCO3E46LK.png" alt="image-20191227161730595"></p>
+<p><img src="https://i.loli.net/2020/03/29/fCDUd5GLIs8olg7.png" alt="image-20191227161754508"></p>
+<pre><code>IplImage * img1 = cvLoadImage(&quot;../../DataSets/Tooth/Rectified/08left_picture.png&quot;, CV_LOAD_IMAGE_GRAYSCALE);
+IplImage * img2 = cvLoadImage(&quot;../../DataSets/Tooth/Rectified/08right_picture.png&quot;, CV_LOAD_IMAGE_GRAYSCALE);</code></pre><p>此步骤计算初始匹配成本量。<br>由于可以在每个像素和每个视差级别同时执行计算，因此此步骤本质上是并行的。<br>我们主要关注的是开发一种具有高匹配质量的成本衡量方法。<br>通用成本度量包括绝对差（AD），Birchfield和Tomasi的不采样抽样度量（BT），基于梯度的度量以及诸如等级和人口普查之类的非参数转换[22]。<br>在Hirschmuller和Scharstein的最新评估中[3]，人口普查显示了局部和全局立体匹配方法的最佳总体结果。<br>尽管合并成本度量以提高准确性的想法似乎很简单，但是相对较少的工作探讨了该主题。<br>克劳斯等。<br>文献[6]提出将SAD和基于梯度的度量线性组合以进行成本计算。<br>他们的差异结果令人印象深刻，但是合并的好处却没有明确阐述。<br>人口普查使用像素强度的相对顺序（而不是强度值本身）对局部图像结构进行编码，因此可以容忍由于辐射度变化和图像噪声引起的异常值。<br>但是，此资产也可能在具有重复或类似局部结构的图像区域中引入匹配的歧义。<br>为了解决这个问题，应在该措施中纳入更详细的信息。<br>对于具有相似局部结构的图像区域，颜色（或强度）信息可能有助于减轻匹配的歧义。<br>而对于具有相似颜色分布的区域，通过窗口进行的普查变换比基于像素的强度差更鲁棒。<br>这种观察激发了一种综合措施。</p>
+<p><img src="https://i.loli.net/2020/03/29/OEkSHUCpNmuW3RX.png" alt="image-20191224213727896"></p>
+<h2 id="关于imwrite写入异常情况的处理"><a href="#关于imwrite写入异常情况的处理" class="headerlink" title="关于imwrite写入异常情况的处理"></a>关于imwrite写入异常情况的处理</h2><p>这是因为第一个参数path不给人家设置图片后缀格式导致人家找不到对应的解析器，所以抛出异常来了</p>
+<p><img src="https://i.loli.net/2020/03/29/ymxC36JlchMZ7Ba.png" alt="image-20191223230727334"></p>
+<h2 id="完成双目匹配到点云拼接的流程"><a href="#完成双目匹配到点云拼接的流程" class="headerlink" title="完成双目匹配到点云拼接的流程"></a>完成双目匹配到点云拼接的流程</h2><p><a href="http://vision.middlebury.edu/stereo/eval3/" target="_blank" rel="noopener">双目跑分</a>NOSS-ROB</p>
+<ul>
+<li>Superpixel alpha-expansion and normal adjustment for stereo matching</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (scale != <span class="number">1.f</span>)</span><br><span class="line">&#123;</span><br><span class="line">	Mat temp1, temp2;</span><br><span class="line">	<span class="keyword">int</span> method = scale &lt; <span class="number">1</span> ? INTER_AREA : INTER_CUBIC;</span><br><span class="line">	resize(img1, temp1, Size(), scale, scale, method);</span><br><span class="line">	img1 = temp1;</span><br><span class="line">	resize(img2, temp2, Size(), scale, scale, method);</span><br><span class="line">	img2 = temp2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内参intrinsics-yml"><a href="#内参intrinsics-yml" class="headerlink" title="内参intrinsics.yml"></a>内参intrinsics.yml</h2><p>M1:3行3列的那个标定矩阵</p>
+<p>D1:就是那个畸变参数<code>distCoeff</code>，注意是5个的还是9个的</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">void compute( InputArray leftarr, InputArray rightarr, OutputArray disparr )</span><br><span class="line">   &#123;</span><br><span class="line">       <span class="constructor">CV_INSTRUMENT_REGION()</span></span><br><span class="line"></span><br><span class="line">       Mat left = leftarr.get<span class="constructor">Mat()</span>, right = rightarr.get<span class="constructor">Mat()</span>;</span><br><span class="line">       <span class="constructor">CV_Assert( <span class="params">left</span>.<span class="params">size</span>()</span><span class="operator"> == </span>right.size<span class="literal">()</span><span class="operator"> &amp;&amp; </span>left.<span class="keyword">type</span><span class="literal">()</span><span class="operator"> == </span>right.<span class="keyword">type</span><span class="literal">()</span> &amp;&amp;</span><br><span class="line">                  left.depth<span class="literal">()</span><span class="operator"> == </span>CV_8U );</span><br><span class="line"></span><br><span class="line">       disparr.create( left.size<span class="literal">()</span>, CV_16S );</span><br><span class="line">       Mat disp = disparr.get<span class="constructor">Mat()</span>;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span>(params.mode==MODE_SGBM_3WAY)</span><br><span class="line">           compute<span class="constructor">Disparity3WaySGBM( <span class="params">left</span>, <span class="params">right</span>, <span class="params">disp</span>, <span class="params">params</span>, <span class="params">buffers</span>, <span class="params">num_stripes</span> )</span>;</span><br><span class="line">       <span class="keyword">else</span> <span class="keyword">if</span>(params.mode==MODE_HH4)</span><br><span class="line">           compute<span class="constructor">DisparitySGBM_HH4( <span class="params">left</span>, <span class="params">right</span>, <span class="params">disp</span>, <span class="params">params</span>, <span class="params">buffer</span> )</span>;</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">           compute<span class="constructor">DisparitySGBM( <span class="params">left</span>, <span class="params">right</span>, <span class="params">disp</span>, <span class="params">params</span>, <span class="params">buffer</span> )</span>;</span><br><span class="line"></span><br><span class="line">       median<span class="constructor">Blur(<span class="params">disp</span>, <span class="params">disp</span>, 3)</span>;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span>( params.speckleWindowSize &gt; <span class="number">0</span> )</span><br><span class="line">           filter<span class="constructor">Speckles(<span class="params">disp</span>, (<span class="params">params</span>.<span class="params">minDisparity</span> - 1)</span>*StereoMatcher::DISP_SCALE, params.speckleWindowSize,</span><br><span class="line">                          StereoMatcher::DISP_SCALE*params.speckleRange, buffer);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m-1）-2n-1-，"><a href="#SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m-1）-2n-1-，" class="headerlink" title="SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m+1） (2n+1)，"></a>SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m+1） (2n+1)，</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">统计其窗口的灰度值的和，然后在右目图像中逐步计算其左右窗口的灰度和的差值，</span><br><span class="line">最后搜索到的差值最小的区域的中心像素即为匹配点。</span><br><span class="line">基本流程：</span><br><span class="line">  <span class="number">1.</span>构造一个小窗口，类似与卷积核。</span><br><span class="line">  <span class="number">2.</span>用窗口覆盖左边的图像，选择出窗口覆盖区域内的所有像素点。</span><br><span class="line">  <span class="number">3.</span>同样用窗口覆盖右边的图像并选择出覆盖区域的像素点。</span><br><span class="line">  <span class="number">4.</span>左边覆盖区域减去右边覆盖区域，并求出所有像素点差的绝对值的和。</span><br><span class="line">  <span class="number">5.</span>移动右边图像的窗口，重复<span class="number">3</span>，<span class="number">4</span>的动作。（这里有个搜索范围，超过这个范围跳出）</span><br><span class="line">  <span class="number">6.</span>找到这个范围内SAD值最小的窗口，即找到了左边图像的最佳匹配的像素块。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="img1-w-r-t-img2-and-write-it-to-disp1buf-就…而言with-respect-to"><a href="#img1-w-r-t-img2-and-write-it-to-disp1buf-就…而言with-respect-to" class="headerlink" title="img1 w.r.t. img2 and write it to disp1buf 就…而言with respect to"></a>img1 w.r.t. img2 and write it to disp1buf 就…而言with respect to</h2><h2 id="OpenCV提供了以下四种立体匹配算法的函数："><a href="#OpenCV提供了以下四种立体匹配算法的函数：" class="headerlink" title="OpenCV提供了以下四种立体匹配算法的函数："></a>OpenCV提供了以下四种立体匹配算法的函数：</h2><ol>
+<li>Block Matching（BM） StereoBM</li>
+<li>Semi-Global Block Matching（SGBM） StereoSGBM</li>
+<li>Graph Cut（GC）cvStereoGCState()</li>
+<li>Dynamic Programming（DP）cvFindStereoCorrespondence()</li>
+</ol>
+<p>第一种就是简单的块匹配，第三，四种是基于全局的匹配，以下简单介绍一下第二种算法。我们知道局部匹配计算量小速度快，而全局匹配计算量大速度慢，所以作者提出了SGBM算法[5]: 第一步对每一个Pixel使用块匹配BM进行匹配，得到了全部Pixel的disparity map。</p>
+<p>第二步对Disparity map建立图，用Graph Cut对其进行全局优化。利用Rectification将二维转化为一维：则对每一个像素的可能的Disparity值d，从以下4中里面选取一个最小值：</p>
+<ul>
+<li>左相邻像素disparity取值为d时，其最小的cost值。</li>
+<li>左相邻像素disparity取值为d-1时，其最小的cost值+惩罚1。</li>
+<li>左相邻像素disparity取值为d+1时，其最小的cost值+惩罚1。</li>
+<li>左相邻像素disparity取值为其他时，其最小的cost值+惩罚2。</li>
+</ul>
+<p>它与GC的区别在于它的左相邻像素的Disparity是已知的（根据块匹配结果），而GC是未知的，所以GC要对每一种取值进行一次计算，计算量比SGBM要大得多。</p>
+<p>[5]H. Hirschmuller, Stereo Processing by Semi-global Matching and Mutual Information,”IEEE Transactions on Pattern Analysis and Machine Intelligence, Vol. 30, Issue 2, pp. 328-341, Feb. 2008.</p>
+<p>下图给出了各种不同算法的结果比较：</p>
+<p>左右原图如下：</p>
+<p><img src="https://i.loli.net/2020/03/29/RlzvDBSPuYpndfg.png" alt="image-20191219222650653"></p>
+<h2 id="这个程序缺校正对齐那块以及自动调节参数那块内容"><a href="#这个程序缺校正对齐那块以及自动调节参数那块内容" class="headerlink" title="这个程序缺校正对齐那块以及自动调节参数那块内容"></a>这个程序缺校正对齐那块以及自动调节参数那块内容</h2><p>由于berry数据集不需要校正，所以和其他的程序有所不一样</p>
+<p>如果把那些值设为0会怎么样？–可以绕过校正那一步直接到深度计算</p>
+<p>添加一个可以在命令行动态修改参数的程序便于修改参数</p>
+<p><img src="https://i.loli.net/2020/03/30/uHJs1AY9hOvNpgB.jpg" alt="SGBM-9-32"></p>
+<h3 id="CommandLineParser"><a href="#CommandLineParser" class="headerlink" title="CommandLineParser"></a>CommandLineParser</h3><p>比如说”{ c | camera | 0 | use camera or not}”都是用大括号和双引号引起来，然后中间的内容分成4断，用”|”分隔开，分别表示简称，文件来源，文件值和帮助语句。第二行和第三行表示打开摄像头和打开文件，文件的文件名等都在keys指针中了。</p>
+<h2 id="双目原理"><a href="#双目原理" class="headerlink" title="双目原理"></a>双目原理</h2><h2 id="numberOfDisparities等参数"><a href="#numberOfDisparities等参数" class="headerlink" title="numberOfDisparities等参数"></a>numberOfDisparities等参数</h2><p><code>left07.png right07.png --algorithm=bm --blocksize=9 --max-disparity=32 --scale=1 -i=intrinsics.yml -e=extrinsics.yml -o=diaparity.txt -p=pcl</code></p>
+<p>参数-algorithm共有<strong>STEREO_BM</strong>、<strong>STEREO_SGBM</strong>、<strong>STEREO_HH</strong>、<strong>STEREO_VAR</strong>、<strong>STEREO_3WAY</strong></p>
+<blockquote>
+<p>OpenCV中SGBM算法的MODE_SGBM模式，实现了5个方向搜索，MODE_HH实现了8个方向搜索（可通过注释掉代码中部分，观察任一方向搜索得到的结果），这部分的代码，我已加了部分注释，可结合OpenCV源码对照观看，如下所示。</p>
+<p>MODE_SGBM_3WAY模式，顾名思义，从左侧、上侧和右侧三个方向进行搜索，代码中有并行处理部分，速度很快。</p>
+<p>MODE_HH4模式从上下左右四个方向搜索，代码中有并行处理部分，速度依旧很快。</p>
+</blockquote>
+<p>\1. blockSize(SADWindowSize) 越小，也就是匹配代价计算的窗口越小，视差图噪声越大；blockSize越大，视差图越平滑；太大的size容易导致过平滑，并且误匹配增多，体现在视差图中空洞增多；<br>\2. 惩罚系数控制视差图的平滑度，P2&gt;P1，P2越大则视差图越平滑；<br>\3. 八方向动态规划较五方向改善效果不明显，主要在图像边缘能够找到正确的匹配；</p>
+<p>max-disparity**:必须为16的倍数</p>
+<p><strong>blocksize</strong>：匹配块的大小 Matched block size. It must be an odd number &gt;=1 . Normally, it should be somewhere in the 3..11 range. SAD代价计算窗口大小，默认为5。窗口大小为奇数，一般在3<em>3 到21</em>21之间；1. blockSize(SADWindowSize) 越小，也就是匹配代价计算的窗口越小，视差图噪声越大；blockSize越大，视差图越平滑；太大的size容易导致过平滑，并且误匹配增多，体现在视差图中空洞增多；</p>
+<p><strong>no-display</strong>：管是否显示的</p>
+<p><strong>scale</strong>：调节图像大小的</p>
+<p><strong>minDisparity</strong>：最小的深度值，通常情况下为0，但是一些校正算法有时会使图片变形，所以你得根据实际情况进行设置</p>
+<p><strong>numDisparities</strong>：最大的深度值减去最小得到的值</p>
+<p><strong>P1</strong>：The first parameter controlling the disparity smoothness. See below.</p>
+<p><strong>P2</strong>：The second parameter controlling the disparity smoothness. The larger the values are, the smoother the disparity is.P1是相邻像素间差值变化正负1的惩罚。P2是相邻像素之间视差变化超过1的惩罚。The algorithm requires P2 &gt; P1 .</p>
+<p><strong>uniquenessRatio</strong>：最佳（最小）计算成本函数值应“赢得”次优值以认为找到的匹配正确的百分比裕度。 通常，在5到15范围内的值就足够了。Margin in percentage by which the best (minimum) computed cost function value should “win” the second best value to consider the found match correct. Normally, a value within the 5-15 range is good enough.</p>
+<p><strong>speckleWindowSize</strong>：Maximum size of smooth disparity regions to consider their noise speckles and invalidate. Set it to 0 to disable speckle filtering. Otherwise, set it somewhere in the 50-200 range.</p>
+<p><strong>mode</strong>:将其设置为StereoSGBM :: MODE_HH即可运行满量程两遍动态编程算法。 它将消耗O（W * H * numDisparities）字节，对于640x480立体来说很大，而对于HD尺寸的图片来说很大。 默认情况下，它设置为false。</p>
+<p>其中<code>minDisparity</code>是控制匹配搜尋的第一個引數，代表了匹配搜蘇從哪裡開始，numberOfDisparities表示最大搜尋視差數uniquenessRatio表示匹配功能函式，這三個引數比較重要，可以根據實驗給予引數值。</p>
+<p>// 预处理滤波参数</p>
+<p><code>preFilterType</code>：预处理滤波器的类型，主要是用于降低亮度失真（photometric distortions）、消除噪声和增强纹理等, 有两种可选类型：CV_STEREO_BM_NORMALIZED_RESPONSE（归一化响应） 或者 CV_STEREO_BM_XSOBEL（水平方向Sobel算子，默认类型）, 该参数为 int 型；<br><strong>preFilterSize</strong>：预处理滤波器窗口大小，容许范围是[5,255]，一般应该在 5x5…21x21 之间，参数必须为奇数值, int 型<br><strong>preFilterCap</strong>：预处理滤波器的截断值，预处理的输出值仅保留[-preFilterCap, preFilterCap]范围内的值，参数范围：1 - 31（文档中是31，但代码中是 63）, int</p>
+<p><strong>SADWindowSize：SAD</strong>窗口大小，容许范围是[5,255]，一般应该在 5x5 至 21x21 之间，参数必须是奇数，int 型<br>minDisparity：最小视差，默认值为 0, 可以是负值，int 型<br>numberOfDisparities：视差窗口，即最大视差值与最小视差值之差, 窗口大小必须是 16 的整数倍，int 型<br>// 后处理参数</p>
+<p><strong>textureThreshold</strong>：低纹理区域的判断阈值。如果当前SAD窗口内所有邻居像素点的x导数绝对值之和小于指定阈值，则该窗口对应的像素点的视差值为 0（That is, if the sum of absolute values of x-derivatives computed over SADWindowSize by SADWindowSize pixel neighborhood is smaller than the parameter, no disparity is computed at the pixel），该参数不能为负值，int 型<br><strong>uniquenessRatio</strong>：视差唯一性百分比， 视差窗口范围内最低代价是次低代价的(1 + uniquenessRatio/100)倍时，最低代价对应的视差值才是该像素点的视差，否则该像素点的视差为 0 （the minimum margin in percents between the best (minimum) cost function value and the second best value to accept the computed disparity, that is, accept the computed disparity d^ only if SAD(d) &gt;= SAD(d^) x (1 + uniquenessRatio/100.) for any d != d<em>+/-1 within the search range ），该参数不能为负值，一般5-15左右的值比较合适，int 型<br>*</em>speckleWindowSize<strong>：检查视差连通区域变化度的窗口大小, 值为 0 时取消 speckle 检查，int 型<br>**speckleRange</strong>：视差变化阈值，当窗口内视差变化大于阈值时，该窗口内的视差清零，int 型<br>// OpenCV2.1 新增的状态参数</p>
+<p><strong>roi1, roi2</strong>：左右视图的有效像素区域，一般由双目校正阶段的 cvStereoRectify 函数传递，也可以自行设定。一旦在状态参数中设定了 roi1 和 roi2，OpenCV 会通过cvGetValidDisparityROI 函数计算出视差图的有效区域，在有效区域外的视差值将被清零。<br><strong>disp12MaxDiff</strong>：左视差图（直接计算得出）和右视差图（通过cvValidateDisparity计算得出）之间的最大容许差异。超过该阈值的视差值将被清零。该参数默认为 -1，即不执行左右视差检查。int 型。注意在程序调试阶段最好保持该值为 -1，以便查看不同视差窗口生成的视差效果。具体请参见《使用OpenGL动态显示双目视觉三维重构效果示例》一文中的讨论。<br>在上述参数中，对视差生成效果影响较大的主要参数是 SADWindowSize、numberOfDisparities 和 uniquenessRatio 三个，一般只需对这三个参数进行调整，其余参数按默认设置即可。</p>
+<p><img src="https://i.loli.net/2020/03/29/pePqy1cVSBmUvFK.png" alt="image-20191221154914385"></p>
+<p><img src="https://i.loli.net/2020/03/29/FmCKeQ5tTMzbWk2.png" alt="image-20191221155003546"></p>
+<p><img src="https://i.loli.net/2020/03/29/nkRLmKpv5Q2UwoB.png" alt="image-20191220104349530"></p>
+<p>原来视差（disparity）指的是同一特征点在左右相机成像像素的距离差啊，我之前以为是求出来的灰度值是视差，天哪,这里越近的点越亮该如何理解？下面的图很好的给出了诠释。</p>
+<blockquote>
+<p>The disparity is the difference between the x coordinate of two corresponding points; it is typically encoded with greyscale image (closer points are brighter).</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/03/30/KS6mMe3yThlEuRH.png" alt="image-20191220104922045"></p>
+<p><img src="https://i.loli.net/2020/03/29/xdQYebCsry4mO3K.png" alt="image-20191220105323391"></p>
+<p>还有一个问题，我之前在计算的时候有考虑过两个摄像头之间的那个间距b吗？</p>
+<p><a href="http://vision.deis.unibo.it/~smatt/stereo.htm" target="_blank" rel="noopener">双目照片</a></p>
+<p><img src="https://i.loli.net/2020/03/29/avcsrYTZi8o6fFG.png" alt="image-20191220110305832"></p>
+<p>通常会有一个预处理阶段主要是消除一些光学的扭曲：</p>
+<p>典型的方法包括：</p>
+<ul>
+<li><p>Laplacian of Gaussian (LoG) filtering</p>
+</li>
+<li><p>Subtraction of mean values computed in nearby pixels</p>
+</li>
+<li><p>双边滤波</p>
+</li>
+<li><p>Census transform </p>
+</li>
+</ul>
+<p>A、匹配代价计算</p>
+<p><img src="https://i.loli.net/2020/03/29/93peBV8jldiboHA.png" alt="image-20191220111053226"></p>
+<p><img src="https://i.loli.net/2020/03/29/yLuBJrV8DnoMlt5.png" alt="image-20191220111116408"></p>
+<p><img src="https://i.loli.net/2020/03/30/1l7JwnKTRIfXW4P.png" alt="image-20191220111153031"></p>
+<p>怎样去提升土办法的表现呢？主要有两个不同的方法（非互相排斥）？</p>
+<p>局部算法使用了WTA策略。但是减少了模棱两可的东西（通过在支持窗口上聚集匹配代价增加了信噪比的信号？）也就是内核或相关窗口。有时采用平滑项</p>
+<blockquote>
+<p>Local algorithms use the simple WTA disparity selection  strategy but reduce ambiguity (increasing the signal to  noise ratio (SNR)) by aggregating matching costs over a  support window (aka kernel or correlation window).  Sometime a smoothness term is adopted. Steps 1+2 (+ WTA)</p>
+</blockquote>
+<p>全局或者半全局算法会通过使在整个双目匹配对的能量函数最小的的方法去寻找视差，</p>
+<blockquote>
+<p>algorithms search for disparity  assignments that minimize an energy function over the whole  stereo pair using a pixel-based matching cost (sometime the  matching cost is aggregated over a support). Steps 1+3</p>
+</blockquote>
+<p>两个方法都假设屏幕是逐段的平滑。有时这个假设并不成立</p>
+<p>局部算法隐式的假设，全局算法显式的进行假设</p>
+<p>实际上，直接对一点来进行匹配，百分百会出现各种各样的问题，这个时候我们选择用一个固定窗口来替代一点，如下图所示。Warning,这样做就隐含了一个假设，认为窗口内部视差值相同，但是，显然的，这种假设太过想当然，也使得算法实际效果不好。</p>
+<p><img src="https://i.loli.net/2020/03/29/JO5B36srdezMhLE.png" alt="image-20191220160220994"></p>
+<p><img src="https://i.loli.net/2020/03/29/AI9FgxoERXMOGdj.png" alt="image-20191220113042597"></p>
+<p><img src="https://i.loli.net/2020/03/29/VKzC7keTPbHntOR.png" alt="image-20191220113011574"></p>
+<p>常用的聚合方式包括，SSD的直接求和、DP搜索等等。SGBM用到的就是多方向DP搜索方法</p>
+<p><img src="https://i.loli.net/2020/03/29/LcZkbJvSgmuRCzr.png" alt="image-20191220113421395"></p>
+<p>最小值{求当前像素与右边像素的差值的最小值，求当前像素与左边像素的最小值}</p>
+<p><img src="https://i.loli.net/2020/03/29/2dTaJ4kSLPsqYwO.png" alt="image-20191220142057081"></p>
+<p>DSI是一个三维矩阵，每一个元素代表左边参考像素的光照强度与右边目标像素滑动距离d的光照强度之差</p>
+<p>固定窗口为什么会表现的不尽如人意呢？</p>
+<p><img src="https://i.loli.net/2020/03/29/4JWyClMSIPQdDKo.png" alt="image-20191220142653422"></p>
+<p>1.是因为固定窗口只会在前表面平行的进行移动，然而很多情况是物体表面是凹凸不平的，有时候物体是倾斜的，理想的情况是窗口也是倾斜的。</p>
+<p>2.是因为固定窗口忽视了深度的不连续，在一个窗口内就有两种不同深度的背景</p>
+<p><img src="https://i.loli.net/2020/03/29/ZAserD1ohnIYtzx.png" alt="image-20191220143111375"></p>
+<p><img src="https://i.loli.net/2020/03/29/tcJA3rQspfKbYG8.png" alt="image-20191220143129084"></p>
+<p>理想的cost aggregation strategy 应该尽可能的扩展具有相同深度的像素到它的区域里</p>
+<p><img src="https://i.loli.net/2020/03/29/JshpvSeCFaMHWyz.png" alt="image-20191220143400586"></p>
+<p><img src="https://i.loli.net/2020/03/29/TuWz7rU1gIAbtaF.png" alt="image-20191220145500641"></p>
+<p><img src="https://i.loli.net/2020/03/29/1GKs75YTejSfZqo.png" alt="image-20191220151510820"></p>
+<p>匹配代价计算是整个立体匹配算法的基础，实际是对不同视差下进行灰度相似性测量。常见的方法有灰度差的平方SD（squared intensity differences），灰度差的绝对值AD（absolute intensity differences）等。另外，在求原始匹配代价时可以设定一个上限值，来减弱叠加过程中的误匹配的影响。以AD法求匹配代价为例，可用下式进行计算，其中T为设定的阈值。</p>
+<p><img src="https://i.loli.net/2020/03/30/XCAEOnS5UhcoK8H.png" alt="image-20191220110712285"></p>
+<h1 id="QT-KITTI"><a href="#QT-KITTI" class="headerlink" title="QT  KITTI"></a>QT  KITTI</h1><p>其中：</p>
+<ul>
+<li>S_xx：1x2 矫正前的图像xx的大小</li>
+<li>K_xx：3x3 矫正前摄像机xx的校准矩阵</li>
+<li>D_xx：1x5 矫正前摄像头xx的失真向量</li>
+<li>R_xx：3x3 （外部）的旋转矩阵(从相机0到相机xx)</li>
+<li>T_xx：3x1 （外部）的平移矢量(从相机0到相机xx)</li>
+<li>S_rect_xx：1x2 矫正后的图像xx的大小</li>
+<li>R_rect_xx：3x3 纠正旋转矩阵(使图像平面共面)</li>
+<li>P_rect_xx：3x4 矫正后的投影矩阵</li>
+</ul>
+<p>S_00: 640 480</p>
+<p>DEFAULT_CAM_TO_CAM_TXT_PATH //<br>DEFAULT_IMU_TO_VELO_TXT_PATH //<br>DEFAULT_VELO_TO_CAM_TXT_PATH //<br>    读取了一个时间戳image_timestamp_files<br>    image_00 //left camera<br>    image_01 //right camera</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2019/12/18/2019-12-20-StereoVision/" title="Stereo_Vision">http://acewzj.github.io/2019/12/18/2019-12-20-StereoVision/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/18/2019-12-02-EverNote/" rel="next" title="印象笔记">
+                <i class="fa fa-chevron-left"></i> 印象笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/27/2020-01-27-Polarizied/" rel="prev" title="Polarizied_Light">
+                Polarizied_Light <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文摘抄"><span class="nav-number">1.</span> <span class="nav-text">论文摘抄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Realistic-CG-Stereo-Image-Dataset-with-Ground-Truth-Disparity-Maps"><span class="nav-number">2.</span> <span class="nav-text">Realistic CG Stereo Image Dataset with Ground Truth Disparity Maps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#On-Building-an-Accurate-Stereo-Matching-System-on-Graphics-Hardware"><span class="nav-number">3.</span> <span class="nav-text">On Building an Accurate Stereo Matching System on Graphics Hardware</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1局部代价聚合"><span class="nav-number">3.1.</span> <span class="nav-text">1局部代价聚合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-21-工作汇报"><span class="nav-number">4.</span> <span class="nav-text">12-21-工作汇报</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#论文实验结果如下："><span class="nav-number">4.1.</span> <span class="nav-text">论文实验结果如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用BM算法"><span class="nav-number">4.2.</span> <span class="nav-text">使用BM算法:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用SGBM算法"><span class="nav-number">4.3.</span> <span class="nav-text">使用SGBM算法:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用GC算法"><span class="nav-number">4.4.</span> <span class="nav-text">使用GC算法:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接下来工作进展"><span class="nav-number">5.</span> <span class="nav-text">接下来工作进展:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-25-工作汇报"><span class="nav-number">6.</span> <span class="nav-text">12-25-工作汇报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-28工作汇报"><span class="nav-number">7.</span> <span class="nav-text">12-28工作汇报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3工作汇报"><span class="nav-number">8.</span> <span class="nav-text">1-3工作汇报</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全像素点云及重建结果"><span class="nav-number">8.0.0.1.</span> <span class="nav-text">全像素点云及重建结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#0度像素点云及重建结果"><span class="nav-number">8.0.0.2.</span> <span class="nav-text">0度像素点云及重建结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#45度点云及重建结果"><span class="nav-number">8.0.0.3.</span> <span class="nav-text">45度点云及重建结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#90度点云及重建结果（失败）"><span class="nav-number">8.0.0.4.</span> <span class="nav-text">90度点云及重建结果（失败）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#135度点云及重建结果（失败）"><span class="nav-number">8.0.0.5.</span> <span class="nav-text">135度点云及重建结果（失败）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#预处理左右原图："><span class="nav-number">8.0.0.6.</span> <span class="nav-text">预处理左右原图：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经过中值滤波之后："><span class="nav-number">8.0.0.7.</span> <span class="nav-text">经过中值滤波之后：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经过clahe直方图均衡化之后"><span class="nav-number">8.0.0.8.</span> <span class="nav-text">经过clahe直方图均衡化之后</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经过直方图匹配之后："><span class="nav-number">8.0.0.9.</span> <span class="nav-text">经过直方图匹配之后：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unsharpMasking之后："><span class="nav-number">8.0.0.10.</span> <span class="nav-text">unsharpMasking之后：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于imwrite写入异常情况的处理"><span class="nav-number">9.</span> <span class="nav-text">关于imwrite写入异常情况的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完成双目匹配到点云拼接的流程"><span class="nav-number">10.</span> <span class="nav-text">完成双目匹配到点云拼接的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内参intrinsics-yml"><span class="nav-number">11.</span> <span class="nav-text">内参intrinsics.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m-1）-2n-1-，"><span class="nav-number">12.</span> <span class="nav-text">SAD方法就是以左目图像的源匹配点为中心，定义一个窗口D，其大小为（2m+1） (2n+1)，</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#img1-w-r-t-img2-and-write-it-to-disp1buf-就…而言with-respect-to"><span class="nav-number">13.</span> <span class="nav-text">img1 w.r.t. img2 and write it to disp1buf 就…而言with respect to</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV提供了以下四种立体匹配算法的函数："><span class="nav-number">14.</span> <span class="nav-text">OpenCV提供了以下四种立体匹配算法的函数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#这个程序缺校正对齐那块以及自动调节参数那块内容"><span class="nav-number">15.</span> <span class="nav-text">这个程序缺校正对齐那块以及自动调节参数那块内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CommandLineParser"><span class="nav-number">15.1.</span> <span class="nav-text">CommandLineParser</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双目原理"><span class="nav-number">16.</span> <span class="nav-text">双目原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numberOfDisparities等参数"><span class="nav-number">17.</span> <span class="nav-text">numberOfDisparities等参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#QT-KITTI"><span class="nav-number"></span> <span class="nav-text">QT  KITTI</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

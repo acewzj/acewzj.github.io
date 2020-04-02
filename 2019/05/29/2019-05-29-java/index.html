@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java Base," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文记述了关于Java的一些基础知识点。 Base Tips 一个源文件只能有一个public类 char类型是一个单一的16位Unicode字符，可以储存任意字符，和之前想的不太一样，因为byte可以是二进制补码表示的整数  为什么数据要用二进制补码表示？正数的二进制补码还是正数本身，但是负数的二进制补码是各位取反然后最低位再加一。采用补码表示主要是为了简化加法运算，让一个正数加上一个负数时得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础">
+<meta property="og:url" content="http://acewzj.github.io/2019/05/29/2019-05-29-java/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="本文记述了关于Java的一些基础知识点。 Base Tips 一个源文件只能有一个public类 char类型是一个单一的16位Unicode字符，可以储存任意字符，和之前想的不太一样，因为byte可以是二进制补码表示的整数  为什么数据要用二进制补码表示？正数的二进制补码还是正数本身，但是负数的二进制补码是各位取反然后最低位再加一。采用补码表示主要是为了简化加法运算，让一个正数加上一个负数时得">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://www.liaoxuefeng.com/files/attachments/1261393208671488/l">
+<meta property="og:image" content="https://www.liaoxuefeng.com/files/attachments/1261391527906784/l">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/SObB2LfqMvgTREk.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/S6Rji5aETfnCqWV.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/OAhd9M6vPsYazl4.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/jN3nGxgd6myfKWA.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/lXZ9Q5vbAmr361J.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/bqVSCJLEhHp5NWK.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/XYruqbfnByJUecz.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/T5AEpBxr9SJ4DOC.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/9RuvL5kFCTrzZoQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/lf8N1UHFIZzGeqm.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/zdbRvZfIT743AD1.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/STsVlKgZ5rUN1RW.png">
+<meta property="article:published_time" content="2019-05-29T02:06:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.370Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="Java Base">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.liaoxuefeng.com/files/attachments/1261393208671488/l">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2019/05/29/2019-05-29-java/"/>
+
+
+
+
+
+  <title>java基础 | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/05/29/2019-05-29-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-29T10:06:18+08:00">
+                2019-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Base/" itemprop="url" rel="index">
+                    <span itemprop="name">Java_Base</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>本文记述了关于Java的一些基础知识点。</p>
+<h2 id="Base-Tips"><a href="#Base-Tips" class="headerlink" title="Base Tips"></a>Base Tips</h2><blockquote>
+<p>一个源文件只能有一个public类</p>
+<p>char类型是一个单一的16位Unicode字符，可以储存任意字符，和之前想的不太一样，因为byte可以是二进制补码表示的整数</p>
+</blockquote>
+<h2 id="为什么数据要用二进制补码表示？"><a href="#为什么数据要用二进制补码表示？" class="headerlink" title="为什么数据要用二进制补码表示？"></a>为什么数据要用二进制补码表示？</h2><p>正数的二进制补码还是正数本身，但是负数的二进制补码是各位取反然后最低位再加一。采用补码表示主要是为了简化加法运算，让一个正数加上一个负数时得出的结果就是正确的形式。摘自阮一峰：将正数转化为负数，就让0减去这个数就行了，<code>0-8=-8</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">0000</span> <span class="number">0000</span></span><br><span class="line"> -<span class="number">0000</span> <span class="number">1000</span></span><br><span class="line"> ----------</span><br><span class="line"> **好像不够减，向前一位借一**</span><br><span class="line"> <span class="number">10000</span> <span class="number">0000</span></span><br><span class="line">- <span class="number">0000</span> <span class="number">1000</span></span><br><span class="line">-----------</span><br><span class="line">  <span class="number">1111</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+<p>拓展：大端与小端，一个Int占4个字节，如果0x12345678中的”78”在高地址处，那就是大端，反之就是小端。</p>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>String 存储的是字符串常量(const 不可修改) 每次对String类型进行改变的时候等于生成了一个新的String对象，然后将指针指向新的String对象。如果经常改变字符串内容，最好不要用 String ，因为每次生成对象都会对系统性能产生影响，而且当内存中无引用的对象多了以后， JVM 的 垃圾回收器GC 就会开始工作，程序运行速度就会变慢。<br>如果是定义一个StringBuffer 类型的对象，每次对字符串内容进行操作都会对 StringBuffer对象本身进行操作，而不是生成新的对象。所以一般情况下推荐使用 StringBuffer ，特别是字符串对象经常改变的情况下。StringBuffer中很多方法可以带有synchronized关键字，所以可以保证线程是安全的，但StringBuilder的方法则没有该关键字，所以不能保证线程安全。StringBuilder类提供一个与 StringBuffer 兼容的 API，该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同。</p>
+<h2 id="到底什么是classpath？"><a href="#到底什么是classpath？" class="headerlink" title="到底什么是classpath？"></a>到底什么是<code>classpath</code>？</h2><p><code>classpath</code>是JVM用到的一个环境变量，它用来指示JVM如何搜索<code>class</code>。</p>
+<p>因为Java是编译型语言，源码文件是<code>.java</code>，而编译后的<code>.class</code>文件才是真正可以被JVM执行的字节码。因此，JVM需要知道，如果要加载一个<code>abc.xyz.Hello</code>的类，应该去哪搜索对应的<code>Hello.class</code>文件。</p>
+<p>所以，<code>classpath</code>就是一组目录的集合，它设置的搜索路径与操作系统相关。例如，在Windows系统上，用<code>;</code>分隔，带空格的目录用<code>&quot;&quot;</code>括起来，可能长这样：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:<span class="symbol">\w</span>ork<span class="symbol">\p</span>roject1<span class="symbol">\b</span>in;C:<span class="symbol">\s</span>hared;"D:<span class="symbol">\M</span>y Documents<span class="symbol">\p</span>roject1<span class="symbol">\b</span>in"</span><br></pre></td></tr></table></figure>
+
+<p>在Linux系统上，用<code>:</code>分隔，可能长这样：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/usr/</span><span class="string">shared:</span><span class="regexp">/usr/</span>local<span class="regexp">/bin:/</span>home<span class="regexp">/liaoxuefeng/</span>bin</span><br></pre></td></tr></table></figure>
+
+<p>现在我们假设<code>classpath</code>是<code>.;C:\work\project1\bin;C:\shared</code>，当JVM在加载<code>abc.xyz.Hello</code>这个类时，会依次查找：</p>
+<ul>
+<li>&lt;当前目录&gt;\abc\xyz\Hello.class</li>
+<li>C:\work\project1\bin\abc\xyz\Hello.class</li>
+<li>C:\shared\abc\xyz\Hello.class</li>
+</ul>
+<p>注意到<code>.</code>代表当前目录。如果JVM在某个路径下找到了对应的<code>class</code>文件，就不再往后继续搜索。如果所有路径下都没有找到，就报错。</p>
+<p><code>classpath</code>的设定方法有两种：</p>
+<p>在系统环境变量中设置<code>classpath</code>环境变量，不推荐；</p>
+<p>在启动JVM时设置<code>classpath</code>变量，推荐。</p>
+<p>我们强烈<em>不推荐</em>在系统环境变量中设置<code>classpath</code>，那样会污染整个系统环境。在启动JVM时设置<code>classpath</code>才是推荐的做法。实际上就是给<code>java</code>命令传入<code>-classpath</code>或<code>-cp</code>参数：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -classpath .;C:<span class="symbol">\w</span>ork<span class="symbol">\p</span>roject1<span class="symbol">\b</span>in;C:<span class="symbol">\s</span>hared abc.xyz.Hello</span><br></pre></td></tr></table></figure>
+
+<p>或者使用<code>-cp</code>的简写：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp .;C:<span class="symbol">\w</span>ork<span class="symbol">\p</span>roject1<span class="symbol">\b</span>in;C:<span class="symbol">\s</span>hared abc.xyz.Hello</span><br></pre></td></tr></table></figure>
+
+<p>没有设置系统环境变量，也没有传入<code>-cp</code>参数，那么JVM默认的<code>classpath</code>为<code>.</code>，即当前目录：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">java</span> <span class="selector-tag">abc</span><span class="selector-class">.xyz</span><span class="selector-class">.Hello</span></span><br></pre></td></tr></table></figure>
+
+<p>上述命令告诉JVM只在当前目录搜索<code>Hello.class</code>。</p>
+<p>在IDE中运行Java程序，IDE自动传入的<code>-cp</code>参数是当前工程的<code>bin</code>目录和引入的jar包。</p>
+<p>通常，我们在自己编写的<code>class</code>中，会引用Java核心库的<code>class</code>，例如，<code>String</code>、<code>ArrayList</code>等。这些<code>class</code>应该上哪去找？</p>
+<p>有很多“如何设置classpath”的文章会告诉你把JVM自带的<code>rt.jar</code>放入<code>classpath</code>，但事实上，根本不需要告诉JVM如何去Java核心库查找<code>class</code>，JVM怎么可能笨到连自己的核心库在哪都不知道？</p>
+<p> 不要把任何Java核心库添加到classpath中！JVM根本不依赖classpath加载核心库！</p>
+<p>更好的做法是，不要设置<code>classpath</code>！默认的当前目录<code>.</code>对于绝大多数情况都够用了。</p>
+<h3 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h3><p>如果有很多<code>.class</code>文件，散落在各层目录中，肯定不便于管理。如果能把目录打一个包，变成一个文件，就方便多了。</p>
+<p>jar包就是用来干这个事的，它可以把<code>package</code>组织的目录层级，以及各个目录下的所有文件（包括<code>.class</code>文件和其他文件）都打成一个jar文件，这样一来，无论是备份，还是发给客户，就简单多了。</p>
+<p>jar包实际上就是一个zip格式的压缩文件，而jar包相当于目录。如果我们要执行一个jar包的<code>class</code>，就可以把jar包放到<code>classpath</code>中：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp ./hello<span class="selector-class">.jar</span> abc<span class="selector-class">.xyz</span>.Hello</span><br></pre></td></tr></table></figure>
+
+<p>这样JVM会自动在<code>hello.jar</code>文件里去搜索某个类。</p>
+<p>那么问题来了：如何创建jar包？</p>
+<p>因为jar包就是zip包，所以，直接在资源管理器中，找到正确的目录，点击右键，在弹出的快捷菜单中选择“发送到”，“压缩(zipped)文件夹”，就制作了一个zip文件。然后，把后缀从<code>.zip</code>改为<code>.jar</code>，一个jar包就创建成功。</p>
+<p>假设编译输出的目录结构是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package_sample</span><br><span class="line">└─ bin</span><br><span class="line">   ├─ hong</span><br><span class="line">   │  └─ Person.class</span><br><span class="line">   │  ming</span><br><span class="line">   │  └─ Person.class</span><br><span class="line">   └─ mr</span><br><span class="line">      └─ jun</span><br><span class="line">         └─ Arrays.class</span><br></pre></td></tr></table></figure>
+
+<p>这里需要特别注意的是，jar包里的第一层目录，不能是<code>bin</code>，而应该是<code>hong</code>、<code>ming</code>、<code>mr</code>。如果在Windows的资源管理器中看，应该长这样：</p>
+<p><img src="https://www.liaoxuefeng.com/files/attachments/1261393208671488/l" alt="hello.zip.ok"></p>
+<p>如果长这样：</p>
+<p><img src="https://www.liaoxuefeng.com/files/attachments/1261391527906784/l" alt="hello.zip.invalid"></p>
+<p>说明打包打得有问题，JVM仍然无法从jar包中查找正确的<code>class</code>，原因是<code>hong.Person</code>必须按<code>hong/Person.class</code>存放，而不是<code>bin/hong/Person.class</code>。</p>
+<p>jar包还可以包含一个特殊的<code>/META-INF/MANIFEST.MF</code>文件，<code>MANIFEST.MF</code>是纯文本，可以指定<code>Main-Class</code>和其它信息。JVM会自动读取这个<code>MANIFEST.MF</code>文件，如果存在<code>Main-Class</code>，我们就不必在命令行指定启动的类名，而是用更方便的命令：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">java </span>-<span class="keyword">jar </span>hello.<span class="keyword">jar</span></span><br></pre></td></tr></table></figure>
+
+<p>jar包还可以包含其它jar包，这个时候，就需要在<code>MANIFEST.MF</code>文件里配置<code>classpath</code>了。</p>
+<p>在大型项目中，不可能手动编写<code>MANIFEST.MF</code>文件，再手动创建zip包。Java社区提供了大量的开源构建工具，例如<a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255945359327200" target="_blank" rel="noopener">Maven</a>，可以非常方便地创建jar包。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>JVM通过环境变量<code>classpath</code>决定搜索<code>class</code>的路径和顺序；</p>
+<p>不推荐设置系统环境变量<code>classpath</code>，始终建议通过<code>-cp</code>命令传入；</p>
+<p>jar包相当于目录，可以包含很多<code>.class</code>文件，方便下载和使用；</p>
+<p><code>MANIFEST.MF</code>文件可以提供jar包的信息，如<code>Main-Class</code>，这样可以直接运行jar包。</p>
+<h2 id="关于JAVA中Static的用法"><a href="#关于JAVA中Static的用法" class="headerlink" title="关于JAVA中Static的用法"></a>关于JAVA中Static的用法</h2><p>1，对于成员变量</p>
+<p>用了Static以后，主函数就可以不用先生成一个对象然后再对象.变量名字 这样调用这个成员变量（面向对象语言要求调用成员变量必须用 对象.成员变量名字 这种形式来调用）；你对象怎么来的？还不是person p1=new person();这种靠类来初始化一个对象，实际上是一个引用，指向一个内存堆。</p>
+<p>2.对于成员函数</p>
+<p>用了Static以后，任何东西实际上已经被分配了一个固定到死的空间，不像动态变量那样具有生命周期，静态的东西一直都在那里，在C语言中：用Static可以保存上一次程序退出后的值，下一次程序再进入，动态变量重新归0，静态变量继续存活，执行累加或者等等……</p>
+<p>3，以上，对于静态成员变量与静态函数，都可以不用初始化一个对象，靠对象来执行相应工程，直接来 类.对象名字（成员变量，函数）就可以了。</p>
+<h2 id="关于JAVA中This的用法"><a href="#关于JAVA中This的用法" class="headerlink" title="关于JAVA中This的用法"></a>关于JAVA中This的用法</h2><p>1.对于成员变量</p>
+<p>用<code>This</code>可以代替类.成员变量，直接可以变为This.成员变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">用This可以这样  函数（string name,<span class="keyword">int</span> age）&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.name=name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.age=age;<span class="comment">//.后面代表成员变量</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>.对于成员函数（主要对构造函数）</span><br><span class="line"></span><br><span class="line">person()&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"无参数的构造函数"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">person(String name,<span class="keyword">int</span> age)&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>();<span class="comment">//调用1函数</span></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"有两个参数的构造函数"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">person(String name,<span class="keyword">int</span> age，string adress)&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>(zhangsan,<span class="number">20</span>);<span class="comment">//根据参数个数及形式调用相应的构造函数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"有三个参数的构造函数"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">程序运行结果：</span><br><span class="line"></span><br><span class="line">无参数的构造函数</span><br><span class="line"></span><br><span class="line">有两个函数的构造函数</span><br><span class="line"></span><br><span class="line">有三个函数的构造函数</span><br></pre></td></tr></table></figure>
+
+<p>必须把This放在第一行，但是super不必这样！</p>
+<h2 id="Java：Override"><a href="#Java：Override" class="headerlink" title="Java：Override"></a>Java：Override</h2><p>复写：</p>
+<p>子类继承父类后，父类的某个函数与子类的某个函数，参数列表完全相同，类型也一样。就说子类复写了父类的这个方法。</p>
+<p>可以在子类方法中用super.方法，调用父类的同名函数。</p>
+<h2 id="JAVA：上下转型"><a href="#JAVA：上下转型" class="headerlink" title="JAVA：上下转型"></a>JAVA：上下转型</h2><p>1.上转型</p>
+<p><img src="https://i.loli.net/2020/03/30/SObB2LfqMvgTREk.png" alt="1576646436445"></p>
+<p>语法：1，一个引用能够调用哪些成员（变量和函数），取决与这个引用的类型{虽然指向同一个内存堆，但是p里面如果没有定义某个变量，那它不能使用}</p>
+<p>2.一个引用调用的是哪一个方法，取决于这个引用所指向的对象{使用introduce方法时，虽然两个类中都有，但是它调用子类的那个方法}</p>
+<p>2.下转型</p>
+<p><img src="https://i.loli.net/2020/03/30/S6Rji5aETfnCqWV.png" alt="1576646454271"></p>
+<p>错误的向下转型：学生是人，但是有的人不是学生</p>
+<p><img src="https://i.loli.net/2020/03/30/OAhd9M6vPsYazl4.png" alt="1576646482475"></p>
+<h2 id="JAVA：子类实例化"><a href="#JAVA：子类实例化" class="headerlink" title="JAVA：子类实例化"></a>JAVA：子类实例化</h2><p>1，子类继承父类时，不能继承父类的构造方法，但是父类有一些成员变量，我想在子类中对它进行赋值；但是它在父类中已经被构造函数赋值了。作为一个程序员，最不能忍受的就是父类和子类有相同的代码块：像吐了唾沫！怎么办？</p>
+<p>子类会使 用super（）；调用父类不带参数的构造函数；</p>
+<p>或者Super（x1,x2）；调用相应的构造函数//类似This</p>
+<p>这样就省得你对父类成员变量赋值时。冗余拖沓！</p>
+<p>2.就算你不屑写super，编译器也会自动给你生成的，那么此时牛就会调用父类不带参数的构造方法</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>1.Abstract天生就是给人当爹的！</p>
+<p><img src="https://i.loli.net/2020/03/30/jN3nGxgd6myfKWA.png" alt="1576646640881"></p>
+<p>2.继承抽象类的子函数必须复写父类中的抽象方法！</p>
+<p>3.抽象类不能生成相应的对象！</p>
+<p>4.既然抽象函数不能生成对象，它还是会有构造函数的，因为还会有Super</p>
+<p>5.生成子类的对象必须要有父类的生成！</p>
+<h2 id="静态区"><a href="#静态区" class="headerlink" title="静态区"></a>静态区</h2><p>静态区：保存自动全局变量和 static变量（包括 static全局和局部变量） 。静态区的内容</p>
+<p>在总个程序的生命周期内都存在，由编译器在编译的时候分配。</p>
+<p>栈：保存局部变量。栈上的内容只在函数的范围内存在，当函数运行结束，这些内容</p>
+<p>也会自动被销毁。其特点是效率高，但空间大小有限。</p>
+<p>堆：由 malloc系列函数或 new操作符分配的内存。其生命周期由 free或 delete决定。</p>
+<p>在没有释放之前一直存在，直到程序结束。其特点是使用灵活，空间比较大，但容易出错。</p>
+<p>按照 getchar名字的意思，应该将变量 c 定义为 char类型。但是很不幸，getchar函数的</p>
+<p>返回值却是 int类型，其原型为：</p>
+<p>int getchar(void)；</p>
+<h2 id="JAVA：访问权限"><a href="#JAVA：访问权限" class="headerlink" title="JAVA：访问权限"></a>JAVA：访问权限</h2><p>两个类如果在不同的包里面，被访问的类（变量和方法）必须是public，你不屑写 ，就默认为friend，也还是访问不了</p>
+<p>default:必须在同一个包里面，不同的包使用不了</p>
+<h2 id="Java-内部类和匿名内部类"><a href="#Java-内部类和匿名内部类" class="headerlink" title="Java:内部类和匿名内部类"></a>Java:内部类和匿名内部类</h2><p>内部类就是定义在类里面的类；它可以使用外部类的变量；但是在生成内部类的对象时，必须先生成其外部类：eg</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A a=<span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line">A.a b=<span class="keyword">new</span> a.B();</span><br><span class="line"></span><br><span class="line">A.<span class="keyword">this</span>.i+<span class="keyword">this</span>.j;</span><br></pre></td></tr></table></figure>
+
+<p>匿名内部类就是没有名字的类，一般别的类都是什么……classA implements interface……</p>
+<p>匿名内部类直接就是<code>new A（）</code></p>
+<p>匿名内部类也就是没有名字的内部类</p>
+<p>正因为没有名字，所以匿名内部类只能使用一次，它通常用来简化代码编写</p>
+<p>但使用匿名内部类还有个前提条件：必须继承一个父类或实现一个接口</p>
+<h4 id="实例1-不使用匿名内部类来实现抽象方法"><a href="#实例1-不使用匿名内部类来实现抽象方法" class="headerlink" title="实例1:不使用匿名内部类来实现抽象方法"></a>实例1:不使用匿名内部类来实现抽象方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"eat something"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Child();</span><br><span class="line">        p.eat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果：</strong><code>eat something</code></p>
+<p>可以看到，我们用Child继承了Person类，然后实现了Child的一个实例，将其向上转型为Person类的引用</p>
+<p>但是，如果此处的Child类只使用一次，那么将其编写为独立的一个类岂不是很麻烦？</p>
+<p>这个时候就引入了匿名内部类</p>
+<h4 id="实例2：匿名内部类的基本实现"><a href="#实例2：匿名内部类的基本实现" class="headerlink" title="实例2：匿名内部类的基本实现"></a>实例2：匿名内部类的基本实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Person() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"eat something"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        p.eat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果：</strong><code>eat something</code></p>
+<p>可以看到，我们直接将抽象类Person中的方法在大括号中实现了</p>
+<p>这样便可以省略一个类的书写</p>
+<p>并且，匿名内部类还能用于接口上 </p>
+<h4 id="实例3：在接口上使用匿名内部类"><a href="#实例3：在接口上使用匿名内部类" class="headerlink" title="实例3：在接口上使用匿名内部类"></a>实例3：在接口上使用匿名内部类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Person() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"eat something"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        p.eat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>运行结果：</strong><code>eat something</code></p>
+<p> 由上面的例子可以看出，只要一个类是抽象的或是一个接口，那么其子类中的方法都可以使用匿名内部类来实现</p>
+<p>最常用的情况就是在多线程的实现上，因为要实现多线程必须继承Thread类或是继承Runnable接口</p>
+<h4 id="实例4：Thread类的匿名内部类实现"><a href="#实例4：Thread类的匿名内部类实现" class="headerlink" title="实例4：Thread类的匿名内部类实现"></a>实例4：Thread类的匿名内部类实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    System.out.print(i + <span class="string">" "</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果：</strong><code>1 2 3 4 5</code></p>
+<h4 id="实例5：Runnable接口的匿名内部类实现"><a href="#实例5：Runnable接口的匿名内部类实现" class="headerlink" title="实例5：Runnable接口的匿名内部类实现"></a>实例5：Runnable接口的匿名内部类实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Runnable r = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    System.out.print(i + <span class="string">" "</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        t.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果：</strong><code>1 2 3 4 5</code></p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>实现线程的两个方法：实现<code>runnable</code>接口 ；<code>runnable</code>只是一个接口：它里面只有一个<code>run(）</code>方法，没有<code>start</code>方法，而没有<code>start</code>方法，其实是还在原来的那个进程中的。</p>
+<p>第二：继承<code>Thread</code>类  而<code>Thread</code>类有一个构造方法：参数是Runnale对象，也就是说可以通过<code>Thread</code>类来启动Runnable的多线程</p>
+<p>Java标准的启动线程的方法：</p>
+<p>1.生成一个<code>Runnable</code>对象 </p>
+<p><code>Runnable r = **new** Runnable()</code> </p>
+<p>2.把上述对象当成参数传进Thread中去</p>
+<p><code>Thread t = **new** Thread(r);</code> </p>
+<p>3.启动Start方法</p>
+<p><code>t.start();</code></p>
+<p>调用Start（）方法之后，线程进入就绪状态，当时间片轮转动到该线程时，获得CPU的使用权</p>
+<p> handler.post(r);并没有调用Start方法，而是调用Run方法。</p>
+<p>什么时候开线程？</p>
+<p>耗时时间长，并不一定有结果，比如下载，搜索蓝牙</p>
+<h2 id="Handle机制详解"><a href="#Handle机制详解" class="headerlink" title="Handle机制详解"></a>Handle机制详解</h2><p>假如一个隧道就是一个消息队列，那么里面的每一部汽车就是一个一个消息，这里我们先忽略掉超车等种种因素，只那么先进隧道的车将会先出</p>
+<p>Looper:(相当于隧道) 一个线程可以产生一个Looper 对象，由它来管理此线程里的Message Queue( 车队,消息隧道) 。</p>
+<p>Handler: 你可以构造Handler 对象来与Looper 沟通，以便push 新消息到Message Queue 里；或者接收Looper( 从Message Queue 取出) 所送来的消息。</p>
+<p>Message Queue( 消息队列): 用来存放线程放入的消息。</p>
+<p>线程：UI thread 通常就是main thread ，而Android 启动程序时会替它建立一个Message Queue 。</p>
+<p>每一个线程里可含有一个Looper 对象以及一个MessageQueue <a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="noopener">数据结构</a></p>
+<p>在你的Android 程序里，新诞生一个线程，或执行 (Thread) 时，并不会自动建立其Message Loop 。</p>
+<p>Android 里并没有Global 的Message Queue 数据结构，例如，不同APK 里的对象不能透过Massage Queue来交换讯息(Message) 。 </p>
+<p>Looper 类用来管理特定线程内对象之间的消息交换(Message Exchange) 。你的应用程序可以产生许多个线程。而一个线程可以有许多个组件，这些组件之间常常需要互相交换讯息。如果有这种需要，您可以替线程构造一个Looper 对象，来担任讯息交换的管理工作。Looper 对象会建立一个MessageQueue 数据结构来存放各对象传来的消息( 包括UI 事件或System 事件等) 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> Looper looper = Looper.myLooper();<span class="comment">//取得当前线程里的looper</span></span><br><span class="line"> MyHandler mHandler = <span class="keyword">new</span> MyHandler(looper);<span class="comment">//构造一个handler使之可与looper通信</span></span><br><span class="line"><span class="comment">//buton等组件可以由mHandler将消息传给looper后,再放入messageQueue中,同时mHandler也可以接受来自looper消息</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用IDEA创建第一个springboot应用"><a href="#使用IDEA创建第一个springboot应用" class="headerlink" title="使用IDEA创建第一个springboot应用"></a>使用IDEA创建第一个springboot应用</h2><p>步骤01 新建项目，选择Spring initializer</p>
+<p><img src="https://i.loli.net/2020/03/30/lXZ9Q5vbAmr361J.png" alt="image-20200330203745540"></p>
+<p>步骤02 输入项目的基本信息，包括Group(组织Id)、Artifact(模块名称)、Type(项目构建类型)、Language(开发语言)、Packaging(最终生成包的类型)、Java Version(Java版本)、Version(项目的版本号)、Name(项目名称)、Description(项目描述)、Package(项目的包)，各项基本信息输入完成后即可点击“Next”进入下一步；</p>
+<p><img src="https://i.loli.net/2020/03/30/bqVSCJLEhHp5NWK.png" alt="image-20200330203252179"></p>
+<blockquote>
+<p>其中，“组织Id”一般为公司等组织域名的反写，而对于个人项目而言，建议采用“<strong>pers(个人发起、独自完成、可分享的项目)或priv(个人发起、独自完成、非公开的私人使用的项目)+个人名</strong>”的形式；“项目构建类型”表示是使用Maven还是Gradle构建项目；“最终生成包的类型”表示是使用Jar包还是War包作为项目的最终打包方式，此处选择Jar包，后续可以在项目的配置文件中进行修改；“项目的包”的包名则是根据“组织Id+模块名称”规则自动生成，一般情况下没有必要去进行修改</p>
+</blockquote>
+<p>步骤03 选择web–&gt;Spring Web </p>
+<p><img src="https://i.loli.net/2020/03/30/XYruqbfnByJUecz.png" alt="image-20200330203343084"></p>
+<blockquote>
+<p>GA:General Availability,正式发布的版本，官方推荐使用此版本。在国外都是用GA来说明release版本的。</p>
+<p>SNAPSHOT: 快照版，可以稳定使用，且仍在继续改进版本。</p>
+</blockquote>
+<p>步骤04 选择finish</p>
+<p><img src="https://i.loli.net/2020/03/30/T5AEpBxr9SJ4DOC.png" alt="image-20200330203700464"></p>
+<p>步骤05 在启动之前先熟悉一下文件结构</p>
+<p><img src="https://i.loli.net/2020/03/30/9RuvL5kFCTrzZoQ.png" alt="image-20200330204009831"></p>
+<ul>
+<li>.idea文件夹：存放项目的一些配置信息，例如IDE的一些配置(主题、字体等)、缓存、版本控制和历史记录等信息；</li>
+<li>.mvn文件夹：该文件夹展开有一个wrapper文件夹，其中存放maven-wrapper.jar和maven-wrapper.properties和MavenWrapperDownloader.java三个文件。在src文件夹下方的文件中，还有mvnw、mvnw.cmd两个文件。其实mvnw就是一个maven wrapper script,可以让你在没有安装maven或者maven版本不兼容的条件下运行maven的命令，mvn.cmd是执行mvnw命令的cmd入口。它的原理是在maven-wrapper.properties文件中记录你要使用的maven版本，当我们执行mvnw clean命令时，发现当前环境中的maven版本和期望的版本不一致，那么就下载期望的版本，然后用期望的版本来执行mvn命令。在实际的开发过程中，我们应该保证开发环境安装了maven且maven版本与期望版本保持一致。所以这个文件夹与下面的mvnw、mvnw.cmd两个文件均可以删除；</li>
+<li>src文件夹：这个目录就比较熟悉了，就是用来存放源代码的文件夹。<br>  <strong>main</strong>是源文件夹，包括存放Java代码的“<strong>java</strong>”文件夹和存放静态资源的“<strong>resources</strong>”文件夹。在“java”文件夹中可以看到根据步骤03“输入项目的基本信息”时配置的包名而自动生成的一个包，其中含有自动生成的”StudySpringbootApplication”类，它是整个项目的入口类，通过其中的run方法启动项目；而“resources”文件夹中包含两个文件夹和一个文件，“static”文件夹默认存放静态资源也就是静态页面，“templates”文件夹默认存放视图模板也就是动态页面(需要引入官方推荐使用的Thymeleaf模板引擎组件或FreeMarker等第三方的模板引擎)。但是在目前的企业级Web应用中，前后端分离是大势所趋，视图层技术日渐式微，不过这两个文件夹Spring官方还是给予了提供;“application.properties”是一个配置文件，包含系统属性、环境变量、命令参数等信息，Spring Boot启动时默认加载该配置文件。此处建议将该配置文件由.properties格式改为.yml格式(虽然两者皆为官方推荐的格式)，因为相比较而言.yml比.properties更好用，后面我会写专文进行讨论；<br>  <strong>test</strong>是测试文件夹，存放我们编写的测试类；</li>
+<li>mvnw、mvnw.cmd：这两个文件之前已经说过了，此处不再赘述；</li>
+<li>pom.xml：Maven的配置文件，主要描述了项目的Maven坐标、依赖关系、开发者需要遵循的规则、缺陷管理系统、组织、licenses以及其他所有的项目相关因素，是项目级别的配置文件；</li>
+<li>firstboot.iml：IDEA的工程配置文件，里面是当前项目的一些配置信息，例如历史记录、版本控制信息等；</li>
+<li>External Libraries：即项目的外部依赖，此处的外部依赖由Maven自动导入，一般不需要操作和干预；</li>
+<li>Scratches and Consoles：划痕和控制台，IDEA提供的一个临时的文件编辑环境，通过该环境你可以写一些临时注释和项目上下文之外的代码片段，相当于一个草稿本的功能。</li>
+</ul>
+<p>步骤06 启动FirstbootApplication，浏览器输入localhost:8080出现白页</p>
+<p><img src="https://i.loli.net/2020/03/30/lf8N1UHFIZzGeqm.png" alt="image-20200330204614392"></p>
+<p>Inspections 为最高等级检查，可以检查单词拼写，语法错误，变量使用，方法之间调用等<br>Syntax 可以检查单词拼写，简单语法错误<br>None 不设置检查<br>IntelliJ IDEA 对于编辑大文件并没有太大优势，很卡，原因就是它有各种检查，这样是非常耗内存和 CPU 的，所以为了能加快大文件的读写，可以考虑暂时性设置为 None</p>
+<p><code>Power Save Mode</code> 省电模式，也可以通过<code>File -&gt; Power Save Mode</code>来设置，开启这种模式之后 IntelliJ IDEA 会关掉代码检查和代码提示等功能。如果在开发过程中遇到突然代码文件不能进行检查和提示可以来看看这里是否有开启该功能</p>
+<p><img src="https://i.loli.net/2020/03/30/zdbRvZfIT743AD1.png" alt="image-20200330212055153"></p>
+<h3 id="所谓Controller就是起一个路由的作用啊"><a href="#所谓Controller就是起一个路由的作用啊" class="headerlink" title="所谓Controller就是起一个路由的作用啊"></a>所谓Controller就是起一个路由的作用啊</h3><p><img src="https://i.loli.net/2020/03/30/STsVlKgZ5rUN1RW.png" alt="img"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2019/05/29/2019-05-29-java/" title="java基础">http://acewzj.github.io/2019/05/29/2019-05-29-java/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-Base/" rel="tag"># Java Base</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/15/2019-03-15-DS/" rel="next" title="数据结构">
+                <i class="fa fa-chevron-left"></i> 数据结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/08/2019-06-08-OS/" rel="prev" title="计算机操作系统-Boot">
+                计算机操作系统-Boot <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Base-Tips"><span class="nav-number">1.</span> <span class="nav-text">Base Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么数据要用二进制补码表示？"><span class="nav-number">2.</span> <span class="nav-text">为什么数据要用二进制补码表示？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">3.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#到底什么是classpath？"><span class="nav-number">4.</span> <span class="nav-text">到底什么是classpath？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jar包"><span class="nav-number">4.1.</span> <span class="nav-text">jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">4.2.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于JAVA中Static的用法"><span class="nav-number">5.</span> <span class="nav-text">关于JAVA中Static的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于JAVA中This的用法"><span class="nav-number">6.</span> <span class="nav-text">关于JAVA中This的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java：Override"><span class="nav-number">7.</span> <span class="nav-text">Java：Override</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA：上下转型"><span class="nav-number">8.</span> <span class="nav-text">JAVA：上下转型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA：子类实例化"><span class="nav-number">9.</span> <span class="nav-text">JAVA：子类实例化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">10.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态区"><span class="nav-number">11.</span> <span class="nav-text">静态区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA：访问权限"><span class="nav-number">12.</span> <span class="nav-text">JAVA：访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-内部类和匿名内部类"><span class="nav-number">13.</span> <span class="nav-text">Java:内部类和匿名内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实例1-不使用匿名内部类来实现抽象方法"><span class="nav-number">13.0.1.</span> <span class="nav-text">实例1:不使用匿名内部类来实现抽象方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例2：匿名内部类的基本实现"><span class="nav-number">13.0.2.</span> <span class="nav-text">实例2：匿名内部类的基本实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例3：在接口上使用匿名内部类"><span class="nav-number">13.0.3.</span> <span class="nav-text">实例3：在接口上使用匿名内部类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例4：Thread类的匿名内部类实现"><span class="nav-number">13.0.4.</span> <span class="nav-text">实例4：Thread类的匿名内部类实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例5：Runnable接口的匿名内部类实现"><span class="nav-number">13.0.5.</span> <span class="nav-text">实例5：Runnable接口的匿名内部类实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">14.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handle机制详解"><span class="nav-number">15.</span> <span class="nav-text">Handle机制详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用IDEA创建第一个springboot应用"><span class="nav-number">16.</span> <span class="nav-text">使用IDEA创建第一个springboot应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所谓Controller就是起一个路由的作用啊"><span class="nav-number">16.1.</span> <span class="nav-text">所谓Controller就是起一个路由的作用啊</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

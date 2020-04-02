@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python Numpy," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记述了Python应用的一些笔记。 1、Python操作Excel简化操作需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。 输入：人的名字（文本形式） 输出：排序好的excel表 若文本中的名字存在，打印出该行值  逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python应用技巧">
+<meta property="og:url" content="http://acewzj.github.io/2020/03/16/2020-03-16-Python/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了Python应用的一些笔记。 1、Python操作Excel简化操作需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。 输入：人的名字（文本形式） 输出：排序好的excel表 若文本中的名字存在，打印出该行值  逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png">
+<meta property="article:published_time" content="2020-03-16T08:31:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.389Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="Python Numpy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2020/03/16/2020-03-16-Python/"/>
+
+
+
+
+
+  <title>Python应用技巧 | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/03/16/2020-03-16-Python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python应用技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-16T16:31:18+08:00">
+                2020-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>这篇文章主要记述了Python应用的一些笔记。</p>
+<h2 id="1、Python操作Excel简化操作"><a href="#1、Python操作Excel简化操作" class="headerlink" title="1、Python操作Excel简化操作"></a>1、Python操作Excel简化操作</h2><p>需求：从Excel表中提取出人的名字看看其在线时间是否满足100min，用来判定其有没有上课。Excel格式为CSV后缀的。</p>
+<p>输入：人的名字（文本形式）</p>
+<p>输出：排序好的excel表</p>
+<p>若文本中的名字存在，打印出该行值</p>
+<blockquote>
+<p><strong>逗号分隔值</strong>（Comma-Separated Values，<strong>CSV</strong>，有时也称为<strong>字符分隔值</strong>，因为分隔字符也可以不是逗号），其文件以<a href="https://zh.wikipedia.org/wiki/纯文本" target="_blank" rel="noopener">纯文本</a>形式存储<a href="https://zh.wikipedia.org/wiki/表格" target="_blank" rel="noopener">表格</a>数据（数字和文本）。纯文本意味着该文件是一个<a href="https://zh.wikipedia.org/wiki/字符" target="_blank" rel="noopener">字符</a>序列，不含必须像二进制数字那样被解读的数据。CSV文件由任意数目的<a href="https://zh.wikipedia.org/wiki/记录" target="_blank" rel="noopener">记录</a>组成，记录间以某种换行符分隔；每条记录由<a href="https://zh.wikipedia.org/w/index.php?title=字段&action=edit&redlink=1" target="_blank" rel="noopener">字段</a>组成，字段间的分隔符是其它字符或字符串，最常见的是逗号或<a href="https://zh.wikipedia.org/wiki/制表键#定位字符" target="_blank" rel="noopener">制表符</a>。通常，所有记录都有完全相同的字段序列。</p>
+</blockquote>
+<p>参考代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> xlrd <span class="comment">#Excel Read</span></span><br><span class="line"><span class="keyword">import</span> xlwt <span class="comment">#Excel Write</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 打开文件</span></span><br><span class="line">    workbook = xlrd.open_workbook(<span class="string">r'0311.xls'</span>)</span><br><span class="line">    <span class="comment"># 获取所有sheet</span></span><br><span class="line">    sheet_name = workbook.sheet_names()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据sheet索引或者名称获取sheet内容</span></span><br><span class="line">    sheet = workbook.sheet_by_index(<span class="number">0</span>)  <span class="comment"># sheet索引从0开始</span></span><br><span class="line">    </span><br><span class="line">    name_list = open(<span class="string">'name.txt'</span>)</span><br><span class="line">    <span class="comment"># 创建excel文件</span></span><br><span class="line">    filename = xlwt.Workbook()</span><br><span class="line">    <span class="comment"># 给工作表命名，test</span></span><br><span class="line">    sheet_write = filename.add_sheet(<span class="string">"test"</span>)</span><br><span class="line">    <span class="comment"># print (str(name).decode("unicode_escape").encode("utf8"))</span></span><br><span class="line">    <span class="comment"># if name[2] != "unknow":</span></span><br><span class="line">    <span class="comment"># if int(name[2]) &gt; 100:#如果在线时间大于100</span></span><br><span class="line">    <span class="comment"># print (name[2])</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        row = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            line = name_list.readline()<span class="comment"># 从文本逐行读取名字</span></span><br><span class="line">            <span class="keyword">if</span> line:</span><br><span class="line">                line = line.strip(<span class="string">'\n'</span>)<span class="comment">#去除换行符</span></span><br><span class="line">                <span class="keyword">for</span> rown <span class="keyword">in</span> range(sheet.nrows):</span><br><span class="line">                    name = sheet.row_values(rown)  <span class="comment"># 获取第rown行内容</span></span><br><span class="line">                    <span class="keyword">if</span> line <span class="keyword">in</span> name[<span class="number">0</span>]:</span><br><span class="line">                        row = row + <span class="number">1</span></span><br><span class="line">                        <span class="keyword">for</span> cols <span class="keyword">in</span> [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]:</span><br><span class="line">                            sheet_write.write(row, cols, name[cols])</span><br><span class="line">                            <span class="keyword">print</span> (str(name).decode(<span class="string">"unicode_escape"</span>).encode(<span class="string">"utf8"</span>))</span><br><span class="line">                                    <span class="comment">#print (str(name[0])</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        filename.save(<span class="string">"0311_sort.xls"</span>)</span><br><span class="line">        name_list.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 读取Excel</span></span><br><span class="line">    read_excel();</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'----读取成功----'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2、Python-Numpy"><a href="#2、Python-Numpy" class="headerlink" title="2、Python Numpy"></a>2、Python Numpy</h2><p><img src="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png" alt="image-20200322222621682"></p>
+<h3 id="2-1-numpy中-？"><a href="#2-1-numpy中-？" class="headerlink" title="2.1 numpy中 **  ？"></a>2.1 numpy中 **  ？</h3><p>就是给里面每个元素开平方的意思</p>
+<p>It’s just the square of each element.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line">a = arange(<span class="number">4</span>).reshape((<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"><span class="keyword">print</span> a**<span class="number">2</span></span><br><span class="line">--- prints</span><br><span class="line">--- [[<span class="number">0</span> <span class="number">1</span>]</span><br><span class="line">--- [<span class="number">4</span> <span class="number">9</span>]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-Numpy-基本除法运算和模运算"><a href="#2-2-Numpy-基本除法运算和模运算" class="headerlink" title="2.2 Numpy 基本除法运算和模运算"></a>2.2 Numpy 基本除法运算和模运算</h3><p># divide函数在整数和浮点数除法中均只保留整数部分(python3中的np.divide == np.true_divide)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([<span class="number">2</span>,<span class="number">6</span>,<span class="number">5</span>])</span><br><span class="line">b = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="keyword">print</span> (np.divide(a,b),np.divide(b,a))</span><br><span class="line"><span class="comment"># (array([2, 3, 1]), array([0, 0, 0]))</span></span><br></pre></td></tr></table></figure>
+
+
+<p># true_divide函数与数学中的除法定义更为接近，即返回除法的浮点数结果而不作截断</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.true_divide(a,b),np.true_divide(b,a))</span><br><span class="line"><span class="comment"># (array([ 2. , 3. , 1.66666667]), array([ 0.5 , 0.33333333, 0.6 ]))</span></span><br></pre></td></tr></table></figure>
+
+<p># floor_divide函数总是返回整数结果，相当于先调用divide函数再调用floor函数(floor函数将对浮点数进行向下取整并返回整数)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.floor_divide(a,b),np.floor_divide(b,a))</span><br><span class="line"><span class="comment"># [2 3 1] [0 0 0]</span></span><br><span class="line">c = <span class="number">3.14</span> * b</span><br><span class="line"><span class="keyword">print</span> (np.floor_divide(c,b),np.floor_divide(b,c))</span><br><span class="line"><span class="comment"># [ 3. 3. 3.] [ 0. 0. 0.]</span></span><br></pre></td></tr></table></figure>
+
+<p># /运算符相当于调用divide函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (a/b,b/a)</span><br><span class="line"><span class="comment"># (array([2, 3, 1]), array([0, 0, 0]))</span></span><br></pre></td></tr></table></figure>
+
+<p># 运算符//对应于floor_divide函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (a//b,b//a)</span><br><span class="line"><span class="comment"># [2 3 1] [0 0 0]</span></span><br><span class="line"><span class="keyword">print</span> (c//b,b//c)</span><br><span class="line"><span class="comment"># [ 3. 3. 3.] [ 0. 0. 0.]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>模运算<br># 计算模数或者余数，可以使用NumPy中的mod、remainder和fmod函数。也可以用%运算符</li>
+</ol>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+<p># remainder函数逐个返回两个数组中元素相除后的余数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d = np.arange(<span class="number">-4</span>,<span class="number">4</span>)</span><br><span class="line"><span class="keyword">print</span> (np.remainder(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
+
+<p># mod函数与remainder函数的功能完全一致</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.mod(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
+
+<p># %操作符仅仅是remainder函数的简写(功能一样)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> ( d % <span class="number">2</span> )</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
+
+<p># fmod函数处理负数的方式与remainder、mod和%不同。所得余数的正负由被除数决定，与除数的正负无关</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.fmod(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [ 0 -1 0 -1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3、Numpy-中clip函数的使用"><a href="#2-3、Numpy-中clip函数的使用" class="headerlink" title="2.3、Numpy 中clip函数的使用"></a>2.3、Numpy 中clip函数的使用</h3><p>numpy.clip(a, a_min, a_max, out=None)[source]</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy as np</span><br><span class="line">x=np.<span class="built_in">array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">np.clip(x,<span class="number">3</span>,<span class="number">8</span>)</span><br><span class="line">Out[<span class="number">88</span>]:</span><br><span class="line"><span class="built_in">array</span>([<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">8</span>])</span><br></pre></td></tr></table></figure>
+
+<p>也就是说clip这个函数将将数组中的元素限制在a_min, a_max之间，大于a_max的就使得它等于 a_max，小于a_min,的就使得它等于a_min。</p>
+<h2 id="3、通过图片修改时间重命名"><a href="#3、通过图片修改时间重命名" class="headerlink" title="3、通过图片修改时间重命名"></a>3、通过图片修改时间重命名</h2><p>3.1 、Q：os.rename()导致WindowsError: [Error 183]的问题</p>
+<p>A：Error 183是文件已经存在错误,要更改成的文件的名字已经存在，换一个不冲突的名称就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> nt <span class="keyword">import</span> chdir</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用到的知识</span></span><br><span class="line"><span class="comment"># os.path.getatime(file) 输出文件访问时间</span></span><br><span class="line"><span class="comment"># os.path.getctime(file) 输出文件的创建时间</span></span><br><span class="line"><span class="comment"># os.path.getmtime(file) 输出文件最近修改时间</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">renameF</span><span class="params">(preName, newName)</span>:</span></span><br><span class="line">    chdir(os.path.dirname(preName))</span><br><span class="line">    os.rename(preName, newName)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    source_dir = <span class="string">"./"</span></span><br><span class="line">    output_dir = <span class="string">"./outputImages/"</span></span><br><span class="line">    g = os.walk(source_dir)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> path, dir_list, file_list <span class="keyword">in</span> g:</span><br><span class="line">        <span class="keyword">for</span> file_name <span class="keyword">in</span> file_list:</span><br><span class="line">            cnt = random.randint(<span class="number">100</span>,<span class="number">999</span>)</span><br><span class="line">            TIME = str(datetime.datetime.fromtimestamp(os.path.getmtime(file_name)).strftime(<span class="string">'%Y%m%d%H%M%S'</span>))</span><br><span class="line">            NAME = <span class="string">"image-"</span> + TIME + str(cnt) + <span class="string">".png"</span>;</span><br><span class="line">            <span class="comment"># print (os.path.join(source_dir, file_name))</span></span><br><span class="line">            os.rename(file_name, NAME)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2020/03/16/2020-03-16-Python/" title="Python应用技巧">http://acewzj.github.io/2020/03/16/2020-03-16-Python/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python-Numpy/" rel="tag"># Python Numpy</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/15/2020-03-15-EmbeddedSystem/" rel="next" title="Embedded_System">
+                <i class="fa fa-chevron-left"></i> Embedded_System
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/17/2020-03-17-Schedule/" rel="prev" title="Schedule">
+                Schedule <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、Python操作Excel简化操作"><span class="nav-number">1.</span> <span class="nav-text">1、Python操作Excel简化操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、Python-Numpy"><span class="nav-number">2.</span> <span class="nav-text">2、Python Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-numpy中-？"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 numpy中 **  ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Numpy-基本除法运算和模运算"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Numpy 基本除法运算和模运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3、Numpy-中clip函数的使用"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、Numpy 中clip函数的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、通过图片修改时间重命名"><span class="nav-number">3.</span> <span class="nav-text">3、通过图片修改时间重命名</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

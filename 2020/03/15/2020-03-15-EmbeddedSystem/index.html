@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="嵌入式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记述了嵌入式系统的一些笔记。  NandFlash与NorFlash的区别  STM321234567891011OSTaskCreate(start_task,(void *)0,(OS_STK *)&amp;START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );&#x2F;&#x2F;这个函数用来管理任务的执行，任务可以在多任务开始或运行之前被创建。I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embedded_System">
+<meta property="og:url" content="http://acewzj.github.io/2020/03/15/2020-03-15-EmbeddedSystem/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了嵌入式系统的一些笔记。  NandFlash与NorFlash的区别  STM321234567891011OSTaskCreate(start_task,(void *)0,(OS_STK *)&amp;START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );&#x2F;&#x2F;这个函数用来管理任务的执行，任务可以在多任务开始或运行之前被创建。I">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/OAK3RvSBZ5pMqEF.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/JnTlka8t6hqpEvr.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/n1cMJYev75dIQmg.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/o5bcml1y2hHi63a.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/F85vsyDShmIuOLe.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/l1gSMzWcPZXrGYa.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/AF2cbheZV3YMv8i.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/rf7C3MPA2eTIUg1.png">
+<meta property="article:published_time" content="2020-03-15T04:16:18.000Z">
+<meta property="article:modified_time" content="2020-04-02T09:55:52.389Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/30/OAK3RvSBZ5pMqEF.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://acewzj.github.io/2020/03/15/2020-03-15-EmbeddedSystem/"/>
+
+
+
+
+
+  <title>Embedded_System | acewzj</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">acewzj</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">王忠杰</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/03/15/2020-03-15-EmbeddedSystem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Embedded_System</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T12:16:18+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C-Embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">C/C++ Embedded</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<p>这篇文章主要记述了嵌入式系统的一些笔记。</p>
+<p><img src="https://i.loli.net/2020/03/30/OAK3RvSBZ5pMqEF.png" alt="1583135575292"></p>
+<h2 id="NandFlash与NorFlash的区别"><a href="#NandFlash与NorFlash的区别" class="headerlink" title="NandFlash与NorFlash的区别"></a>NandFlash与NorFlash的区别</h2><p><img src="https://i.loli.net/2020/03/30/JnTlka8t6hqpEvr.png" alt="1584345668683"></p>
+<p><img src="https://i.loli.net/2020/03/30/n1cMJYev75dIQmg.png" alt="1584345681200"></p>
+<h2 id="STM32"><a href="#STM32" class="headerlink" title="STM32"></a>STM32</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">OSTaskCreate(start_task,(<span class="keyword">void</span> *)<span class="number">0</span>,(OS_STK *)&amp;START_TASK_STK[START_STK_SIZE<span class="number">-1</span>],START_TASK_PRIO );</span><br><span class="line"></span><br><span class="line"><span class="comment">//这个函数用来管理任务的执行，任务可以在多任务开始或运行之前被创建。</span></span><br><span class="line"></span><br><span class="line"><span class="function">INT8U  <span class="title">OSTaskCreate</span> <span class="params">(<span class="keyword">void</span>   (*task)(<span class="keyword">void</span> *p_arg),</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     <span class="keyword">void</span>    *p_arg,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     OS_STK  *ptos,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     INT8U    prio)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数一个指针，也就是用户代码的首地址; 在平时使用中我们把自己创建的任务的名字作为这个参数就可以了； 第三个参数是指向任务堆栈栈顶的指针，通常我们把创建的任务的堆栈数组的首地址给第三个参数就可以了；第四个参数是任务的优先级；</p>
+<p>void   (*task)(void *p_arg)——-&gt; 定义了一个指向函数的指针task，所指向的函数无返回值，参数为可指向任意类型的指针；</p>
+<p>普通的禁止和使能中断，在禁止中断时有触发中断的事件发生，当使能中断时该中断不会在响应，说明普通的禁止中断是阻止了中断的发生。</p>
+<p>而在进入临界段时，有中断发生，在退出临界段时中断会得到响应，说明临街段只是延迟了中断的响应时间，并没有真正的阻止中断。</p>
+<h3 id="VCZH大佬"><a href="#VCZH大佬" class="headerlink" title="VCZH大佬"></a>VCZH大佬</h3><p>&lt; &gt;引用的是编译器的类库路径里面的头文件</p>
+<p>“ “引用的是你程序目录的<a href="https://www.baidu.com/s?wd=相对路径&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1YvmWw-rycYrHIBPj9WPARd0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPjc4rjndP1f4" target="_blank" rel="noopener">相对路径</a>中的头文件</p>
+<p><img src="https://i.loli.net/2020/03/30/o5bcml1y2hHi63a.png" alt="1576645965036"></p>
+<p><img src="https://i.loli.net/2020/03/30/F85vsyDShmIuOLe.jpg" alt=""></p>
+<p>C语言定义变量后面加冒号，数字什么意思?</p>
+<p>该种形式出现于结构体或共用体的定义中，是位域定义的标准形式。</p>
+<p>其使用方式为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">name</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">type var_name : n;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>含义为，在结构体name汇总，成员变量var_name占用空间为n位。</p>
+<p>n为正整数，其值必须小于type类型占用的位数。比如type如果是int，占4字节32位，那么n必须是1~31之间的整数。</p>
+<p>对于位域类型的成员，在赋值时如果实际值超过n位所能表达的范围，那么超出部分将会被截掉，只保存低位值。如int var:4,本身只有4位的空间，如果赋值var = 20, 由于20的二进制值为10100，实际为五位，这时var实际被赋值的就是低四位，0100，即4。</p>
+<p>由于C语言中的地址是针对字节计算的，所以位域类型的成员变量不支持取地址操作，即对于变量v, 如果存在位域成员变量var，那么&amp;a.var是非法的，编译会出错。</p>
+<p><img src="https://i.loli.net/2020/03/30/l1gSMzWcPZXrGYa.png" alt="1576646119827"></p>
+<p><img src="https://i.loli.net/2020/03/30/AF2cbheZV3YMv8i.png" alt="1576646134031"></p>
+<p>那为什么要叫TCP/IP协议栈内，这些协议和栈有什么关系呢，大家应该都知道栈是一种先进后出的数据结构，那这和TCP/IP协议有什么关系呢？我们就拿一个HTTP报文来说吧，HTTP报文属于应用层协议的报文，我们输入网址，首先会调用到DNS协议（域名协议，后面会讲到），然后把我们输入的网址转换为IP地址，这个IP地址大致就相当于现实生活中每个人的身份证一样，是每个网页唯一的标识，关于IP地址，后续我会详细介绍，IP协议属于网络层的协议。我们先将HTTP报文压入一个栈中（就好像是在分装报文），然后是IP，不对，我们貌似漏了一个传输层啊，别急别介，HTTP报文在传输层用的是TCP协议，好，我们把TCP压入栈中，再讲IP层也压入栈中，至于链路层的话，就用最常见的以太网就OK了，好了，现在我们的栈里面从头至尾依次是以太帧头-IP协议-TCP协议-HTTP协议，然后我们先忽略最底层的物理层，假设这个封装好的栈一样的报文漂洋过海，来到了它的目的地（至于怎么过来的，我们后续也会讲到），当对端收到这个报文以后，也就是我们封装好的这个栈一样的东西以后该怎么办呢？会不会也是先拿HTTP呢？因为这个报文是我们构造的一个栈，所以说它的顺序肯定也是栈，因此拿取的顺序就是以太帧头-IP协议-TCP协议-HTTP协议，发现没，最先被封装入的HTTP报文是最后才被拿出来的，这中间的细节如果能全部掌握，那基本商就算是入门了，关于这部分东西，我会在后面详细介绍，现在有这个概念就可以了</p>
+<p><img src="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png" alt="1576646164341"></p>
+<p><img src="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png" alt="1576646175250"></p>
+<p><img src="https://i.loli.net/2020/03/30/rf7C3MPA2eTIUg1.png" alt="image-20200330195249657"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    acewzj
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://acewzj.github.io/2020/03/15/2020-03-15-EmbeddedSystem/" title="Embedded_System">http://acewzj.github.io/2020/03/15/2020-03-15-EmbeddedSystem/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/09/2020-03-09-ImageProcessCV/" rel="next" title="图像处理与视频分析的笔记">
+                <i class="fa fa-chevron-left"></i> 图像处理与视频分析的笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/16/2020-03-16-Python/" rel="prev" title="Python应用技巧">
+                Python应用技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">acewzj</p>
+              <p class="site-description motion-element" itemprop="description">acewzj</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NandFlash与NorFlash的区别"><span class="nav-number">1.</span> <span class="nav-text">NandFlash与NorFlash的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32"><span class="nav-number">2.</span> <span class="nav-text">STM32</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VCZH大佬"><span class="nav-number">2.1.</span> <span class="nav-text">VCZH大佬</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
