@@ -53,7 +53,7 @@ tags:
 
 ![1580956150366](https://i.loli.net/2020/03/29/V25CKsaX6ZzDjYm.png)
 
-![1580957499820](1580957499820.png)
+![1580957499820](https://i.loli.net/2020/04/03/Bk64R9fudU1nyYW.png)
 
 ![1580957706734](https://i.loli.net/2020/03/29/dEYA6uejGnKWvqF.png)
 
@@ -93,7 +93,7 @@ tags:
 
 二范式可以让参数的值更平滑。而一范数是绝对值，图像就是有棱有角的，两个参数中一定有一个为0，所以使得参数更稀疏。
 
-![1583808319588](1583808319588.png)
+![1583808319588](https://i.loli.net/2020/04/06/tNWnDselqB9S7vY.png)
 
 正则化是为了惩罚
 
@@ -103,4 +103,4 @@ tags:
 
 ![1582616523275](https://i.loli.net/2020/03/29/PbpsBN4MKq3QEnO.png)
 
-![绿色代表正值，红色代表负值](1582617559226.png)
+![绿色代表正值，红色代表负值](https://i.loli.net/2020/04/06/AInw2qafe4gUd5P.png)

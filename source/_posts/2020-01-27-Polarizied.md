@@ -27,7 +27,7 @@ tags:
 
 ![1584404069165](https://i.loli.net/2020/03/29/gUKdjbDLyuNC58O.png)
 
-![](clip_image002.jpg)
+![](https://i.loli.net/2020/04/03/K38VnvFpjsiGcdS.jpg)
 
  
 
@@ -41,7 +41,7 @@ tags:
 
 ![1582292043630](https://i.loli.net/2020/03/29/abWNBFpz6yYGeMC.png)
 
-![1582292107403](1582292107403.png)
+![1582292107403](https://i.loli.net/2020/04/06/r6kK8CwXtOGeISj.png)
 
 ## IMX250MZR
 

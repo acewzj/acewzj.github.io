@@ -151,7 +151,7 @@ sidebar:
   #  - always  expand for all pages automatically.
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  totally remove sidebar including sidebar toggle.
-  display: hide
+  display: post
 
   # Sidebar padding in pixels.
   padding: 18
@@ -182,7 +182,7 @@ social:
   #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Google: https://plus.google.com/zhongjie wang || fab fa-google
   Twitter: https://twitter.com/acewzj || fab fa-twitter
-  FB Page: https://www.facebook.com/zhongjie.wang.528 || fab fa-facebook
+  #FB Page: https://www.facebook.com/zhongjie.wang.528 || fab fa-facebook
   #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
   #YouTube: https://youtube.com/yourname || fab fa-youtube
   #Instagram: https://instagram.com/yourname || fab fa-instagram
@@ -267,14 +267,14 @@ reward_settings:
 
 reward:
   #wechatpay: /images/wechatpay.png
-  #alipay: /images/alipay.png
+  alipay: /images/alipay.jpg
   #paypal: /images/paypal.png
   #bitcoin: /images/bitcoin.png
 
 # Subscribe through Telegram Channel, Twitter, etc.
 # Usage: `Key: permalink || icon` (Font Awesome)
 follow_me:
-  #Twitter: https://twitter.com/username || fab fa-twitter
+  Twitter: https://twitter.com/acewzj || fab fa-twitter
   #Telegram: https://t.me/channel_name || fab fa-telegram
   WeChat: /images/wechat_channel.jpg || fab fa-weixin
   #RSS: /atom.xml || fa fa-rss
