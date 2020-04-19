@@ -67,11 +67,11 @@ Sony 在可见光成像之外的领域扩大了自己传感器技术的领导地
 
 ![1582366952148](https://i.loli.net/2020/03/29/Tn8keUmo5xR7Bjs.png)
 
-![1582553791389](https://i.loli.net/2020/03/29/wl95rILKajByUXx.png)
+![1582553791389](https://i.loli.net/2020/04/09/saGpVCduESg3yBW.png)
 
 ## 如何由梯度场求表面形状？
 
-正如单变量的正函数的定积分代表函数图像和*x*轴之间区域的[面积](https://zh.wikipedia.org/wiki/面积)一样，正的双变量函数的**双重积分**代表函数所定义的曲面和包含函数[定义域](https://zh.wikipedia.org/wiki/定义域)的平面之间所夹的区域的[体积](https://zh.wikipedia.org/wiki/体积)。
+正如单变量的正函数的定积分代表函数图像和x轴之间区域的[面积](https://zh.wikipedia.org/wiki/面积)一样，正的双变量函数的**双重积分**代表函数所定义的曲面和包含函数[定义域](https://zh.wikipedia.org/wiki/定义域)的平面之间所夹的区域的[体积](https://zh.wikipedia.org/wiki/体积)。
 
 ![1582724644942](https://i.loli.net/2020/03/29/kPIKxzjow6UWXiM.png)
 

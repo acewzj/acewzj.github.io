@@ -127,8 +127,6 @@ tags:
 
 1.发现David 3D对于牙齿的建模效果不错，于是调研了一下：它们是采用双目相机+结构光来对牙齿模型进行建模的。
 
-![image-20200403110958089](https://i.loli.net/2020/04/03/GEFiITbZyU2x8j7.png)
-
 > **DAVID Laserscanner** is a software package for low-cost 3D laser scanning. It allows scanning and digitizing of three-dimensional objects using a camera (e.g. a web cam), a hand-held [line laser](https://en.wikipedia.org/wiki/Line_laser) (i.e. one that projects a line, not just a point), and two plain boards in the background. Its most distinctive feature is that the laser line can simply be swept over the object by hand (like a virtual brush) until the results are satisfactory. At the same time, DAVID Laserscanner generates 3D data in real time and shows them on the computer screen.
 >
 > The resulting 3D mesh can be exported into well-known file formats and can thus be imported and processed in most 3D applications. The software is also able to grab the texture and "stitch together" scans made from different viewing directions.

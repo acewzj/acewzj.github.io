@@ -16,7 +16,7 @@ tags: docker
 
 
 
-## docker
+# docker
 
 ![](https://i.loli.net/2019/12/14/2IHTljsdOekP1VC.png)
 
@@ -120,14 +120,3 @@ firewall-cmd --zone=public --add-port=9200/tcp --permanent
 firewall-cmd --reload
 ```
 
-## Linux查看某一端口被哪个进程占用
-
-`lsof -i:8080`lsof命令,即ls open files
-
-`netstat -tunpl | grep 端口号`
-
-## 挖矿程序查杀
-
-Linux的所有进程都保存在/proc/目录下，保存形式为：/proc/进程号。进入到进程号目录后，里面有一个cwd链接文件即指向的进程的的目录。
-
-![image-20191223105729894](https://i.loli.net/2020/03/30/bJABw2XkElynpzc.png)
