@@ -1,12 +1,12 @@
 ---
-title: Constant_e
+title: 自然对数e的由来
 date: 2019-03-06 08:06:58
 tags:
 - e 
 - math
 ---
 
-
+本文主要记述了自然常数e的一些知识点。
 
 <!--more-->
 
