@@ -80,4 +80,14 @@ $ ssh -T git@gitee.com
 $ ssh -T git@github.com
 ```
 
-## 
+##VSCODE 配置SSH
+
+```
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa-remote-ssh
+
+$ ssh-copy-id -i ~/.ssh/id_rsa-remote-ssh root@47.97.25.88
+```
+
+
+
+------

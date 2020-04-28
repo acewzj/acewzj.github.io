@@ -119,7 +119,7 @@ menu:
   home: / || fa fa-home
   archives: /archives/ || fa fa-archive
   tags: /tags/ || fa fa-tags
-  categories: /categories/ || fa fa-th  
+  # categories: /categories/ || fa fa-th  
   about: /about/ || fa fa-user
   #schedule: /schedule/ || fa fa-calendar
   #sitemap: /sitemap.xml || fa fa-sitemap
@@ -500,15 +500,15 @@ math:
 
   # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
   mathjax:
-    enable: false
+    enable: true
     # See: https://mhchem.github.io/MathJax-mhchem/
-    mhchem: false
+    mhchem: true
 
   # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.
   katex:
-    enable: false
+    enable: true
     # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
-    copy_tex: false
+    copy_tex: true
 
 # Easily enable fast Ajax navigation on your website.
 # Dependencies: https://github.com/theme-next/theme-next-pjax
@@ -670,10 +670,10 @@ add_this_id:
 
 # Google Analytics
 google_analytics:
-  tracking_id: # <app_id>
+  tracking_id: UA-146776624-1
   # By default, NexT will load an external gtag.js script on your site.
   # If you only need the pageview feature, set the following option to true to get a better performance.
-  only_pageview: false
+  only_pageview: true
 
 # Baidu Analytics
 baidu_analytics: # <app_id>

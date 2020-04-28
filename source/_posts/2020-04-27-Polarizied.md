@@ -1,6 +1,6 @@
 ---
 title:  "Polarizied_Light"
-date:   2020-01-27 10:16:18 +0800
+date:   2020-04-27 10:16:18 +0800
 categories:
 - C++
 tags: 
