@@ -85,9 +85,118 @@ $ ssh -T git@github.com
 ```
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa-remote-ssh
 
-$ ssh-copy-id -i ~/.ssh/id_rsa-remote-ssh root@47.97.25.88
+ssh-copy-id -i ~/.ssh/id_rsa-remote-ssh acewzj@47.97.25.88
 ```
 
-
+https://code.visualstudio.com/docs/editor/variables-reference
 
 ------
+
+假设当前workspace的路径为:"C:\Users\admin\Desktop\test"，workspace文件夹下的结构如下（+表示下一层）：
+
+C:\Users\admin\Desktop\test
+
++.vscode
+
+ ++tasks.json
+
+ ++launch.json
+
++main.cpp
+
+
+${workspaceFolder} :表示当前workspace文件夹路径，也即C:\Users\admin\Desktop\test
+
+${workspaceRootFolderName}:表示workspace的文件夹名，也即test
+
+${file}:文件自身的绝对路径，也即C:\Users\admin\Desktop\test\.vscode\launch.json
+
+${relativeFile}:文件在workspace中的路径，也即.vscode\launch.json
+
+${fileBasenameNoExtension}:当前文件的文件名，不带后缀，也即launch
+
+${fileBasename}:当前文件的文件名，launch.json
+
+${fileDirname}:文件所在的文件夹路径，也即C:\Users\admin\Desktop\test\.vscode
+
+${fileExtname}:当前文件的后缀，也即.json
+
+${lineNumber}:当前文件光标所在的行号
+
+${env:PATH}:系统中的环境变量
+
+```
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) 启动",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "g++ build active file",
+            "postDebugTask": "delete output file",
+            "miDebuggerPath": "/usr/bin/gdb"
+        }
+    ]
+}
+```
+
+```
+{
+    // 有关 tasks.json 格式的文档，请参见
+        // https://go.microsoft.com/fwlink/?LinkId=733558
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "type": "shell",
+                "label": "gcc build active file",
+                "command": "/usr/bin/gcc",
+                "args": [
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}"
+                ],
+                "options": {
+                    "cwd": "/usr/bin"
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                }
+            },
+            {   //删除二进制文件
+                "type": "shell",
+                "label": "delete output file",
+                "command": "rm",
+                "args": [
+                    "${fileDirname}/${fileBasenameNoExtension}"
+                ],
+                "presentation": {
+                    "reveal": "silent", //删除过程不切换终端（专注程序输出）
+                }
+            }
+        ]
+    }
+```
+
