@@ -1,5 +1,5 @@
 ---
-title: StructuredLight
+title: Structured-Light
 tags:
   - null
 categories:
