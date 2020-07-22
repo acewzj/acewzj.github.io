@@ -39,200 +39,6 @@ tags:
 
  
 
-## 12-21-工作汇报
-
-最近根据标准[双目数据集](http://vision.middlebury.edu/stereo/data/scenes2014/)利用一系列双目匹配算法进行了实验，本次实验共选取BM、SGBM、GC算法进行比较。其中各个算法的原理论文分别为:
-
-- BM:[介绍双目匹配原理非常清晰的PDF](http://vision.deis.unibo.it/~smatt/Seminars/StereoVision.pdf)
-- SGBM:[Stereo Processing by Semi-global Matching and Mutual Information](https://ieeexplore.ieee.org/abstract/document/4359315/)
-- GC:[Realistic CG Stereo Image Dataset with Ground Truth Disparity ](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/trakmark2012.pdf)
-
-以上原理的论文资料均已整理至/reference文件夹内.
-
-> 另外关于近20年双目匹配的[论文整理](https://blog.csdn.net/xuyuhua1985/article/details/26283389)
-
-### 论文实验结果如下：
-
-我们采用的数据集标准图片为:
-
-![image-20191219222637363](https://i.loli.net/2020/03/29/vbdLBYe2RDNMkQx.png)
-
-**SADWindowSize**：匹配代价计算的窗口的大小,容许范围是`[5,255]`，一般应该在 `5x5` 至` 21x21 `之间，参数必须是奇数.`blockSize(SADWindowSize)` 越小，也就是匹配代价计算的窗口越小，视差图噪声越大；`blockSize`越大，视差图越平滑；太大的`size`容易导致过平滑，并且误匹配增多，体现在视差图中空洞增多；
-
-**numberOfDisparities**:控制视差的数量.最大的深度值减去最小得到的值
-
-### 使用BM算法:
-
-![image-20200403110857415](https://i.loli.net/2020/04/03/q1JQaHMSUNgGduz.png)
-
-### 使用SGBM算法:
-
-![image-20191221161355163](https://i.loli.net/2020/03/29/buKD1eiTymXoNBQ.png)
-
-### 使用GC算法:
-
-![](https://i.loli.net/2020/03/30/NDTKwRxUpfnjHBY.png)
-
-![image-20191219222703531](https://i.loli.net/2020/03/29/pxrBIXukhefKE36.png)
-
-## 接下来工作进展:
-
-进一步理解`SGB`算法代码实现原理,采用自己拍摄的牙齿图片用上述算法进行测试,进而整理出文档出来.
-
-## 12-25-工作汇报
-
-- 移植了`ADCensus`算法，算法相关原理参考论文 [On Building an Accurate Stereo Matching System on Graphics Hardware](http://www.nlpr.ia.ac.cn/2011papers/gjhy/gh75.pdf)
-
-  > `ADCensus`双目立体匹配算法曾一度排在`MiddleBurry`官网上第一的位置，引用量很高。其主要优点是并行加速，精度又好，能有效兼顾这两点。
-  >
-  > [ADCensus详细介绍链接](https://www.cnblogs.com/sinbad360/p/7842009.html)
-  >
-  > 
-
-- 对`ADCensus`进行标准`midleburry`数据集测试，测试结果如下图：
-
-![image-20191225220436594](https://i.loli.net/2020/03/29/ukBfDqr6tngUMS8.png)
-
-> 使用标准数据集进行匹配可以看出匹配效果还不错。
-
-- 对`ADCensus`进行双目相机测试，测试结果如下图：
-
-![image-20191225220552499](https://i.loli.net/2020/03/29/UKDT5LXv3ey8Cm2.png)
-
-> 使用自己买的双目相机进行匹配可以看出匹配效果非常不好。
-
-我开始猜想可能是因为我的双目相机左右成像色调差别太大导致的，根据`PS`调出的直方图可以看出标准数据集的左右照片直方图相似度很高；而我们自己买的双目相机拍出来的左右相机的直方图差别却很大。
-
-![image-20191225210751049](https://i.loli.net/2020/03/29/qjcZ2mADX1WGdYU.png)
-
-![image-20191225210727207](https://i.loli.net/2020/03/29/QrKXDnvIfiLy3ux.png)
-
-![image-20191225210823719](https://i.loli.net/2020/03/30/BxdLDkMjN7eynX4.png)
-
-![image-20191225210808554](https://i.loli.net/2020/03/29/5EHZ1xgz8nPMjGt.png)
-
-为了验证自己的猜想，我又选取了另外一套用于自动驾驶的双目数据集`KITTI`，在经过`ADCensus`算法运行之后，匹配效果如图：
-
-![image-20191225221540846](https://i.loli.net/2020/03/29/N4CMjAUvXw8GthK.png)
-
-> 可以看出使用`KITTI`数据集匹配的效果也还不错。
-
-综上：我打算接下来将自己买的双目相机拍出来的左右照片进行一下直方图匹配，看一下`ADCensus`算法在牙齿模型的匹配效果究竟如何，然后撰写最近一个星期的工作总结。
-
-另外，我重新整理了`SVN`的代码与参考资料，对`OpenCV `3.40重新`CMake`，对于一些将来可能会用到的`CUDA`模块熟悉了一下。
-
-
-
-## 12-28工作汇报
-
-1.发现David 3D对于牙齿的建模效果不错，于是调研了一下：它们是采用双目相机+结构光来对牙齿模型进行建模的。
-
-> **DAVID Laserscanner** is a software package for low-cost 3D laser scanning. It allows scanning and digitizing of three-dimensional objects using a camera (e.g. a web cam), a hand-held [line laser](https://en.wikipedia.org/wiki/Line_laser) (i.e. one that projects a line, not just a point), and two plain boards in the background. Its most distinctive feature is that the laser line can simply be swept over the object by hand (like a virtual brush) until the results are satisfactory. At the same time, DAVID Laserscanner generates 3D data in real time and shows them on the computer screen.
->
-> The resulting 3D mesh can be exported into well-known file formats and can thus be imported and processed in most 3D applications. The software is also able to grab the texture and "stitch together" scans made from different viewing directions.
-
-[关于David 3D的视频的详细介绍Intro to DAVID SLS-2 3D Scanner](https://www.bilibili.com/video/av80957886/)
-
-![image-20191228122640270](https://i.loli.net/2020/03/29/CwR4hsUfi8edvNF.png)
-
-2.联系了深圳威鑫视界公司对之前购买的双目摄像头重新进行烧录，这是烧录之前一对有着明显色调差异的双目照片：
-
-![image-20191227204722135](https://i.loli.net/2020/03/29/UkrpEWsePXwxvS3.png)
-
-经过对方重新烧录之后，可以看出两幅图片起码色调一致了：
-
-![image-20191228213354929](https://i.loli.net/2020/03/29/3E2MwSqzFOnZe4R.png)
-
-接着重新进行相机的标定与图片的矫正，此次共拍摄8组照片，双目匹配结果如下：
-
-![image-20191228213816820](https://i.loli.net/2020/03/29/4x3DJ7bXTQYpq6A.png)
-
-![image-20191228213855628](https://i.loli.net/2020/03/29/uqhUwGvLtXzBTcC.png)
-
-![image-20191228214240868](https://i.loli.net/2020/03/29/Qqct3xFmIMSEobJ.png)
-
-> 可以看出前两幅图建的不好，原因是左右图没有经过预处理，左右直方图区别过大导致匹配效果不好。从《基于双目立体视觉的三维重建方法研究_党乐》一文中可以根据他的做法进行左右图的预处理。
-
-![image-20191227161700855](https://i.loli.net/2020/03/29/Og7HRikLVJTIjYs.png)
-
-![image-20191227161716225](https://i.loli.net/2020/03/29/x7RoVkEubmIpc1h.png)
-
-3.下一步计划看一下下面的这个方法：
-
-> Tatsunori Taniai, Yasuyuki Matsushita, Yoichi Sato, and Takeshi Naemura. [Continuous 3D label stereo matching using local expansion moves](http://taniai.space/projects/stereo/). PAMI 40(11):2725-2739, 2018. [Code](https://github.com/t-taniai/LocalExpStereo).
-
-以及经过预处理之后的牙齿匹配结果如何。
-
-4.一些走的弯路;
-
-> 双目经过棋盘格标定之后，在拍摄牙齿模型时，由于双目相机不具备自动变焦功能导致看不清楚，所以会手动拧镜头螺纹导致焦距发生变化，之前标定好的和焦距相关的数据有的就会发生变化，进而导致后续的工作出现差错。
->
-> 和学姐讨论了一波，之所以我们双目匹配的效果不如人家的标准数据集好，是因为标准数据集经过了非常严格的光线调节，它们的左右图差距很小，这一点从直方图就可以看出来。我们能不能达到这样好的效果呢？一部分取决于预处理的效果，一部分取决于摄像头：如果摄像头拍的特别差，后期软件再怎么处理也是收效甚微。
-
-
-
-## 1-3工作汇报
-
-##### 全像素点云及重建结果
-
-![image-20200104163734005](https://i.loli.net/2020/03/29/pOWLxoZuMC3wznc.png)
-
-![image-20200104165024323](https://i.loli.net/2020/03/30/ZLKUYolNk7cRisA.png)
-
-##### 0度像素点云及重建结果
-
-![image-20200104163806059](https://i.loli.net/2020/03/30/nSOd2vy9PKWCwxE.png)
-
-![image-20200104165929665](https://i.loli.net/2020/03/29/wFSm389bdTJezrM.png)
-
-##### 45度点云及重建结果
-
-![image-20200104171514994](https://i.loli.net/2020/03/29/gqirTzsxBR6E1YC.png)
-
-![image-20200104171921350](https://i.loli.net/2020/03/29/zhZuJtaCAKXcEjT.png)
-
-##### 90度点云及重建结果（失败）
-
-![image-20200104172657147](https://i.loli.net/2020/03/29/VwMlQpBmTrznWAt.png)
-
-![image-20200104173018825](https://i.loli.net/2020/03/29/3gVdlc8LJRo21qW.png)
-
-##### 135度点云及重建结果（失败）
-
-![image-20200104181416265](https://i.loli.net/2020/03/29/EFmLYzlXK4AUhuJ.png)
-
-------
-
-##### 预处理左右原图：
-
-![image-20191231132610545](https://i.loli.net/2020/03/30/D2LWKHYrcu9UAPg.png)
-
-![image-20191231132624181](https://i.loli.net/2020/03/30/ny5pbPQoXRIKFqE.png)
-
-##### 经过中值滤波之后：
-
-![image-20191231132210206](https://i.loli.net/2020/03/29/yFfm3vZC5eaE4nb.png)
-
-![image-20191231132223593](https://i.loli.net/2020/03/29/ghKbdeqAX5DwLkG.png)
-
-##### 经过clahe直方图均衡化之后
-
-![image-20191231134546847](https://i.loli.net/2020/03/29/AfmkbQCPGzBViN7.png)
-
-![image-20191231134602453](https://i.loli.net/2020/03/29/iawqlndyt3g2GcU.png)
-
-##### 经过直方图匹配之后：
-
-![image-20191231134624053](https://i.loli.net/2020/03/29/QWEwaCDkbfeLJ1v.png)
-
-![image-20191231134647789](https://i.loli.net/2020/03/29/oXs5JEiKnPQcOA3.png)
-
-##### unsharpMasking之后：
-
-![image-20191231135358167](https://i.loli.net/2020/03/29/9eZdbnQas5SjIBY.png)
-
-![image-20191231135407136](https://i.loli.net/2020/03/29/iRJLwet3TKaINzS.png)
-
 
 
 ![image-20191227161730595](https://i.loli.net/2020/03/29/TrBQMzuCO3E46LK.png)
@@ -588,6 +394,32 @@ DSI是一个三维矩阵，每一个元素代表左边参考像素的光照强�
 ![image-20191220110712285](https://i.loli.net/2020/03/30/XCAEOnS5UhcoK8H.png)
 
 
+
+
+
+## 0606补充
+
+https://www.cnblogs.com/zyly/p/9373991.html
+
+https://blog.csdn.net/liulina603/article/details/52953414
+
+1、$Z = \frac {base * focal}{disparity}$ 里面要不要乘 每个像素对应的物理长度呢？
+
+![image-20200606181255317](https://i.loli.net/2020/06/06/u3Xkmd1aCVfq7tI.png)
+
+三角行PL-PR-P相似于三角形OL-OR-P，则有比例关系：
+
+![image-20200606181339985](https://i.loli.net/2020/06/06/9Fw4aRVUc528PI6.png)
+
+![image-20200606181356161](https://i.loli.net/2020/06/06/3xyAU8CufREenwO.png)
+
+fx和d的单位是像素，那这个像素到底表示什么，它与毫米之间又是怎样换算的？
+
+根据内参里面 fx 的实际含义：在针孔模型中，光线穿过针孔（也就是凸透镜中心）在焦距处上成像，因此，图3的像平面就是摄像头的CCD传感器的表面。每个CCD传感器都有一定的尺寸，也有一定的分辨率，这个就确定了毫米与像素点之间的转换关系。举个例子，CCD的尺寸是8mm X 6mm，分辨率是640X480，那么毫米与像素点之间的转换关系就是80pixel/mm。
+
+> 我们求出来的内参的 fx 是一个小数 3.1735470908336333e+03，代表的含义是 CMOS 芯片上 1mm 会有 3173 个像素
+
+![image-20200606182008985](https://i.loli.net/2020/06/06/YI2EQNvO9y7T3dU.png)
 
 # QT  KITTI
 
