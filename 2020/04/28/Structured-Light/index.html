@@ -37,6 +37,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/06/15/QM1j53JkCcxRIqB.png">
 <meta property="og:image" content="https://i.loli.net/2020/06/15/Qw1gKAH3IXR5MaY.png">
 <meta property="og:image" content="https://i.loli.net/2020/06/15/oxRlafPU2NuW3Cr.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/23/k7ObdZsW6BCJQuf.png">
 <meta property="og:image" content="https://i.loli.net/2020/07/03/2XhvI31DYxAE5Mk.png">
 <meta property="og:image" content="https://i.loli.net/2020/07/03/qmxCnGPQcWz63Si.png">
 <meta property="og:image" content="https://i.loli.net/2020/06/19/4a16uPwlhHYRO78.png">
@@ -44,10 +45,13 @@
 <meta property="og:image" content="https://i.loli.net/2020/06/20/UrdXIVtkJRNeC72.png">
 <meta property="og:image" content="https://i.loli.net/2020/06/20/Rh69nKFcuTLo7dA.png">
 <meta property="og:image" content="https://i.loli.net/2020/06/20/aIuNv26RYcMglzL.png">
-<meta property="og:image" content="https://i.loli.net/2020/06/24/Uc2AYaidsLKZSCh.png">
-<meta property="og:image" content="https://i.loli.net/2020/06/24/2f5qDzrKyFNxZop.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/22/NAD6tCOpaU3Rj1Q.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/22/4wv6V7P1DeLFbYO.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/22/lo9eTmpV4GaY6hr.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/WpuULg3GsmVfEk1.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/YVwf4m3n2H9gAID.png">
 <meta property="article:published_time" content="2020-04-28T02:48:57.000Z">
-<meta property="article:modified_time" content="2020-08-10T13:58:40.811Z">
+<meta property="article:modified_time" content="2020-09-26T10:39:54.502Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="结构光">
 <meta name="twitter:card" content="summary">
@@ -229,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-10 21:58:40" itemprop="dateModified" datetime="2020-08-10T21:58:40+08:00">2020-08-10</time>
+                <time title="Modified: 2020-09-26 18:39:54" itemprop="dateModified" datetime="2020-09-26T18:39:54+08:00">2020-09-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,7 +311,7 @@
 <p>其中，N 是相位移动的总数量，n 代表是相移图片的索引。</p>
 <p>由于我们经常使用的是三步相移，这里的 N 就等于 3，为了加快求反正切函数的速度，人为的构造了一个查找表，将n = 0,1,2 这三个值的 sin 函数值先求出来，就可以得到第一个公式了。</p>
 <p>同理，当使用四步相移时 N = 4，构造出来的公式就如下所示：</p>
-<p>$\begin{eqnarray}\phi(x,y) = tan^{-1}[\frac{I_1^c-I_3^3}{I_0^c-I_2^c}]\tag{}\end{eqnarray}$</p>
+<p>$\begin{eqnarray}\phi(x,y) = tan^{-1}[\frac{I_1^c-I_3^c}{I_4^c-I_2^c}]\tag{}\end{eqnarray}$</p>
 <hr>
 <h2 id="极点的优化"><a href="#极点的优化" class="headerlink" title="极点的优化"></a>极点的优化</h2><h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><p>已知：</p>
 <p>$I_n^c = A^c + B^ccos(\phi - 2 \pi n/N)$</p>
@@ -316,6 +320,7 @@
 <p>$\begin{aligned} &amp;1、因为三角函数具有对称性 cos(0) = cos(2 \pi) = -cos(\pi)  = 1  \end{aligned}$</p>
 <p>$\begin{aligned}所以\sum_{n=0}^{N-1}B^ccos(\phi - \frac{2\pi n}{N}) =0 A^c = \frac{1}{N}\sum_{n=0}^{N-1}I_n^c\end{aligned}$</p>
 <p>$\begin{aligned}&amp;2、\sum_{n=0}^{N-1}B^ccos(\phi - \frac{2 \pi n}{N}) = 0\\ &amp;= \sum_{n=0}^{N-1}B^ccos(\phi)cos(\frac{2\pi n}{N}) + B^csin(\phi)sin(\frac{2\pi n}{N}) = 0 \\ &amp;B^ccos\phi \sum_{n=0}^{N-1}cos(\frac{2\pi n}{N}) = -B^csin\phi \sum_{n=0}^{N-1}sin(\frac{2\pi n}{N})\\ &amp;tan\phi=-\frac{\sum_{n=0}^{N-1}cos(\frac{2\pi n}{N})}{\sum_{n=0}^{N-1}sin(\frac{2\pi n}{N})}\\&amp;得到：\phi = arctan(-\frac{\sum_{n=0}^{N-1}cos(\frac{2\pi n}{N})}{\sum_{n=0}^{N-1}sin(\frac{2\pi n}{N})}) \end{aligned}$</p>
+<p><img src="https://i.loli.net/2020/09/23/k7ObdZsW6BCJQuf.png" alt="image-20200923213355459"></p>
 <hr>
 <h2 id="变频条纹的作用"><a href="#变频条纹的作用" class="headerlink" title="变频条纹的作用"></a>变频条纹的作用</h2><blockquote>
 <p>本节参考 Dual-frequency pattern scheme for high-speed 3D shape measurement</p>
@@ -346,11 +351,17 @@
 <p>所谓头文件预编译技术，就是把一个工程(Project)中常用的一些头文件(如标准头文件Windows.h、Afxwin.h等，也可以是自己定义的头文件)包含在stdafx.h中，并对stdafx.h预先编译(在所有的.cpp文件编译之前进行编译)，得到编译结果.pch文件(默认名称为ProjectName.pch)，后期该工程在编译其它.cpp文件时不再编译stdafx.h中的内容(即使include了它)，仅仅使用预编译的结果。<br>其中stdafx.h叫做<strong>预编译头文件</strong>，stdafx名称的英文全称为：Standard Application Framework Extensions，当然你也可以自己定义预编译头文件的名称，手动重命名stdafx.h，同时将上面图2和图3中对应的名称也得改过来。ProjectName.pch叫做<strong>预编译头</strong>。 </p>
 <p>采用预编译头技术后，可以加快编译速度，节省编译时间。因为只需要预先编译一次就可以在所有的.cpp编译时使用，不用再次编译。这样带来的一个问题就是<strong>每一个.cpp文件的开头都要包含预编译头文件#include “stdafx.h”。</strong>因为预编译头技术是假定预编译头中的内容会在所有.cpp文件中使用，在编译你的 .cpp 的时候，就会将预编译头中已经编译完的部分加载到内存中。</p>
 <p>使用预编译头文件需要注意的几个要点：<br>\1. 你编写的任何.cpp文件都必须首先包含stdafx.h。<br>\2. 如果你有工程文件里的大多数.cpp文件需要的.h文件，顺便将它们加在stdafx.h(后部)上，然后预编译stdafx.cpp。<br>\3. 由于.pch文件具有大量的符号信息，它是你的工程文件里最大的文件。</p>
-<p><img src="https://i.loli.net/2020/06/24/Uc2AYaidsLKZSCh.png" alt="image-20200624093724202"></p>
-<p><img src="https://i.loli.net/2020/06/24/2f5qDzrKyFNxZop.png" alt="image-20200624093741445"></p>
 <h2 id="双目结构光到底起什么作用呢？"><a href="#双目结构光到底起什么作用呢？" class="headerlink" title="双目结构光到底起什么作用呢？"></a>双目结构光到底起什么作用呢？</h2><p>其实这是我比较困惑的一个问题，明明单目结构光从逻辑推理上就已经能重建出三维模型了，要双目有何用？</p>
 <p>我之前做的 LBP-1 阶段的工作是从投影仪上任取一像素，然后在左右相机极线约束行寻找与该像素相位相等的点，记录他们的像素坐标和世界坐标。当投影仪中每个像素都确定好了一组可能的对应关系及其关联的可能性之后，一个能量最小化框架就被用于确定每个投影仪像素的最好标记。我们仅在图形模型中包括投影机像素，对于该投影机像素，至少有一对对应关系的距离小于设置的阈值。如果在阈值内没有可能的相关点，投影仪像素可能不被两个摄像头都可见。每个投影仪像素的标签集是每个摄像机视图中检测到的点之间所有可能的成对对应关系。如A1 B1 ；A1 B2 ； 。。。 A3 B2</p>
 <p>接下来的最小化公式就是找到这些组合中三维位置中最近的一组，相当于是找之前双目中的匹配点。</p>
+<h2 id="标定"><a href="#标定" class="headerlink" title="标定"></a>标定</h2><p>1.外参数矩阵。告诉你现实世界点(世界坐标)是怎样经过旋转和平移，然后落到另一个现实世界点(摄像机坐标)上。 2.内参数矩阵。告诉你上述那个点在1的基础上，是如何继续经过摄像机的镜头、并通过针孔成像和电子转化而成为像素点的。 3.畸变矩阵。告诉你为什么上面那个像素点并没有落在理论计算该落在的位置上，还tm产生了一定的偏移和变形！！！</p>
+<p>世界坐标系的原点到底在哪里？</p>
+<p><img src="https://i.loli.net/2020/09/22/NAD6tCOpaU3Rj1Q.png" alt="image-20200922142234080"></p>
+<p><img src="https://i.loli.net/2020/09/22/4wv6V7P1DeLFbYO.png" alt="image-20200922142904230"></p>
+<h2 id="多频外差"><a href="#多频外差" class="headerlink" title="多频外差"></a>多频外差</h2><p>岳慧敏</p>
+<p><img src="https://i.loli.net/2020/09/22/lo9eTmpV4GaY6hr.png" alt="image-20200922221920193"></p>
+<p><img src="https://i.loli.net/2020/09/26/WpuULg3GsmVfEk1.png" alt="image-20200926183710043"></p>
+<p><img src="https://i.loli.net/2020/09/26/YVwf4m3n2H9gAID.png" alt="image-20200926183704017"></p>
 
     </div>
 
@@ -464,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BF%A1%E6%81%AF%E6%B1%82%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">深度信息求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E7%9A%84%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BA%AE%E5%BA%A6%E5%93%8D%E5%BA%94%E9%97%AE%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">相机的非线性亮度响应问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number"></span> <span class="nav-text">反正切函数的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E7%82%B9%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number"></span> <span class="nav-text">极点的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-number"></span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%A2%91%E6%9D%A1%E7%BA%B9%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number"></span> <span class="nav-text">变频条纹的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-y-p-y-p-Height"><span class="nav-number"></span> <span class="nav-text">为什么$y^p &#x3D; y^p&#x2F;Height$ ?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E7%9A%84%E5%86%85%E5%AD%98%E5%8E%9F%E7%90%86"><span class="nav-number"></span> <span class="nav-text">预编译技术的内存原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E7%9B%AE%E7%BB%93%E6%9E%84%E5%85%89%E5%88%B0%E5%BA%95%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%E5%91%A2%EF%BC%9F"><span class="nav-number"></span> <span class="nav-text">双目结构光到底起什么作用呢？</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BF%A1%E6%81%AF%E6%B1%82%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">深度信息求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E7%9A%84%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BA%AE%E5%BA%A6%E5%93%8D%E5%BA%94%E9%97%AE%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">相机的非线性亮度响应问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E6%AD%A3%E5%88%87%E5%87%BD%E6%95%B0%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number"></span> <span class="nav-text">反正切函数的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E7%82%B9%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number"></span> <span class="nav-text">极点的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-number"></span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%A2%91%E6%9D%A1%E7%BA%B9%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number"></span> <span class="nav-text">变频条纹的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-y-p-y-p-Height"><span class="nav-number"></span> <span class="nav-text">为什么$y^p &#x3D; y^p&#x2F;Height$ ?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF%E7%9A%84%E5%86%85%E5%AD%98%E5%8E%9F%E7%90%86"><span class="nav-number"></span> <span class="nav-text">预编译技术的内存原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E7%9B%AE%E7%BB%93%E6%9E%84%E5%85%89%E5%88%B0%E5%BA%95%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%E5%91%A2%EF%BC%9F"><span class="nav-number"></span> <span class="nav-text">双目结构光到底起什么作用呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%AE%9A"><span class="nav-number"></span> <span class="nav-text">标定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E9%A2%91%E5%A4%96%E5%B7%AE"><span class="nav-number"></span> <span class="nav-text">多频外差</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -478,19 +489,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
