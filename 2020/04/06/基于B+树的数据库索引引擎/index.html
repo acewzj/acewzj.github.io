@@ -231,7 +231,7 @@
         <p>这篇文章主要记述基于B+树的数据库索引引擎的一些知识点。</p>
 <a id="more"></a>
 
-<h2 id="大作业-基于B-树的数据库索引引擎"><a href="#大作业-基于B-树的数据库索引引擎" class="headerlink" title="大作业:基于B+树的数据库索引引擎"></a>大作业:基于B+树的数据库索引引擎</h2><p>目标：完成支持整数为key的数据库索引功能，提供包括insert, del, update的多线程事务操作。<br>形式要求：基于C/C++，提供上述接口，并封装为SO库。<br>实现约束：所有索引文件需统一存储在一个大文件中，索引的数据可以为任意数据结构; 需支持多线程环境，采用多生产者多消费者模型；完成持续读写压力测试，运行时间不低于12小时，插入对象不低于1千万个，观察CPU，内存，磁盘开销，并将压测分析输出到报告中。<br>提交内容：可编译的源码，可在Linux环境中运行的程序；设计文档（包括模块框架设计，重要流程图（主要是insert,del,update接口），核心数据结构，运行时截图（操作相关结果）。<br>完成时间：11.20 日前提交，提交实验报告及源代码。<br>提交邮箱： <a href="mailto:&#x6c;&#x70;&#x75;&#101;&#x32;&#48;&#49;&#x34;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#x70;&#x75;&#101;&#x32;&#48;&#49;&#x34;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a></p>
+<h2 id="大作业-基于B-树的数据库索引引擎"><a href="#大作业-基于B-树的数据库索引引擎" class="headerlink" title="大作业:基于B+树的数据库索引引擎"></a>大作业:基于B+树的数据库索引引擎</h2><p>目标：完成支持整数为key的数据库索引功能，提供包括insert, del, update的多线程事务操作。<br>形式要求：基于C/C++，提供上述接口，并封装为SO库。<br>实现约束：所有索引文件需统一存储在一个大文件中，索引的数据可以为任意数据结构; 需支持多线程环境，采用多生产者多消费者模型；完成持续读写压力测试，运行时间不低于12小时，插入对象不低于1千万个，观察CPU，内存，磁盘开销，并将压测分析输出到报告中。<br>提交内容：可编译的源码，可在Linux环境中运行的程序；设计文档（包括模块框架设计，重要流程图（主要是insert,del,update接口），核心数据结构，运行时截图（操作相关结果）。<br>完成时间：11.20 日前提交，提交实验报告及源代码。<br>提交邮箱： <a href="mailto:&#108;&#112;&#x75;&#101;&#x32;&#x30;&#x31;&#52;&#x40;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;">&#108;&#112;&#x75;&#101;&#x32;&#x30;&#x31;&#52;&#x40;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;</a></p>
 <p>select * from db where id=838;int temp = sscanf(mp-&gt;cmd,”select * from db where id=%d;\n”, keyIndex); 1</p>
 <p>总结：之前写都是什么(*Pointer).member,这么写太麻烦了,所以直接用箭头来省略部分书写内容<br><strong>箭头（-&gt;）：左边必须为指针；</strong><br><strong>点号（.）：左边必须为实体</strong></p>
 <p>acewzj is not in the sudoers file</p>
@@ -245,9 +245,9 @@
 <p>首先找到根的偏移,然后取出根的偏移在文件中的数据,有偏移[起始地址]+数据类型大小[long 8]bit parent next prev n children  ,相当于反序列化?从磁盘上复活数据对象哈哈,</p>
 <p>接着根据这个数据,因为数据里面有一个数组[50阶]的,从这里面找到比key要大的那个.这是因为在节点里面数组从左到右依次增大.</p>
 <p>接着一层一层的往下找它的孩子?它的孩子里面存着是</p>
-<p>update db 111 23 <a href="mailto:&#49;&#50;&#51;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#49;&#50;&#51;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;</a> where id=1;</p>
+<p>update db 111 23 <a href="mailto:&#49;&#50;&#51;&#64;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#109;">&#49;&#50;&#51;&#64;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#109;</a> where id=1;</p>
 <p>select * from db where id in(0,9);</p>
-<p>insert db 5002 acej 25 <a href="mailto:&#97;&#x63;&#x65;&#119;&#122;&#x6a;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;">&#97;&#x63;&#x65;&#119;&#122;&#x6a;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a>;</p>
+<p>insert db 5002 acej 25 <a href="mailto:&#97;&#99;&#x65;&#119;&#x7a;&#x6a;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;">&#97;&#99;&#x65;&#119;&#x7a;&#x6a;&#64;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;</a>;</p>
 <p>delete from db where id=2; </p>
 <p>在 B+树中删除关键字时，有以下几种情况：</p>
 <p>2、 当删除某结点中最大或者最小的关键字，就会涉及到更改其双亲结点一直到根结点中所有索引值的更改。</p>
@@ -315,8 +315,8 @@
       <i class="fa fa-chevron-left"></i> Compile_Link
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/06/%E5%8D%81%E5%AD%97%E7%AC%A6%E7%97%85%E6%AF%92/" rel="next" title="十字符病毒">
-      十字符病毒 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/26/%E6%AD%BB%E9%94%81/" rel="next" title="死锁产生及避免方法">
+      死锁产生及避免方法 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -390,19 +390,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

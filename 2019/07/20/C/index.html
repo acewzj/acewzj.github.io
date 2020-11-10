@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/03/30/stIHdUEQcAO1aCP.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/ogwZvPOcJ8i35Fd.png">
 <meta property="article:published_time" content="2019-07-20T02:16:18.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-11-09T02:51:44.596Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="DS">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-11-09 10:51:44" itemprop="dateModified" datetime="2020-11-09T10:51:44+08:00">2020-11-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,7 +253,7 @@
 
 
 <h2 id="C语言内存模型及运行时内存布局"><a href="#C语言内存模型及运行时内存布局" class="headerlink" title="C语言内存模型及运行时内存布局"></a>C语言内存模型及运行时内存布局</h2><p><img src="https://i.loli.net/2019/09/06/DXrJUICwidhme6s.png"></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="Linux下C语言程序的内存布局"><a href="#Linux下C语言程序的内存布局" class="headerlink" title="Linux下C语言程序的内存布局"></a>Linux下C语言程序的内存布局</h1><p>程序内存在地址空间中的分布情况称为内存模型（Memory Model）。内存模型由操作系统构建，在Linux和Windows下有所差异，并且会受到编译模式的影响，本节我们讲解Linux下32位环境和64位环境的内存模型。</p>
+<h2 id="Linux下C语言程序的内存布局"><a href="#Linux下C语言程序的内存布局" class="headerlink" title="Linux下C语言程序的内存布局"></a>Linux下C语言程序的内存布局</h2><p>程序内存在地址空间中的分布情况称为内存模型（Memory Model）。内存模型由操作系统构建，在Linux和Windows下有所差异，并且会受到编译模式的影响，本节我们讲解Linux下32位环境和64位环境的内存模型。</p>
 <h2 id="内核空间和用户空间"><a href="#内核空间和用户空间" class="headerlink" title="内核空间和用户空间"></a>内核空间和用户空间</h2><p>对于32位环境，理论上程序可以拥有 4GB 的虚拟地址空间，我们在C语言中使用到的变量、函数、字符串等都会对应内存中的一块区域。</p>
 <p>但是，在这 4GB 的地址空间中，要拿出一部分给操作系统内核使用，应用程序无法直接访问这一段内存，这一部分内存地址被称为内核空间（Kernel Space）。</p>
 <p>Windows 在默认情况下会将高地址的 2GB 空间分配给内核（也可以配置为1GB），而 Linux 默认情况下会将高地址的 1GB 空间分配给内核。也就是说，应用程序只能使用剩下的 2GB 或 3GB 的地址空间，称为用户空间（User Space）。</p>
@@ -578,12 +578,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/06/08/OS/" rel="prev" title="计算机操作系统-Boot">
-      <i class="fa fa-chevron-left"></i> 计算机操作系统-Boot
+    <a href="/2019/06/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" rel="prev" title="计算机操作系统启动分析">
+      <i class="fa fa-chevron-left"></i> 计算机操作系统启动分析
     </a></div>
       <div class="post-nav-item">
-    <a href="/2019/09/07/Linux/" rel="next" title="Linux知识">
-      Linux知识 <i class="fa fa-chevron-right"></i>
+    <a href="/2019/09/07/Linux/" rel="next" title="Linux基础知识">
+      Linux基础知识 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -643,7 +643,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%8F%8A%E8%BF%90%E8%A1%8C%E6%97%B6%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">1.</span> <span class="nav-text">C语言内存模型及运行时内存布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E4%B8%8BC%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number"></span> <span class="nav-text">Linux下C语言程序的内存布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%A9%BA%E9%97%B4%E5%92%8C%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">内核空间和用户空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E4%B8%8B32%E4%BD%8D%E7%8E%AF%E5%A2%83%E7%9A%84%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83%E6%83%85%E5%86%B5"><span class="nav-number">2.</span> <span class="nav-text">Linux下32位环境的用户空间内存分布情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">一个实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows%E4%B8%8BC%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number"></span> <span class="nav-text">Windows下C语言程序的内存布局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">内核模式和用户模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8C%BA%E5%88%86%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">为什么要区分两种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%85%E6%A0%B8%E5%92%8C%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E8%A6%81%E5%85%B1%E7%94%A8%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">2.</span> <span class="nav-text">为什么内核和用户程序要共用地址空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E6%A6%82%E5%BF%B5%E4%BB%A5%E5%8F%8A%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number"></span> <span class="nav-text">栈的概念以及栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">栈的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E5%A4%A7%E5%B0%8F%E4%BB%A5%E5%8F%8A%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">栈的大小以及栈溢出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8-%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%9C%A8%E6%A0%88%E4%B8%8A%E5%88%B0%E5%BA%95%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="nav-number"></span> <span class="nav-text">c语言入门-一个函数在栈上到底是怎样的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">栈帧&#x2F;活动记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">关于数据的定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%83%AF%E4%BE%8B%EF%BC%88Calling-Convention%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">c语言入门-函数调用惯例（Calling Convention）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stdafx"><span class="nav-number">1.</span> <span class="nav-text">stdafx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline"><span class="nav-number">2.</span> <span class="nav-text">inline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">二维数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-C-%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">C&#x2F;C++混合编程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#declspec"><span class="nav-number"></span> <span class="nav-text">__declspec</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%8F%8A%E8%BF%90%E8%A1%8C%E6%97%B6%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">1.</span> <span class="nav-text">C语言内存模型及运行时内存布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E4%B8%8BC%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">2.</span> <span class="nav-text">Linux下C语言程序的内存布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%A9%BA%E9%97%B4%E5%92%8C%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4"><span class="nav-number">3.</span> <span class="nav-text">内核空间和用户空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E4%B8%8B32%E4%BD%8D%E7%8E%AF%E5%A2%83%E7%9A%84%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83%E6%83%85%E5%86%B5"><span class="nav-number">4.</span> <span class="nav-text">Linux下32位环境的用户空间内存分布情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">一个实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows%E4%B8%8BC%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number"></span> <span class="nav-text">Windows下C语言程序的内存布局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">内核模式和用户模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8C%BA%E5%88%86%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">为什么要区分两种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%85%E6%A0%B8%E5%92%8C%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E8%A6%81%E5%85%B1%E7%94%A8%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">2.</span> <span class="nav-text">为什么内核和用户程序要共用地址空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E6%A6%82%E5%BF%B5%E4%BB%A5%E5%8F%8A%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number"></span> <span class="nav-text">栈的概念以及栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">栈的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E7%9A%84%E5%A4%A7%E5%B0%8F%E4%BB%A5%E5%8F%8A%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">栈的大小以及栈溢出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8-%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%9C%A8%E6%A0%88%E4%B8%8A%E5%88%B0%E5%BA%95%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="nav-number"></span> <span class="nav-text">c语言入门-一个函数在栈上到底是怎样的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7-%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">栈帧&#x2F;活动记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">关于数据的定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%83%AF%E4%BE%8B%EF%BC%88Calling-Convention%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">c语言入门-函数调用惯例（Calling Convention）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stdafx"><span class="nav-number">1.</span> <span class="nav-text">stdafx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inline"><span class="nav-number">2.</span> <span class="nav-text">inline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">二维数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-C-%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">C&#x2F;C++混合编程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#declspec"><span class="nav-number"></span> <span class="nav-text">__declspec</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -657,19 +657,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

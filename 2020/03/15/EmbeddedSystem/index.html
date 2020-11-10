@@ -27,20 +27,17 @@
 <meta property="og:site_name" content="acewzj">
 <meta property="og:description" content="这篇文章主要记述了嵌入式系统的一些笔记。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://i.loli.net/2020/03/29/Rjme4ygfMbuYkcD.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/30/OAK3RvSBZ5pMqEF.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/JnTlka8t6hqpEvr.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/n1cMJYev75dIQmg.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/o5bcml1y2hHi63a.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/F85vsyDShmIuOLe.jpg">
-<meta property="og:image" content="https://i.loli.net/2020/03/30/l1gSMzWcPZXrGYa.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/rf7C3MPA2eTIUg1.png">
 <meta property="article:published_time" content="2020-03-15T04:16:18.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-10-29T11:38:15.677Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="嵌入式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/03/29/Rjme4ygfMbuYkcD.png">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/30/JnTlka8t6hqpEvr.png">
 
 <link rel="canonical" href="http://acewzj.github.io/2020/03/15/EmbeddedSystem/">
 
@@ -218,7 +215,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-10-29 19:38:15" itemprop="dateModified" datetime="2020-10-29T19:38:15+08:00">2020-10-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,8 +241,6 @@
         <p>这篇文章主要记述了嵌入式系统的一些笔记。</p>
 <a id="more"></a>
 
-<p><img src="https://i.loli.net/2020/03/29/Rjme4ygfMbuYkcD.png" alt="1583895066834"></p>
-<p><img src="https://i.loli.net/2020/03/30/OAK3RvSBZ5pMqEF.png" alt="1583135575292"></p>
 <h1 id="NandFlash与NorFlash的区别"><a href="#NandFlash与NorFlash的区别" class="headerlink" title="NandFlash与NorFlash的区别"></a>NandFlash与NorFlash的区别</h1><p><img src="https://i.loli.net/2020/03/30/JnTlka8t6hqpEvr.png" alt="1584345668683"></p>
 <p><img src="https://i.loli.net/2020/03/30/n1cMJYev75dIQmg.png" alt="1584345681200"></p>
 <h1 id="STM32"><a href="#STM32" class="headerlink" title="STM32"></a>STM32</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">OSTaskCreate(start_task,(<span class="keyword">void</span> *)<span class="number">0</span>,(OS_STK *)&amp;START_TASK_STK[START_STK_SIZE<span class="number">-1</span>],START_TASK_PRIO );</span><br><span class="line"></span><br><span class="line"><span class="comment">//这个函数用来管理任务的执行，任务可以在多任务开始或运行之前被创建。</span></span><br><span class="line"></span><br><span class="line"><span class="function">INT8U  <span class="title">OSTaskCreate</span> <span class="params">(<span class="keyword">void</span>   (*task)(<span class="keyword">void</span> *p_arg),</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     <span class="keyword">void</span>    *p_arg,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     OS_STK  *ptos,</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">​                     INT8U    prio)</span></span></span><br></pre></td></tr></table></figure>
@@ -267,7 +262,6 @@
 <p>n为正整数，其值必须小于type类型占用的位数。比如type如果是int，占4字节32位，那么n必须是1~31之间的整数。</p>
 <p>对于位域类型的成员，在赋值时如果实际值超过n位所能表达的范围，那么超出部分将会被截掉，只保存低位值。如int var:4,本身只有4位的空间，如果赋值var = 20, 由于20的二进制值为10100，实际为五位，这时var实际被赋值的就是低四位，0100，即4。</p>
 <p>由于C语言中的地址是针对字节计算的，所以位域类型的成员变量不支持取地址操作，即对于变量v, 如果存在位域成员变量var，那么&amp;a.var是非法的，编译会出错。</p>
-<p><img src="https://i.loli.net/2020/03/30/l1gSMzWcPZXrGYa.png" alt="1576646119827"></p>
 <p><img src="https://i.loli.net/2020/03/30/rf7C3MPA2eTIUg1.png" alt="image-20200330195249657"></p>
 
     </div>
@@ -396,19 +390,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

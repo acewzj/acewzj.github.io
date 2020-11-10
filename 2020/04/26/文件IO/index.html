@@ -23,24 +23,23 @@
   <meta name="description" content="这篇文章记述了关于C++输入输出的知识点。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++输入输出">
-<meta property="og:url" content="http://acewzj.github.io/2020/04/26/C++%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/index.html">
+<meta property="og:url" content="http://acewzj.github.io/2020/04/26/%E6%96%87%E4%BB%B6IO/index.html">
 <meta property="og:site_name" content="acewzj">
 <meta property="og:description" content="这篇文章记述了关于C++输入输出的知识点。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/26/RCx1y2sFrJUdMhc.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/26/aryd8VMJWbE15t7.png">
-<meta property="og:image" content="https://i.loli.net/2020/04/27/RJeslzhK8IZTtCD.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/05/94mlEatvNTnHDGp.png">
 <meta property="article:published_time" content="2020-04-26T14:31:42.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-10-29T11:36:29.742Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="Cin">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png">
 
-<link rel="canonical" href="http://acewzj.github.io/2020/04/26/C++%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/">
+<link rel="canonical" href="http://acewzj.github.io/2020/04/26/%E6%96%87%E4%BB%B6IO/">
 
 
 <script id="page-configurations">
@@ -186,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/04/26/C++%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/04/26/%E6%96%87%E4%BB%B6IO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -216,7 +215,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-10-29 19:36:29" itemprop="dateModified" datetime="2020-10-29T19:36:29+08:00">2020-10-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -294,8 +293,8 @@ if (filestream.is_open()) &#123;
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; a;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">输入：</span><br><span class="line">    asasdascaasd</span><br><span class="line">输出：</span><br><span class="line">    asasdascaasd</span><br><span class="line">输入：</span><br><span class="line">    asasdasd kkkkkkk</span><br><span class="line">输出：</span><br><span class="line">    asasdasd</span><br></pre></td></tr></table></figure>
 
-<h1 id="此项目需要缓解了-Spectre-漏洞的库。"><a href="#此项目需要缓解了-Spectre-漏洞的库。" class="headerlink" title="此项目需要缓解了 Spectre 漏洞的库。"></a>此项目需要缓解了 Spectre 漏洞的库。</h1><h1 id="VS2019无法打开VS-Instalcdler的解决办法"><a href="#VS2019无法打开VS-Instalcdler的解决办法" class="headerlink" title="VS2019无法打开VS Instalcdler的解决办法"></a>VS2019无法打开VS Instalcdler的解决办法</h1><p>vs_installer.exe右键-&gt;属性-&gt;兼容性-&gt;勾选禁用视觉主题，勾选禁用桌面元素</p>
-<p><img src="https://i.loli.net/2020/04/27/RJeslzhK8IZTtCD.png" alt="image-20200427113950251"></p>
+
+
 <h2 id="对输入的字符串进行排序后输出"><a href="#对输入的字符串进行排序后输出" class="headerlink" title="对输入的字符串进行排序后输出"></a>对输入的字符串进行排序后输出</h2><p>输入描述:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入有两行，第一行n</span><br><span class="line"></span><br><span class="line">第二行是n个空格隔开的字符串</span><br><span class="line">5</span><br><span class="line">c d a bb e</span><br></pre></td></tr></table></figure>
 
@@ -485,7 +484,7 @@ if (filestream.is_open()) &#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E6%9C%AC%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AEC"><span class="nav-number">1.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cin"><span class="nav-number">2.</span> <span class="nav-text">Cin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A4%E9%A1%B9%E7%9B%AE%E9%9C%80%E8%A6%81%E7%BC%93%E8%A7%A3%E4%BA%86-Spectre-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BA%93%E3%80%82"><span class="nav-number"></span> <span class="nav-text">此项目需要缓解了 Spectre 漏洞的库。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VS2019%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80VS-Instalcdler%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number"></span> <span class="nav-text">VS2019无法打开VS Instalcdler的解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">输入描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">输出描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">find函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substring%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">substring函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SplitString"><span class="nav-number">7.</span> <span class="nav-text">SplitString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA-1"><span class="nav-number">8.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number"></span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcmp"><span class="nav-number">1.</span> <span class="nav-text">strcmp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">1.1.</span> <span class="nav-text">字符串截取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-length-size-%E5%92%8C-strlen-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E2%80%9Caaa-txt-n%E2%80%9D-%E9%95%BF%E5%BA%A6%E4%B8%BA8%EF%BC%8C%E5%AE%83%E5%8F%AA%E4%BC%9A%E7%A2%B0%E5%88%B0-0-%E5%8D%81%E8%BF%9B%E5%88%B60-%E6%88%AA%E6%96%AD%EF%BC%8C%E7%A9%BA%E6%A0%BC%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B632%EF%BC%89%E6%8D%A2%E8%A1%8C%E7%AC%A6-n%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B610%EF%BC%89%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E6%88%AA%E6%96%AD%EF%BC%8C%E8%80%8C%E4%B8%94%E6%9C%80%E5%90%8E%E7%9A%84-0%E4%B8%8D%E4%BC%9A%E8%AE%A1%E5%85%A5%E9%95%BF%E5%BA%A6%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E4%B8%ADreturn%E5%92%8Cexit%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">C语言中return和exit的区别</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E6%9C%AC%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AEC"><span class="nav-number">1.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cin"><span class="nav-number">2.</span> <span class="nav-text">Cin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA"><span class="nav-number">3.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">5.</span> <span class="nav-text">输入描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">6.</span> <span class="nav-text">输出描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find%E5%87%BD%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">find函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substring%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">substring函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SplitString"><span class="nav-number">9.</span> <span class="nav-text">SplitString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA-1"><span class="nav-number">10.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number"></span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcmp"><span class="nav-number">1.</span> <span class="nav-text">strcmp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">1.1.</span> <span class="nav-text">字符串截取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-length-size-%E5%92%8C-strlen-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E2%80%9Caaa-txt-n%E2%80%9D-%E9%95%BF%E5%BA%A6%E4%B8%BA8%EF%BC%8C%E5%AE%83%E5%8F%AA%E4%BC%9A%E7%A2%B0%E5%88%B0-0-%E5%8D%81%E8%BF%9B%E5%88%B60-%E6%88%AA%E6%96%AD%EF%BC%8C%E7%A9%BA%E6%A0%BC%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B632%EF%BC%89%E6%8D%A2%E8%A1%8C%E7%AC%A6-n%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B610%EF%BC%89%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E6%88%AA%E6%96%AD%EF%BC%8C%E8%80%8C%E4%B8%94%E6%9C%80%E5%90%8E%E7%9A%84-0%E4%B8%8D%E4%BC%9A%E8%AE%A1%E5%85%A5%E9%95%BF%E5%BA%A6%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E4%B8%ADreturn%E5%92%8Cexit%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">C语言中return和exit的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -499,19 +498,19 @@ if (filestream.is_open()) &#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

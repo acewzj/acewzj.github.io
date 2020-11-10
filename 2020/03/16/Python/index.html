@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png">
 <meta property="article:published_time" content="2020-03-16T08:31:18.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-10-29T11:37:38.795Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="Python Numpy">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-10-29 19:37:38" itemprop="dateModified" datetime="2020-10-29T19:37:38+08:00">2020-10-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,47 +253,6 @@
 
 
 <h2 id="2、Python-Numpy"><a href="#2、Python-Numpy" class="headerlink" title="2、Python Numpy"></a>2、Python Numpy</h2><p><img src="https://i.loli.net/2020/03/30/GDkBnV4L1hesg3l.png" alt="image-20200322222621682"></p>
-<h3 id="2-1-numpy中-？"><a href="#2-1-numpy中-？" class="headerlink" title="2.1 numpy中 **  ？"></a>2.1 numpy中 **  ？</h3><p>就是给里面每个元素开平方的意思</p>
-<p>It’s just the square of each element.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line">a = arange(<span class="number">4</span>).reshape((<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"><span class="keyword">print</span> a**<span class="number">2</span></span><br><span class="line">--- prints</span><br><span class="line">--- [[<span class="number">0</span> <span class="number">1</span>]</span><br><span class="line">--- [<span class="number">4</span> <span class="number">9</span>]]</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-Numpy-基本除法运算和模运算"><a href="#2-2-Numpy-基本除法运算和模运算" class="headerlink" title="2.2 Numpy 基本除法运算和模运算"></a>2.2 Numpy 基本除法运算和模运算</h3><p># divide函数在整数和浮点数除法中均只保留整数部分(python3中的np.divide == np.true_divide)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([<span class="number">2</span>,<span class="number">6</span>,<span class="number">5</span>])</span><br><span class="line">b = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="keyword">print</span> (np.divide(a,b),np.divide(b,a))</span><br><span class="line"><span class="comment"># (array([2, 3, 1]), array([0, 0, 0]))</span></span><br></pre></td></tr></table></figure>
-
-
-<p># true_divide函数与数学中的除法定义更为接近，即返回除法的浮点数结果而不作截断</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.true_divide(a,b),np.true_divide(b,a))</span><br><span class="line"><span class="comment"># (array([ 2. , 3. , 1.66666667]), array([ 0.5 , 0.33333333, 0.6 ]))</span></span><br></pre></td></tr></table></figure>
-
-<p># floor_divide函数总是返回整数结果，相当于先调用divide函数再调用floor函数(floor函数将对浮点数进行向下取整并返回整数)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.floor_divide(a,b),np.floor_divide(b,a))</span><br><span class="line"><span class="comment"># [2 3 1] [0 0 0]</span></span><br><span class="line">c = <span class="number">3.14</span> * b</span><br><span class="line"><span class="keyword">print</span> (np.floor_divide(c,b),np.floor_divide(b,c))</span><br><span class="line"><span class="comment"># [ 3. 3. 3.] [ 0. 0. 0.]</span></span><br></pre></td></tr></table></figure>
-
-<p># /运算符相当于调用divide函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (a/b,b/a)</span><br><span class="line"><span class="comment"># (array([2, 3, 1]), array([0, 0, 0]))</span></span><br></pre></td></tr></table></figure>
-
-<p># 运算符//对应于floor_divide函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (a//b,b//a)</span><br><span class="line"><span class="comment"># [2 3 1] [0 0 0]</span></span><br><span class="line"><span class="keyword">print</span> (c//b,b//c)</span><br><span class="line"><span class="comment"># [ 3. 3. 3.] [ 0. 0. 0.]</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>模运算<br># 计算模数或者余数，可以使用NumPy中的mod、remainder和fmod函数。也可以用%运算符</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br></pre></td></tr></table></figure>
-
-<p># remainder函数逐个返回两个数组中元素相除后的余数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d = np.arange(<span class="number">-4</span>,<span class="number">4</span>)</span><br><span class="line"><span class="keyword">print</span> (np.remainder(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]　　</span></span><br></pre></td></tr></table></figure>
-
-<p># mod函数与remainder函数的功能完全一致</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.mod(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
-
-<p># %操作符仅仅是remainder函数的简写(功能一样)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> ( d % <span class="number">2</span> )</span><br><span class="line"><span class="comment"># [0 1 0 1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
-
-<p># fmod函数处理负数的方式与remainder、mod和%不同。所得余数的正负由被除数决定，与除数的正负无关</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.fmod(d,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># [ 0 -1 0 -1 0 1 0 1]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3、Numpy-中clip函数的使用"><a href="#2-3、Numpy-中clip函数的使用" class="headerlink" title="2.3、Numpy 中clip函数的使用"></a>2.3、Numpy 中clip函数的使用</h3><p>numpy.clip(a, a_min, a_max, out=None)[source]</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">x&#x3D;np.array([1,2,3,5,6,7,8,9])</span><br><span class="line">np.clip(x,3,8)</span><br><span class="line">Out[88]:</span><br><span class="line">array([3, 3, 3, 5, 6, 7, 8, 8])</span><br></pre></td></tr></table></figure>
-
-<p>也就是说clip这个函数将将数组中的元素限制在a_min, a_max之间，大于a_max的就使得它等于 a_max，小于a_min,的就使得它等于a_min。</p>
 <h2 id="3、通过图片修改时间重命名"><a href="#3、通过图片修改时间重命名" class="headerlink" title="3、通过图片修改时间重命名"></a>3、通过图片修改时间重命名</h2><p>3.1 、Q：os.rename()导致WindowsError: [Error 183]的问题</p>
 <p>A：Error 183是文件已经存在错误,要更改成的文件的名字已经存在，换一个不冲突的名称就可以了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> nt <span class="keyword">import</span> chdir</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用到的知识</span></span><br><span class="line"><span class="comment"># os.path.getatime(file) 输出文件访问时间</span></span><br><span class="line"><span class="comment"># os.path.getctime(file) 输出文件的创建时间</span></span><br><span class="line"><span class="comment"># os.path.getmtime(file) 输出文件最近修改时间</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">renameF</span>(<span class="params">preName, newName</span>):</span></span><br><span class="line">    chdir(os.path.dirname(preName))</span><br><span class="line">    os.rename(preName, newName)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    source_dir = <span class="string">&quot;./&quot;</span></span><br><span class="line">    output_dir = <span class="string">&quot;./outputImages/&quot;</span></span><br><span class="line">    g = os.walk(source_dir)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> path, dir_list, file_list <span class="keyword">in</span> g:</span><br><span class="line">        <span class="keyword">for</span> file_name <span class="keyword">in</span> file_list:</span><br><span class="line">            cnt = random.randint(<span class="number">100</span>,<span class="number">999</span>)</span><br><span class="line">            TIME = str(datetime.datetime.fromtimestamp(os.path.getmtime(file_name)).strftime(<span class="string">&#x27;%Y%m%d%H%M%S&#x27;</span>))</span><br><span class="line">            NAME = <span class="string">&quot;image-&quot;</span> + TIME + str(cnt) + <span class="string">&quot;.png&quot;</span>;</span><br><span class="line">            <span class="comment"># print (os.path.join(source_dir, file_name))</span></span><br><span class="line">            os.rename(file_name, NAME)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -411,7 +370,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Python%E6%93%8D%E4%BD%9CExcel%E7%AE%80%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">1、Python操作Excel简化操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Python-Numpy"><span class="nav-number">2.</span> <span class="nav-text">2、Python Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-numpy%E4%B8%AD-%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 numpy中 **  ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Numpy-%E5%9F%BA%E6%9C%AC%E9%99%A4%E6%B3%95%E8%BF%90%E7%AE%97%E5%92%8C%E6%A8%A1%E8%BF%90%E7%AE%97"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Numpy 基本除法运算和模运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E3%80%81Numpy-%E4%B8%ADclip%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、Numpy 中clip函数的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%80%9A%E8%BF%87%E5%9B%BE%E7%89%87%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">3、通过图片修改时间重命名</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Python%E6%93%8D%E4%BD%9CExcel%E7%AE%80%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">1、Python操作Excel简化操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Python-Numpy"><span class="nav-number">2.</span> <span class="nav-text">2、Python Numpy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%80%9A%E8%BF%87%E5%9B%BE%E7%89%87%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">3、通过图片修改时间重命名</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,19 +384,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

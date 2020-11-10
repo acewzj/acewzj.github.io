@@ -27,11 +27,13 @@
 <meta property="og:site_name" content="acewzj">
 <meta property="og:description" content="这篇文章记述了关于muduo的知识点。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/10/28/8u3htDpQTIPVdHW.png">
 <meta property="article:published_time" content="2020-08-14T05:29:52.000Z">
-<meta property="article:modified_time" content="2020-08-14T06:02:06.904Z">
+<meta property="article:modified_time" content="2020-10-28T08:02:28.088Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="C++ Net">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/28/8u3htDpQTIPVdHW.png">
 
 <link rel="canonical" href="http://acewzj.github.io/2020/08/14/muduo/">
 
@@ -201,10 +203,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-08-14 13:29:52 / Modified: 14:02:06" itemprop="dateCreated datePublished" datetime="2020-08-14T13:29:52+08:00">2020-08-14</time>
+              <time title="Created: 2020-08-14 13:29:52" itemprop="dateCreated datePublished" datetime="2020-08-14T13:29:52+08:00">2020-08-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-28 16:02:28" itemprop="dateModified" datetime="2020-10-28T16:02:28+08:00">2020-10-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -234,6 +242,20 @@
 <p>2、吞吐量</p>
 <p>3、延迟</p>
 <p>4、使用率、</p>
+<h2 id="std-mutex"><a href="#std-mutex" class="headerlink" title="std::mutex"></a>std::mutex</h2><p>std::mutex是C11中最基本的互斥量，mutex对象 提供了独占所有权的特性。</p>
+<p><strong>成员函数：</strong></p>
+<p>构造函数：mutex不允许拷贝构造，也不允许move拷贝，最初产生的mutex对象是处于unlocked状态的。</p>
+<p>lock()，调用线程将锁住该互斥量。线程调用该函数会发生下面3种情况：1）如果该互斥量当前没有被锁住，则调用线程将该互斥量锁住，直到调用unlock()之前，该线程将一直拥有该锁。2）如果该互斥量被其他线程锁住，则当前的调用线程被阻塞住。3）如果当前互斥量被当前调用线程锁住，则会产生死锁。</p>
+<h2 id="MutexLock"><a href="#MutexLock" class="headerlink" title="MutexLock"></a>MutexLock</h2><p>互斥量是线程同步常用的变量，但在实际中一般都是使用封装的函数，这样便于操作。其类图如下：</p>
+<p><img src="https://i.loli.net/2020/10/28/8u3htDpQTIPVdHW.png" alt="image-20201028160132648"></p>
+<p>共有两个变量，mutex_是互斥量，holder_是用来表示给互斥量上锁线程的tid。<br>在构造函数中初始化互斥量mutex_和holder_(0)，在析构函数中给销毁mutex_。对我接口根据名字很容易看出用法。</p>
+<p>bool isLockByThisThread()是用来检查是否是当前线程给这个MutexLock对象加锁的，原理为比较holder_和 CurrentThread::tid()的值。</p>
+<p>assingnHolder和unassignHolder分别在上锁时给holder_赋值，解锁是给holder_置零。assignHolder在上锁后调用，而unassignHolder在解锁前调用。</p>
+<p>pthread_mutex_t* getPthreadMutex()可以返回指向类对象中互斥量的指针，在类外对互斥量操作，这个主要用在条件变量中。</p>
+<p>在MutexLock中，还有一个类UnassignGuard，这个类中有一个MutexLock对象的引用，在其构造函数调用unassignHolder，析构函数中assignHolder，这个是为条件变量pthread_cond_wait()调用时设计的。在调用pthread_cond_wait()会解锁MuteLock，等待条件（其他线程会给MutexLock上锁）。</p>
+<h2 id="MutexLockGuard"><a href="#MutexLockGuard" class="headerlink" title="MutexLockGuard"></a>MutexLockGuard</h2><p>在使用mutex时，有时会忘记给mutex解锁，为了防止这种情况发生，常常使用RAII手法。MutexLockGuard就是为此设计的，源码非常简单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MutexLockGuard</span> :</span> boost::noncopyable</span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">MutexLockGuard</span><span class="params">(MutexLock&amp; mutex)</span></span></span><br><span class="line"><span class="function">    : <span class="title">mutex_</span><span class="params">(mutex)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    mutex_.lock();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ~MutexLockGuard()</span><br><span class="line">  &#123;</span><br><span class="line">    mutex_.unlock();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">  MutexLock&amp; mutex_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -285,7 +307,10 @@
     <a href="/2020/07/30/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="prev" title="dp动态规划">
       <i class="fa fa-chevron-left"></i> dp动态规划
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/02/socket/" rel="next" title="socket">
+      socket <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -344,7 +369,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">性能指标</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">性能指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#std-mutex"><span class="nav-number">2.</span> <span class="nav-text">std::mutex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MutexLock"><span class="nav-number">3.</span> <span class="nav-text">MutexLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MutexLockGuard"><span class="nav-number">4.</span> <span class="nav-text">MutexLockGuard</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -358,19 +383,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

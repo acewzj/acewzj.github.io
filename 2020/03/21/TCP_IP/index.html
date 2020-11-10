@@ -30,14 +30,16 @@
 <meta property="og:image" content="https://i.loli.net/2020/04/03/qOBXQYjWLgJhE2b.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/30/amtJPn6jgFLT7BC.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/30/uzFWcwyeg9NmIrZ.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/10/30/FbwsceRBKtXmDAQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/1IBXQuPW5wl6AcL.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/9w3uJ4Iv8hYfcEC.png">
-<meta property="og:image" content="https://i.loli.net/2020/04/15/eEIryOlknCYH6tq.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/30/y89m3b1XxsJu4FC.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/6c9dl4iKB2mYPuQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/SqD9LpRzmKA2Qo3.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/06/7jhTwgWozZEFAqi.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/02/UPsewREpYHOimFz.png">
 <meta property="article:published_time" content="2020-03-21T02:16:18.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-11-09T02:05:37.673Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="TCP&#x2F;IP">
 <meta property="article:tag" content="网络编程">
@@ -221,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-11-09 10:05:37" itemprop="dateModified" datetime="2020-11-09T10:05:37+08:00">2020-11-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +256,7 @@
 <h2 id="IP头格式"><a href="#IP头格式" class="headerlink" title="IP头格式"></a>IP头格式</h2><p><img src="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png" alt="1576646164341"></p>
 <p><img src="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png" alt="1576646175250"></p>
 <h2 id="TCP头格式（1460-20-1480）"><a href="#TCP头格式（1460-20-1480）" class="headerlink" title="TCP头格式（1460+20 = 1480）"></a>TCP头格式（1460+20 = 1480）</h2><h3 id="acknowledge-告知已收到"><a href="#acknowledge-告知已收到" class="headerlink" title="acknowledge(告知已收到)"></a>acknowledge(告知已收到)</h3><p>接下来，我们来看一下TCP头的格式</p>
-<p><img src="https://i.loli.net/2020/03/30/amtJPn6jgFLT7BC.png" alt="image-20200320091059508"></p>
+<p><img src="https://i.loli.net/2020/10/30/FbwsceRBKtXmDAQ.png" alt="image-20200320091059508"></p>
 <p>逐个分析：</p>
 <ul>
 <li>16位源端口号和16位目的端口号。</li>
@@ -266,8 +268,8 @@
 <li>16位校验和：由发送端填充，接收端对报文段执行CRC算法以检验TCP报文段在传输中是否损坏。</li>
 <li>16位紧急指针：一个正的偏移量，它和序号段的值相加表示最后一个紧急数据的下一字节的序号。</li>
 </ul>
-<h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p><img src="https://i.loli.net/2020/03/30/uzFWcwyeg9NmIrZ.jpg"></p>
-<p><img src="https://i.loli.net/2020/03/30/9w3uJ4Iv8hYfcEC.png" alt="image-20200321103919380"></p>
+<p><img src="https://i.loli.net/2020/11/02/1IBXQuPW5wl6AcL.png" alt="image-20201102145632808"></p>
+<h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p><img src="https://i.loli.net/2020/03/30/9w3uJ4Iv8hYfcEC.png" alt="image-20200321103919380"></p>
 <p><strong>握手过程可以简化为下面的四次交互：</strong></p>
 <ul>
 <li>1 ) clien 端首先发送一个 SYN 包告诉 Server 端我的初始序列号是 X；</li>
@@ -319,7 +321,21 @@
 <li><strong>关于tcp_tw_recycle</strong>。如果是tcp_tw_recycle被打开了话，会假设对端开启了tcp_timestamps，然后会去比较时间戳，如果时间戳变大了，就可以重用。但是，如果对端是一个NAT网络的话（如：一个公司只用一个IP出公网）或是对端的IP被另一台重用了，这个事就复杂了。建链接的SYN可能就被直接丢掉了（你可能会看到connection time out的错误）（如果你想观摩一下Linux的内核代码，请参看源码<a target="_blank" rel="noopener" href="http://lxr.free-electrons.com/ident?i=tcp_timewait_state_process"> tcp_timewait_state_process</a>）。</li>
 <li><strong>关于tcp_max_tw_buckets</strong>。这个是控制并发的TIME_WAIT的数量，默认值是180000，如果超限，那么，系统会把多的给destory掉，然后在日志里打一个警告（如：time wait bucket table overflow），官网文档说这个参数是用来对抗DDoS攻击的。也说的默认值180000并不小。这个还是需要根据实际情况考虑。</li>
 </ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.loli.net/2020/04/15/eEIryOlknCYH6tq.png" alt="image-20200415213059169"></h2><h1 id="Reactor"><a href="#Reactor" class="headerlink" title="Reactor"></a>Reactor</h1><p>最最原始的网络编程思路就是服务器用一个while循环，不断监听端口是否有新的套接字连接，如果有，那么就调用一个处理函数处理，类似：</p>
+<p><img src="https://i.loli.net/2020/10/30/y89m3b1XxsJu4FC.png" alt="image-20200415213059169"></p>
+<h2 id="tcp粘包"><a href="#tcp粘包" class="headerlink" title="tcp粘包"></a>tcp粘包</h2><p><a target="_blank" rel="noopener" href="https://network.51cto.com/art/201910/604438.htm">https://network.51cto.com/art/201910/604438.htm</a></p>
+<p>为什么会出现粘包呢？</p>
+<p>TCP粘包可以分为发送端的粘包和接收端的粘包。</p>
+<p>发送端的粘包是因为早期人们使用 telnet 进行远程连接，telnet经常会发送只有一个字符的报文段，然而TCP头部都有40字节了，只发送一个字节的话带宽利用率太低；加之那个时候网络带宽也比较紧张，所以就发明了一个Nagle算法来避免这个问题：Nagle算法就是将发送端的报文先放到发送缓冲区里攒一攒，攒到数据超过最大发送报文段（MSS）或者收到对端的一个ACK之后才发出去。（这样本来是一个一个发送的报文现在变成一坨要发送的报文，直观上感觉像是被粘住了）</p>
+<p><strong>当然现在网络带宽上去了，Linux内核提供了一个TCP_NODELAY开关来关闭Nagle算法。</strong></p>
+<p>接收端的报文是由于你网卡接收到报文，由内核将报文存储在相应的socket的接收缓冲区里，如果你应用层没能及时通过recv read等操作将报文拷贝到用户的缓存里，那么可能会出现好几个报文的首尾相连的情况。</p>
+<p>解决办法：循环处理，应用程序从接收缓存中读取分组时，读完一条数据，就应该循环读取下一条数据，直到所有数据都被处理完成，但是如何判断每条数据的长度呢？</p>
+<p>格式化数据：每条数据有固定的格式（开始符，结束符），这种方法简单易行，但是选择开始符和结束符时一定要确保每条数据的内部不包含开始符和结束符。<br>发送长度：发送每条数据时，将数据的长度一并发送，例如规定数据的前4位是数据的长度，应用层在处理时可以根据长度来判断每个分组的开始和结束位置。<br>5.Q：UDP会不会产生粘包问题呢？<br>TCP为了保证可靠传输并减少额外的开销（每次发包都要验证），采用了基于流的传输，基于流的传输不认为消息是一条一条的，是无保护消息边界的（保护消息边界：指传输协议把数据当做一条独立的消息在网上传输，接收端一次只能接受一条独立的消息）。</p>
+<p>UDP则是面向消息传输的，是有保护消息边界的，接收方一次只接受一条独立的信息，所以不存在粘包问题。</p>
+<p>举个例子：有三个数据包，大小分别为2k、4k、6k，如果采用UDP发送的话，不管接受方的接收缓存有多大，我们必须要进行至少三次以上的发送才能把数据包发送完，但是使用TCP协议发送的话，我们只需要接受方的接收缓存有12k的大小，就可以一次把这3个数据包全部发送完毕。</p>
+<h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><p>tcpdump默认会监视eth0网卡，想要其监视127.0.0.1需要指定 -i lo 本地回环地址</p>
+<p><img src="https://i.loli.net/2020/11/02/6c9dl4iKB2mYPuQ.png" alt="image-20201102213655527"></p>
+<p><img src="https://i.loli.net/2020/11/02/SqD9LpRzmKA2Qo3.png" alt="image-20201102211103718"></p>
+<h1 id="Reactor"><a href="#Reactor" class="headerlink" title="Reactor"></a>Reactor</h1><p>最最原始的网络编程思路就是服务器用一个while循环，不断监听端口是否有新的套接字连接，如果有，那么就调用一个处理函数处理，类似：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    socket = accept();</span><br><span class="line">    handle(socket)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这种方法的最大问题是无法并发，效率太低，如果当前的请求没有处理完，那么后面的请求只能被阻塞，服务器的吞吐量太低。<br>之后，想到了使用多线程，也就是很经典的connection per thread，每一个连接用一个线程处理，类似：</p>
@@ -459,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%A4%B4%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">IP头格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E5%A4%B4%E6%A0%BC%E5%BC%8F%EF%BC%881460-20-1480%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">TCP头格式（1460+20 &#x3D; 1480）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#acknowledge-%E5%91%8A%E7%9F%A5%E5%B7%B2%E6%94%B6%E5%88%B0"><span class="nav-number">2.1.</span> <span class="nav-text">acknowledge(告知已收到)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">3.</span> <span class="nav-text">三次握手与四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%99%E9%87%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%A6%81%E5%8F%91%E4%B8%80%E4%B8%AA%E5%88%9D%E5%A7%8B%E5%BA%8F%E5%88%97%E5%8F%B7%EF%BC%9F"><span class="nav-number">3.0.1.</span> <span class="nav-text">这里为什么服务器也要发一个初始序列号？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactor"><span class="nav-number"></span> <span class="nav-text">Reactor</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%A4%B4%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">IP头格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E5%A4%B4%E6%A0%BC%E5%BC%8F%EF%BC%881460-20-1480%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">TCP头格式（1460+20 &#x3D; 1480）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#acknowledge-%E5%91%8A%E7%9F%A5%E5%B7%B2%E6%94%B6%E5%88%B0"><span class="nav-number">2.1.</span> <span class="nav-text">acknowledge(告知已收到)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">3.</span> <span class="nav-text">三次握手与四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%99%E9%87%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%A6%81%E5%8F%91%E4%B8%80%E4%B8%AA%E5%88%9D%E5%A7%8B%E5%BA%8F%E5%88%97%E5%8F%B7%EF%BC%9F"><span class="nav-number">3.0.1.</span> <span class="nav-text">这里为什么服务器也要发一个初始序列号？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp%E7%B2%98%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">tcp粘包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpdump"><span class="nav-number">5.</span> <span class="nav-text">tcpdump</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactor"><span class="nav-number"></span> <span class="nav-text">Reactor</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -473,19 +489,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

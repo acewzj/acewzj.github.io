@@ -34,15 +34,21 @@
 <meta property="og:image" content="https://i.loli.net/2020/04/01/8ZcPnrdFHtVwW5D.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/01/Nxpg5lwZLejzRTA.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/30/XoJF9HvuCW1Vqsl.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/30/e7WKMlwZguRIyE4.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/5p8BZNdc3AeStbJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/EIMrH8jazZnSuCp.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/bBaNEwn3RgCYLtP.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/rF46AjcTGeXLwZS.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/XUSg75REOsb2wmZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/Bbps2w4lVZknWoU.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/4FkcyDpC9ZxMiTu.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/20/n3NkFtTXyU5DzRO.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/e7WKMlwZguRIyE4.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/4txL8PY9qgjCdbJ.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/JuRfAcSBvnHa1qr.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/fHRLFJg8sGY6t4b.png">
 <meta property="og:image" content="https://i.loli.net/2020/03/30/M1fJEvI9H56tsWQ.png">
 <meta property="article:published_time" content="2020-04-26T10:53:20.000Z">
-<meta property="article:modified_time" content="2020-07-22T05:51:04.000Z">
+<meta property="article:modified_time" content="2020-11-02T12:20:01.846Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="Select&#x2F;Poll&#x2F;Epoll">
@@ -226,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 13:51:04" itemprop="dateModified" datetime="2020-07-22T13:51:04+08:00">2020-07-22</time>
+                <time title="Modified: 2020-11-02 20:20:01" itemprop="dateModified" datetime="2020-11-02T20:20:01+08:00">2020-11-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,7 +299,48 @@
 <p><code>int accept(int __fd, struct sockaddr *__restrict__ __addr, socklen_t *__restrict__ __addr_len)</code></p>
 <p>其实是一个指向一个长度整数的地址。先开始我给传的是sizeof(clntaddr),但是调试时在这里返回-1.</p>
 <p><img src="https://i.loli.net/2020/04/30/XoJF9HvuCW1Vqsl.png" alt="image-20200429224802055"></p>
-<h2 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h2><h4 id="数字电路里的边沿触发和电平触发"><a href="#数字电路里的边沿触发和电平触发" class="headerlink" title="数字电路里的边沿触发和电平触发"></a>数字电路里的边沿触发和电平触发</h4><p>边沿触发包括上升边沿触发和下降边沿触发，边沿触发检测的是电平变化，高电平转低电平或低电平转高电平时，触发一次中断。</p>
+<h2 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h2><p><strong>创建epoll对象</strong></p>
+<p>如下图所示，当某个进程调用epoll_create方法时，内核会创建一个eventpoll对象（也就是程序中epfd所代表的对象）。eventpoll对象也是文件系统中的一员，和socket一样，它也会有等待队列。创建一个代表该epoll的eventpoll对象是必须的，因为内核要维护“就绪列表”等数据，“就绪列表”可以作为eventpoll的成员。</p>
+<p><img src="https://i.loli.net/2020/11/02/5p8BZNdc3AeStbJ.png" alt="image-20201102201252909"></p>
+<p><img src="https://i.loli.net/2020/11/02/EIMrH8jazZnSuCp.png" alt="image-20201102200800299"></p>
+<p><strong>维护监视列表</strong></p>
+<p>创建epoll对象后，可以用epoll_ctl添加或删除所要监听的socket。以添加socket为例，如下图，如果通过epoll_ctl添加sock1、sock2和sock3的监视，内核会将eventpoll添加到这三个socket的等待队列中。</p>
+<p><img src="https://i.loli.net/2020/11/02/bBaNEwn3RgCYLtP.png" alt="image-20201102201327381"></p>
+<p>当socket收到数据后，中断程序会操作eventpoll对象，而不是直接操作进程。</p>
+<p><strong>接收数据</strong></p>
+<p>当socket收到数据后，中断程序会给eventpoll的“就绪列表”添加socket引用。如下图展示的是sock2和sock3收到数据后，中断程序让rdlist引用这两个socket。</p>
+<p><img src="https://i.loli.net/2020/11/02/rF46AjcTGeXLwZS.png" alt="image-20201102201359620"></p>
+<p>eventpoll对象相当于是socket和进程之间的中介，socket的数据接收并不直接影响进程，而是通过改变eventpoll的就绪列表来改变进程状态。</p>
+<p>当程序执行到epoll_wait时，如果rdlist已经引用了socket，那么epoll_wait直接返回，如果rdlist为空，阻塞进程。</p>
+<p><strong>阻塞和唤醒进程</strong></p>
+<p>假设计算机中正在运行进程A和进程B，在某时刻进程A运行到了epoll_wait语句。如下图所示，内核会将进程A放入eventpoll的等待队列中，阻塞进程。</p>
+<p><img src="https://i.loli.net/2020/11/02/XUSg75REOsb2wmZ.png" alt="image-20201102201107158"></p>
+<p>当socket接收到数据，中断程序一方面修改rdlist，另一方面唤醒eventpoll等待队列中的进程，进程A再次进入运行状态（如下图）。也因为rdlist的存在，进程A可以知道哪些socket发生了变化。</p>
+<p><img src="https://i.loli.net/2020/11/02/Bbps2w4lVZknWoU.png" alt="image-20201102201434741"></p>
+<p><img src="https://i.loli.net/2020/03/30/4FkcyDpC9ZxMiTu.png" alt="image-20200328232049698"></p>
+<h2 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a>epoll_create</h2><p><code>int fd = epoll_create(int size)</code></p>
+<p>这个函数创建文件描述符，它创建的fd主要是用来区分epoll例程；size参数已废弃</p>
+<p>比如<code>servfd = socket(PF_INET,SOCK_STREAM,0);</code>创建的<code>servfd</code>是5；</p>
+<p><code>epfd = epoll_create(EPOLL_SIZE);</code>创建的<code>epfd</code>就是6,实际上也是一个文件描述符；</p>
+<h2 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl"></a>epoll_ctl</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//create fd    </span></span><br><span class="line">epfd = epoll_create(EPOLL_SIZE);</span><br><span class="line">ep_events = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct epoll_event) * EPOLL_SIZE);</span><br><span class="line"></span><br><span class="line">event.events = EPOLLIN;</span><br><span class="line">event.data.fd=servfd;</span><br><span class="line">epoll_ctl(epfd,EPOLL_CTL_ADD,servfd,&amp;event);<span class="comment">//将servfd注册到epollpoll里面</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h2><p><code>int epoll_wait(int epfd,struct epoll_event *event,int maxevents,int timeout)</code></p>
+<p><code>event_cnt = epoll_wait(epfd,ep_events,EPOLL_SIZE,-1);</code></p>
+<p>返回值是发生事件的文件描述符数量，如果有5个客户端连接，就是返回5；</p>
+<p>同时在第二个参数所指向的缓冲中保存发生事件的文件描述符集合。因此无需像select那样插入针对所有文件描述符的循环。</p>
+<p><code>int maxevents</code> ：第二个参数中可以保存的最大事件数；</p>
+<p>timeout:以1ms为单位的等待时间，传递-1时，一直等待直到事件发生；</p>
+<p><img src="https://i.loli.net/2020/04/20/n3NkFtTXyU5DzRO.png" alt="image-20200420224546779"></p>
+<p>epoll:产生的事件数；及消息；使用注意</p>
+<p>epoll 全称 eventpoll，是 linux 内核实现IO多路复用（IO multiplexing）的一个实现</p>
+<p>epoll 监听的fd(File Descriptor)集合是常驻内核的,它有3个系统调用(<em>epoll_create</em>, <em>epoll_wait</em>, epoll_ctl)通过 <em>epoll_wait</em> 可以多次监听同一个 fd 集合，只返回可读写那部分</p>
+<p>select 只有一个系统调用，每次要监听都要将其从用户态传到内核，有事件时返回整个集合。</p>
+<p>从性能上看，如果 fd 集合很大，用户态和内核态之间数据复制的花销是很大的，所以 select 一般限制 fd 集合最大1024。</p>
+<p>从使用上看，epoll 返回的是可用的 fd 子集，select 返回的是全部，哪些可用需要用户遍历判断。</p>
+<p>尽管如此，epoll 的性能并不必然比 select 高，对于 fd 数量较少并且 fd IO 都非常繁忙的情况 select 在性能上有优势。</p>
+<h2 id="数字电路里的边沿触发和电平触发"><a href="#数字电路里的边沿触发和电平触发" class="headerlink" title="数字电路里的边沿触发和电平触发"></a>数字电路里的边沿触发和电平触发</h2><p>边沿触发包括上升边沿触发和下降边沿触发，边沿触发检测的是电平变化，高电平转低电平或低电平转高电平时，触发一次中断。</p>
 <p>边沿触发通过D触发器来锁存中断信号，即：若CPU来不及响应中断，外部中断信号撤消后，由于D触发器的记忆作用，消失的中断信号仍然有效，直到中断被响应并进入中断ISR，记忆的中断信号才会由硬件自动清除。</p>
 <hr>
 <p>电平触发分为高电平触发和低电平触发；电平触发需要手动清除中断信号</p>
@@ -305,24 +352,6 @@
 <p>如果是采用边沿检测外部中断，检测到电平变化会中断，但是如果中断检测口一直保持某一电平，则无法产生下次中断，需要等下次检测到电平变化才会中断。中断得到响应后由硬件自动清除。</p>
 <p>如果是采用电平检测外部中断，检测到低/高电平会中断，但是如果中断检测口一直保持低电平，中断处理完成后，会继续产生下次中断，需要检测到高电平才会停止中断产生。中断得到响应后由硬件手动清除。</p>
 <p><img src="https://i.loli.net/2020/03/30/e7WKMlwZguRIyE4.png" alt="image-20200328232423802"></p>
-<p><img src="https://i.loli.net/2020/03/30/4FkcyDpC9ZxMiTu.png" alt="image-20200328232049698"></p>
-<h2 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a>epoll_create</h2><p><code>int fd = epoll_create(int size)</code></p>
-<p>这个函数创建文件描述符，它创建的fd主要是用来区分epoll例程；size参数已废弃</p>
-<p>比如<code>servfd = socket(PF_INET,SOCK_STREAM,0);</code>创建的<code>servfd</code>是5；</p>
-<p><code>epfd = epoll_create(EPOLL_SIZE);</code>创建的<code>epfd</code>就是6,实际上也是一个文件描述符；</p>
-<h2 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h2><p><code>int epoll_wait(int epfd,struct epoll_event *event,int maxevents,int timeout)</code></p>
-<p><code>event_cnt = epoll_wait(epfd,ep_events,EPOLL_SIZE,-1);</code></p>
-<p>返回值是发生事件的文件描述符数量，如果有5个客户端连接，就是返回5；</p>
-<p>同时在第二个参数所指向的缓冲中保存发生事件的文件描述符集合。因此无需像select那样插入针对所有文件描述符的循环。</p>
-<p><code>int maxevents</code> ：第二个参数中可以保存的最大事件数；</p>
-<p>timeout:以1ms为单位的等待时间，传递-1时，一直等待直到事件发生；</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.loli.net/2020/04/20/n3NkFtTXyU5DzRO.png" alt="image-20200420224546779"></h2><p>epoll:产生的事件数；及消息；使用注意</p>
-<p>epoll 全称 eventpoll，是 linux 内核实现IO多路复用（IO multiplexing）的一个实现</p>
-<p>epoll 监听的fd(File Descriptor)集合是常驻内核的,它有3个系统调用(<em>epoll_create</em>, <em>epoll_wait</em>, epoll_ctl)通过 <em>epoll_wait</em> 可以多次监听同一个 fd 集合，只返回可读写那部分</p>
-<p>select 只有一个系统调用，每次要监听都要将其从用户态传到内核，有事件时返回整个集合。</p>
-<p>从性能上看，如果 fd 集合很大，用户态和内核态之间数据复制的花销是很大的，所以 select 一般限制 fd 集合最大1024。</p>
-<p>从使用上看，epoll 返回的是可用的 fd 子集，select 返回的是全部，哪些可用需要用户遍历判断。</p>
-<p>尽管如此，epoll 的性能并不必然比 select 高，对于 fd 数量较少并且 fd IO 都非常繁忙的情况 select 在性能上有优势。</p>
 <h2 id="条件触发程序"><a href="#条件触发程序" class="headerlink" title="条件触发程序"></a>条件触发程序</h2><p>在条件触发方式中，只要输入缓冲有数据就会一直通知该事件。</p>
 <p>当我的服务器接收缓冲区只有4的时候，客户端发了一个“Hello？”</p>
 <p>这时服务器会从wait返回，读取的时候只能读入Hell四个字符</p>
@@ -338,10 +367,17 @@
 <p>因此边缘触发方式中一定要采用非阻塞的read &amp; write函数。</p>
 <h2 id="慢系统调用阻塞状态下来了个信号（Vital）"><a href="#慢系统调用阻塞状态下来了个信号（Vital）" class="headerlink" title="慢系统调用阻塞状态下来了个信号（Vital）"></a>慢系统调用阻塞状态下来了个信号（Vital）</h2><p>select函数、accept函数等都是慢系统调用函数，就是它得等系统网络IO准备好了才能执行，没有准备好就进入阻塞状态下，如果这个时候来了一个信号（因为我们知道信号是模仿的中断的嘛），当执行完信号处理函数返回后，PC指针就会跑到select函数的下一条指令去执行去了。。。。。。这不完蛋了吗：我等待的事件还没来呢我就被信号处理函数给跳过去了。</p>
 <p>所以我们需要在select函数的返回值上做文章，如果select函数失败会返回-1，如果是去执行信号处理函数去了，error = EINTR</p>
-<h2 id="非阻塞编程"><a href="#非阻塞编程" class="headerlink" title="非阻塞编程"></a>非阻塞编程</h2><p>对于一个给定的描述符，有两种为其指定非阻塞IO的方法；</p>
+<h2 id="非阻塞编程fcntl"><a href="#非阻塞编程fcntl" class="headerlink" title="非阻塞编程fcntl"></a>非阻塞编程fcntl</h2><p>对于一个给定的描述符，有两种为其指定非阻塞IO的方法；</p>
 <p>1、如果调用 open 获得描述符，则可指定 O_NONBLOCK 标志；</p>
 <p>2、对于已经打开的一个描述符，则可调用 fcntl ，由该函数打开 O_NONBLOCK 标志</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setnonblockingmode</span><span class="params">(<span class="keyword">int</span> fd)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> flag = fcntl(fd, F_GETFL, <span class="number">0</span>);</span><br><span class="line">    fcntl(fd,F_SETFL, flag|O_NONBLOCK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">setnonblocking</span><span class="params">( <span class="keyword">int</span> fd )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> old_option = fcntl( fd, F_GETFL );<span class="comment">//2</span></span><br><span class="line">    <span class="keyword">int</span> new_option = old_option | O_NONBLOCK;<span class="comment">//O_NONBLOCK = 04000(八进制) 2048十进制 或之后变成2050</span></span><br><span class="line">    fcntl( fd, F_SETFL, new_option );</span><br><span class="line">    <span class="keyword">return</span> old_option;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 <p>POSIX.1 要求，对于一个非阻塞的描述符如果无数据可读，则 read 返回 -1，errno 被置为 EAGAIN；</p>
 <p>让服务器不会阻塞在send，accept等函数之上，防止有人恶意攻击</p>
@@ -366,13 +402,6 @@
 <li>CPU 收到 I/O 中断以后将磁盘缓冲区中的数据拷贝到内核缓冲区，然后再从内核缓冲区拷贝到用户缓冲区。</li>
 <li>用户进程由内核态切换回用户态，解除阻塞状态，然后等待 CPU 的下一个执行时间钟。</li>
 </ol>
-<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><p>•设计并实现一个ftp服务器、客户端</p>
-<p>•采用epoll实现</p>
-<p>•采用非阻塞+ET模式</p>
-<p>•实现基本的ftp语义</p>
-<p>•ls</p>
-<p>•get</p>
-<p>•put</p>
 
     </div>
 
@@ -488,7 +517,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#accept"><span class="nav-number">1.</span> <span class="nav-text">accept</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connection-refused"><span class="nav-number">2.</span> <span class="nav-text">connection refused</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8Csocket%E5%9C%B0%E5%9D%80%E7%BB%93%E6%9E%84%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">不同socket地址结构对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%BA%E5%99%A8%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何判断机器的大端与小端？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">4.1.</span> <span class="nav-text">常见的字节序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E6%80%8E%E4%B9%88%E5%AD%98%E5%85%A5int%E9%87%8C%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">IP地址怎么存入int里面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Select"><span class="nav-number">6.</span> <span class="nav-text">Select</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll"><span class="nav-number">7.</span> <span class="nav-text">Epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%87%8C%E7%9A%84%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91%E5%92%8C%E7%94%B5%E5%B9%B3%E8%A7%A6%E5%8F%91"><span class="nav-number">7.0.1.</span> <span class="nav-text">数字电路里的边沿触发和电平触发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-create"><span class="nav-number">8.</span> <span class="nav-text">epoll_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-wait"><span class="nav-number">9.</span> <span class="nav-text">epoll_wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">10.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">11.</span> <span class="nav-text">条件触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">12.</span> <span class="nav-text">边缘触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%85%A2%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81%E4%B8%8B%E6%9D%A5%E4%BA%86%E4%B8%AA%E4%BF%A1%E5%8F%B7%EF%BC%88Vital%EF%BC%89"><span class="nav-number">13.</span> <span class="nav-text">慢系统调用阻塞状态下来了个信号（Vital）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%BC%96%E7%A8%8B"><span class="nav-number">14.</span> <span class="nav-text">非阻塞编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">15.</span> <span class="nav-text">用户进程缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">16.</span> <span class="nav-text">内核缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-number">17.</span> <span class="nav-text">要求</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#accept"><span class="nav-number">1.</span> <span class="nav-text">accept</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connection-refused"><span class="nav-number">2.</span> <span class="nav-text">connection refused</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8Csocket%E5%9C%B0%E5%9D%80%E7%BB%93%E6%9E%84%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">不同socket地址结构对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%BA%E5%99%A8%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何判断机器的大端与小端？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">4.1.</span> <span class="nav-text">常见的字节序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E6%80%8E%E4%B9%88%E5%AD%98%E5%85%A5int%E9%87%8C%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">IP地址怎么存入int里面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Select"><span class="nav-number">6.</span> <span class="nav-text">Select</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll"><span class="nav-number">7.</span> <span class="nav-text">Epoll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-create"><span class="nav-number">8.</span> <span class="nav-text">epoll_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-ctl"><span class="nav-number">9.</span> <span class="nav-text">epoll_ctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-wait"><span class="nav-number">10.</span> <span class="nav-text">epoll_wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%87%8C%E7%9A%84%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91%E5%92%8C%E7%94%B5%E5%B9%B3%E8%A7%A6%E5%8F%91"><span class="nav-number">11.</span> <span class="nav-text">数字电路里的边沿触发和电平触发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">12.</span> <span class="nav-text">条件触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">13.</span> <span class="nav-text">边缘触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%85%A2%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81%E4%B8%8B%E6%9D%A5%E4%BA%86%E4%B8%AA%E4%BF%A1%E5%8F%B7%EF%BC%88Vital%EF%BC%89"><span class="nav-number">14.</span> <span class="nav-text">慢系统调用阻塞状态下来了个信号（Vital）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%BC%96%E7%A8%8Bfcntl"><span class="nav-number">15.</span> <span class="nav-text">非阻塞编程fcntl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">16.</span> <span class="nav-text">用户进程缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">17.</span> <span class="nav-text">内核缓冲区</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -502,19 +531,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
