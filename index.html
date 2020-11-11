@@ -176,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-static/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -190,7 +190,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/11/malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">malloc实现原理</a>
+            <a href="/2020/11/11/CPP-static/" class="post-title-link" itemprop="url">static</a>
         </h2>
 
         <div class="post-meta">
@@ -199,8 +199,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-11-11 14:40:10" itemprop="dateCreated datePublished" datetime="2020-11-11T14:40:10+08:00">2020-11-11</time>
+              <time title="Created: 2020-11-11 20:54:38 / Modified: 15:00:55" itemprop="dateCreated datePublished" datetime="2020-11-11T20:54:38+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
             </span>
 
           
@@ -214,10 +224,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>这篇文章记述了关于XXX的知识点。</p>
+          <p>这篇文章记述了关于static关键字的知识点。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/11/malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+              <a class="btn" href="/2020/11/11/CPP-static/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -241,7 +251,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/09/flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -255,7 +265,384 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/09/flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">flamingo源码阅读笔记</a>
+            <a href="/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" class="post-title-link" itemprop="url">指针与引用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-11 18:51:08 / Modified: 15:01:36" itemprop="dateCreated datePublished" datetime="2020-11-11T18:51:08+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章记述了关于指针与引用的知识点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/11/CPP-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">C11:智能指针</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-11 14:50:59 / Modified: 14:52:53" itemprop="dateCreated datePublished" datetime="2020-11-11T14:50:59+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" itemprop="url" rel="index"><span itemprop="name">智能指针</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章记述了关于C++11 智能指针的知识点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/11/CPP-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/11/CPP-%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC/" class="post-title-link" itemprop="url">C11:左值右值</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-11 14:50:22 / Modified: 14:55:25" itemprop="dateCreated datePublished" datetime="2020-11-11T14:50:22+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC/" itemprop="url" rel="index"><span itemprop="name">左值右值</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章记述了关于C++11左值右值的知识点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/11/CPP-%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-11 14:46:01" itemprop="dateCreated datePublished" datetime="2020-11-11T14:46:01+08:00">2020-11-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章记述了关于XXX的知识点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/11/CPP-malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">malloc实现原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-11 14:40:10 / Modified: 14:58:35" itemprop="dateCreated datePublished" datetime="2020-11-11T14:40:10+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">内存管理</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/malloc/" itemprop="url" rel="index"><span itemprop="name">malloc</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章记述了关于 malloc 内存管理的知识点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/11/CPP-malloc%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/09/Net-flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/09/Net-flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">flamingo源码阅读笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -289,7 +676,7 @@
           <p>这篇文章记述了关于flamingo的知识点。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/09/flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
+              <a class="btn" href="/2020/11/09/Net-flamingo%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -313,7 +700,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/08/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/08/Linux-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -327,7 +714,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/08/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">虚拟内存</a>
+            <a href="/2020/11/08/Linux-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">虚拟内存</a>
         </h2>
 
         <div class="post-meta">
@@ -361,7 +748,7 @@
           <p>这篇文章记述了关于虚拟内存l的知识点。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/08/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/#more" rel="contents">
+              <a class="btn" href="/2020/11/08/Linux-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -385,7 +772,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/07/mysql/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/07/DB-mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -399,7 +786,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/07/mysql/" class="post-title-link" itemprop="url">mysql</a>
+            <a href="/2020/11/07/DB-mysql/" class="post-title-link" itemprop="url">mysql</a>
         </h2>
 
         <div class="post-meta">
@@ -433,7 +820,7 @@
           <p>这篇文章记述了关于数据库和mysql的知识点。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/07/mysql/#more" rel="contents">
+              <a class="btn" href="/2020/11/07/DB-mysql/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -457,7 +844,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/03/Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -471,7 +858,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">多线程</a>
+            <a href="/2020/11/03/Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">多线程</a>
         </h2>
 
         <div class="post-meta">
@@ -514,412 +901,7 @@
           <p>这篇文章记述了关于多线程的知识点。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/02/socket/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="acewzj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="acewzj">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/02/socket/" class="post-title-link" itemprop="url">socket</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-02 10:27:17" itemprop="dateCreated datePublished" datetime="2020-11-02T10:27:17+08:00">2020-11-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 16:41:27" itemprop="dateModified" datetime="2020-11-10T16:41:27+08:00">2020-11-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/socket/" itemprop="url" rel="index"><span itemprop="name">socket</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章记述了关于socket的知识点。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/02/socket/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/08/14/muduo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="acewzj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="acewzj">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/14/muduo/" class="post-title-link" itemprop="url">muduo</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-14 13:29:52" itemprop="dateCreated datePublished" datetime="2020-08-14T13:29:52+08:00">2020-08-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 16:41:27" itemprop="dateModified" datetime="2020-11-10T16:41:27+08:00">2020-11-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/muduo/" itemprop="url" rel="index"><span itemprop="name">muduo</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章记述了关于muduo的知识点。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/14/muduo/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/07/30/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="acewzj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="acewzj">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/30/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">dp动态规划</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-30 09:49:46" itemprop="dateCreated datePublished" datetime="2020-07-30T09:49:46+08:00">2020-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 16:41:27" itemprop="dateModified" datetime="2020-11-10T16:41:27+08:00">2020-11-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章记述了关于动态规划的知识点。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/30/dp%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/07/28/%E9%80%92%E5%BD%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="acewzj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="acewzj">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/28/%E9%80%92%E5%BD%92/" class="post-title-link" itemprop="url">递归</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-28 15:00:50" itemprop="dateCreated datePublished" datetime="2020-07-28T15:00:50+08:00">2020-07-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 16:41:27" itemprop="dateModified" datetime="2020-11-10T16:41:27+08:00">2020-11-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%80%92%E5%BD%92/" itemprop="url" rel="index"><span itemprop="name">递归</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>人理解迭代，神理解递归，今天我们来总结递归。递归很容易和树结合在一起考察。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/28/%E9%80%92%E5%BD%92/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/07/27/%E6%88%90%E9%83%BD%E8%BD%A6%E5%B1%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="acewzj">
-      <meta itemprop="description" content="acewzj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="acewzj">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/27/%E6%88%90%E9%83%BD%E8%BD%A6%E5%B1%95/" class="post-title-link" itemprop="url">成都车展</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-27 22:09:46" itemprop="dateCreated datePublished" datetime="2020-07-27T22:09:46+08:00">2020-07-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 16:41:27" itemprop="dateModified" datetime="2020-11-10T16:41:27+08:00">2020-11-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%8E%A9%E8%80%8D/" itemprop="url" rel="index"><span itemprop="name">玩耍</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章记述了成都汽车展览的东西。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/27/%E6%88%90%E9%83%BD%E8%BD%A6%E5%B1%95/#more" rel="contents">
+              <a class="btn" href="/2020/11/03/Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -942,7 +924,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1008,19 +990,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
