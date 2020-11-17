@@ -28,7 +28,7 @@
 <meta property="og:description" content="这篇文章记述了关于static关键字的知识点。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-11T12:54:38.000Z">
-<meta property="article:modified_time" content="2020-11-11T07:00:55.170Z">
+<meta property="article:modified_time" content="2020-11-13T02:57:39.310Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="static">
 <meta name="twitter:card" content="summary">
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-11 20:54:38 / Modified: 15:00:55" itemprop="dateCreated datePublished" datetime="2020-11-11T20:54:38+08:00">2020-11-11</time>
+              <time title="Created: 2020-11-11 20:54:38" itemprop="dateCreated datePublished" datetime="2020-11-11T20:54:38+08:00">2020-11-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-13 10:57:39" itemprop="dateModified" datetime="2020-11-13T10:57:39+08:00">2020-11-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -250,6 +256,16 @@
 <h2 id="类中的静态函数"><a href="#类中的静态函数" class="headerlink" title="类中的静态函数"></a>类中的静态函数</h2><p>就像类中的静态数据成员或静态变量一样，静态成员函数也不依赖于类的对象。我们被允许使用对象和’.’来调用静态成员函数。但建议使用类名和范围解析运算符调用静态成员。</p>
 <p>允许静态成员函数仅访问静态数据成员或其他静态成员函数，它们无法访问类的非静态数据成员或成员函数。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt; </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">        <span class="comment">// static member function </span></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printMsg</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Welcome to Apple!&quot;</span>; </span><br><span class="line">        &#125;</span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">// main function </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="comment">// invoking a static member function </span></span><br><span class="line">    Apple::printMsg(); </span><br><span class="line">&#125; </span><br><span class="line">------------------------</span><br><span class="line">Welcome to Apple!</span><br></pre></td></tr></table></figure>
+
+<h2 id="阿里：如何在C-中定义一个不能被继承的类呢？"><a href="#阿里：如何在C-中定义一个不能被继承的类呢？" class="headerlink" title="阿里：如何在C++中定义一个不能被继承的类呢？"></a>阿里：如何在C++中定义一个不能被继承的类呢？</h2><p><strong>想法一：私有构造函数来解决</strong><br>我们都知道在C++中子类的构造函数会自动调用父类的构造函数，子类的析构函数也会自动调用父类的析构函数。如果想要一个类无法被继承，那仫这个类的构造函数和析构函数必须是私有的，但是这样又会出现新的问题？就是这个类的构造函数和析构函数是私有的，我们如何获取和删除这个类的实例化对象呢？共有的静态函数就可以解决这个问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Base* <span class="title">getNewBase</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Base();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">deleteBase</span><span class="params">(Base* b)</span></span>&#123;</span><br><span class="line">       <span class="keyword">delete</span> b;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//私有化构造和析构函数</span></span><br><span class="line">    Base();</span><br><span class="line">    ~Base();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//静态成员函数没有隐含this指针参数，使用类型::作用域访问符直接调用静态成员函数</span></span><br><span class="line">    Base *b=Base::GetSpace();</span><br><span class="line">    Base::DeleteSpace(b);</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的实现会不会存在什仫问题呢？通过观察上面的代码我发现实例化一个对象只能使用new来实例，也就是说这个新创建的对象只能在堆上生成，这就存在一定的局限性。那仫如何解决呢？<br><strong>想法二：利用虚拟继承的方法</strong><br>同样是将父类的构造函数私有化，但是却定义了一个模板类型的友元，因为友元的特性：如果一个类是另一个类的友元，友元类的每个成员函数都是另一个类的友元函数，都可访问另一个类中的保护或私有数据成员。我们在子类中调用父类的构造和析构函数是不会出错的。<br>这种想法比方法一的想法好的一点就是：既可以在堆上实例化对象也可以在栈上实例化对象。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">friend</span> T;  <span class="comment">//定义友元，子类可以访问父类的私有成员对象</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Base()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Base()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Base()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;~Base()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//虚继承</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span>:</span><span class="keyword">virtual</span> <span class="keyword">public</span> Base&lt;Sub&gt;  </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Sub()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Sub()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Sub()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;~Sub()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Sub s1;   <span class="comment">//可以在栈上开辟</span></span><br><span class="line">    Sub *s2=<span class="keyword">new</span> Sub; <span class="comment">//可以在堆上开辟</span></span><br><span class="line">    <span class="keyword">delete</span> s2;</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">执行结果--</span><br><span class="line">    先执行 Sub s1 --&gt; 执行Base的构造函数（因为可以访问友元的私有变量和函数） </span><br><span class="line">    输出：Base()  Sub()</span><br><span class="line">    再执行 Sub *s2 = <span class="keyword">new</span> Sub;--&gt;在堆上创建对象</span><br><span class="line">    输出：Base()  Sub()</span><br><span class="line">    再执行<span class="keyword">delete</span> s2;--&gt;删除堆上创建的对象（删除时先执行子类的析构函数，再执行基类的析构函数）</span><br><span class="line">    输出：~Sub() ~Base()</span><br><span class="line">    最后停在pause这里，当按下任意按键时，栈上的对象也执行析构函数</span><br><span class="line">    输出：按任意键继续 按下以后输出 ~Sub() ~Base() （这句话几乎看不到）</span><br></pre></td></tr></table></figure>
+
+
 
 <h1 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h1><p>当编译器隐式执行类型转换时，大多数的编译器都会给出一个警告：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e:\vs 2010 projects\static_cast\static_cast\static_cast.cpp(11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据</span><br></pre></td></tr></table></figure>
@@ -306,7 +322,10 @@
     <a href="/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" rel="prev" title="指针与引用">
       <i class="fa fa-chevron-left"></i> 指针与引用
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/12/Net-HTTPS/" rel="next" title="HTTPS">
+      HTTPS <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -365,7 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">类中的静态变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AF%B9%E8%B1%A1%E4%B8%BA%E9%9D%99%E6%80%81"><span class="nav-number">2.</span> <span class="nav-text">类对象为静态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">类中的静态函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#static-cast"><span class="nav-number"></span> <span class="nav-text">static_cast</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">类中的静态变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AF%B9%E8%B1%A1%E4%B8%BA%E9%9D%99%E6%80%81"><span class="nav-number">2.</span> <span class="nav-text">类对象为静态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">类中的静态函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BF%E9%87%8C%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8C-%E4%B8%AD%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E4%B8%8D%E8%83%BD%E8%A2%AB%E7%BB%A7%E6%89%BF%E7%9A%84%E7%B1%BB%E5%91%A2%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">阿里：如何在C++中定义一个不能被继承的类呢？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#static-cast"><span class="nav-number"></span> <span class="nav-text">static_cast</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -379,19 +398,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
