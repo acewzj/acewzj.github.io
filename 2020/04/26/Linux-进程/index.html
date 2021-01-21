@@ -29,8 +29,11 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/11/08/z5K8ofrMNwbU7j4.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/08/g4wJWnALkGcXr3l.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/18/yliuPWGo6kMt4nZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/18/9wVJYB25iTzCptS.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/18/W8OTuXcgk2LmszM.png">
 <meta property="article:published_time" content="2020-04-26T10:45:26.000Z">
-<meta property="article:modified_time" content="2020-11-11T07:19:55.158Z">
+<meta property="article:modified_time" content="2020-11-18T11:15:43.343Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="OS">
 <meta property="article:tag" content="thread">
@@ -213,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-11 15:19:55" itemprop="dateModified" datetime="2020-11-11T15:19:55+08:00">2020-11-11</time>
+                <time title="Modified: 2020-11-18 19:15:43" itemprop="dateModified" datetime="2020-11-18T19:15:43+08:00">2020-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,6 +303,78 @@
 <p>6）调用abort();（将SIGABRT信号发给调用进程（进程不应忽略此信号））</p>
 <p>7）接到一个信号；</p>
 <p>8）最后一个线程对取消请求做出响应</p>
+<hr>
+<h2 id="《Linux内核设计与实现》–进程"><a href="#《Linux内核设计与实现》–进程" class="headerlink" title="《Linux内核设计与实现》–进程"></a>《Linux内核设计与实现》–进程</h2><p>Linux系统的线程实现非常特别：它对线程和进程并不特别区分，对Linux而言，线程只不过是一种特殊的进程罢了。</p>
+<p>现代处理器中，进程提供两种虚拟机制：虚拟处理器和虚拟内存。虚拟处理器给进程一种假象，让这些进程觉得自己在独享处理器；虚拟内存让进程在分配和管理内存时觉得自己拥有整个系统的内存资源。有趣的是，在线程之间可以共享虚拟内存，但是每个线程都拥有各自的虚拟处理器。</p>
+<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>内核把进程的列表存放在叫做任务队列的双向循环链表中。链表中的每一项都是类型为 task_struct、称为进程描述符的结构，该结构定义在 &lt;linux/sched.h&gt; 文件中。进程描述符中包含一个具体进程的所有信息。</p>
+<p>task_struct 相对较大，在32位机器上，一个大小约有1.7KB。进程描述符中的数据能完整的描述一个正在执行的数据：它打开的文件、进程的地址空间、挂起的信号、进程的状态以及其他信息。</p>
+<p><img src="https://i.loli.net/2020/11/18/yliuPWGo6kMt4nZ.png" alt="image-20201118101051385"></p>
+<p>Linux通过slab 分配器分配 task_struct 结构。这样能达到对象复用的目的（通过预先分配和重复使用 task_struct ，可以避免动态分配和释放带来的资源消耗。可以达到进程迅速创建的效果）</p>
+<p>过程大概是 slab 分配器在内核栈的最上面创建一个新的结构 <code>struct thread_info</code>，这个结构体里面有一个指向 task_struct 的指针。</p>
+<p><img src="https://i.loli.net/2020/11/18/9wVJYB25iTzCptS.png" alt="image-20201118101922433"></p>
+<p>在内核中，访问任务需要获得指向其 task_struct 的指针。可以通过 current 宏查找到当前正在运行进程的进程描述符的速度显得尤为重要。类似下面这样：</p>
+<p><code>current_thread_info()-&gt;task</code></p>
+<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p>进程描述符中的 state 域描述了进程的当前状态。有以下几种：</p>
+<p>TASK_RUNNING:进程是可执行的；它或者正在运行，或者在运行队列里等待运行；</p>
+<p>TASK_INTERRUPTIBLE:可中断，进程正在睡眠（被阻塞住了），等待某些条件的达成，一旦条件达成就会把进程状态置为运行。也会因为接收到信号而提前被唤醒并随时准备投入运行。</p>
+<p>TASK_UNINTERRUPTIBLE:不可中断，除了就算接收到信号也不会被唤醒或准备投入运行外，这个状态和可打断状态相同。</p>
+<p>__TASK_TRACED_ :被其他进程跟踪的进程，例如通过ptrace 对调试程序进行调试；</p>
+<p>__TASK_STOPPED_:进程停止执行，在调试期间接收到任何信号都会使进程进入这种状态。</p>
+<p><img src="https://i.loli.net/2020/11/18/W8OTuXcgk2LmszM.png" alt="image-20201118103229778"></p>
+<h3 id="进程创建"><a href="#进程创建" class="headerlink" title="进程创建"></a>进程创建</h3><p>unix 创建进程很特别：其他操作系统都提供产生进程的机制，首先在新的地址空间里创建进程，读入可执行文件，最后开始执行。unix 则首先通过 fork() 拷贝当前进程创建一个子进程。子进程与父进程区别在于PID（每个进程唯一）、PPID(子进程将其设置为父进程的PID)和某些资源和统计量（例如挂起的信号，它没有必要被继承）。exec() 函数则负责读取可执行文件并将其载入地址空间开始运行。</p>
+<h3 id="写时拷贝（COW）"><a href="#写时拷贝（COW）" class="headerlink" title="写时拷贝（COW）"></a>写时拷贝（COW）</h3><p>传统的fork() 系统调用直接把所有的资源复制给新创建的进程。这种实现过于简单且效率低下，因为它拷贝的数据或许并不共享，假设新进程打算立即执行一个新的映像（就是新的a.out），那么它拷贝的数据都将前功尽弃。</p>
+<blockquote>
+<p>补充：在shell 中经常喜欢这样用  ps -aux | grep xxx  这里 ps 会通过管道将数据发给新的 grep 进程。 grep 进程是 ps fork 出来的，但是它却执行了新的代码。根本没用到 ps 的一些数据。</p>
+</blockquote>
+<p>所以Linux 采用了写时拷贝页技术。只有要写的时候，数据才会被复制。</p>
+<p>fork() 的实际开销就是复制父进程的页表以及给子进程创建唯一的PID。在一般情况下，进程创建后都会马上运行一个可执行的文件，这种优化可以避免拷贝大量根本就不会被使用的数据（地址空间里常常包含数十兆的数据）。这个优化是很重要的。</p>
+<h3 id="fork"><a href="#fork" class="headerlink" title="fork()"></a>fork()</h3><p>Linux 通过 clone() 系统调用实现 fork()。这个调用通过一系列的参数标志来指明父子进程需要共享的资源。fork vfork 和 _clone()库函数都是根据自己的参数标志来调用 clone()，然后右 clone() 来调用 do_fork().</p>
+<p>do_fork() 函数调用 copy_process 函数然后让进程开始运行。copy_process 完成如下工作：</p>
+<p>1）调用 dup_task_struct() 为新进程创建一个内核栈（有点不明白这个栈有啥用）、thread_info结构和 task_struct 。这些值和当前进程的值相同，此时子进程和父进程的PID是完全一样的。</p>
+<p>2）检查创建完子进程后，当前用户所拥有的进程数目没有超过给它分配的资源的限制；</p>
+<p>3）子进程着手使自己与父进程区别开来，进程描述符内的许多成员都要被清零或者设为初始值。</p>
+<p>4）子进程的状态设置为TASK_UNINTERRUPTIBLE,以保证他不会被投入运行；</p>
+<p>5）调用alloc_pid() 为新进程分配一个有效的PID；</p>
+<p>6）根据传递给 clone 的参数标志， copy_process 拷贝或共享打开的文件、文件系统信息、信号处理函数、进程地址空间和命名空间等。一般情况下，这些资源会被给定进程的所有线程共享；否则，这些资源对每个进程是不同的，因此被拷贝到这里；</p>
+<p>7）返回一个指向子进程的指针；</p>
+<h3 id="vfork"><a href="#vfork" class="headerlink" title="vfork()"></a>vfork()</h3><p>vfork 函数用于创建一个新进程，而新进程的目的是 exec 一个新的程序，vfork 并不将父进程的地址空间完全复制到子进程中，因为子进程会立即调用 exec ，于是也不会引用该地址空间。（这是为什么呢？）</p>
+<p>vfork 保证子进程先执行，在它调用 exec 或 exit 之后父进程菜可能被调度执行。</p>
+<p>—以上为APUE 解释</p>
+<p>—以下为内核解释</p>
+<p>除了不拷贝父进程的页表外，vfork 系统调用和 fork 功能一样。子进程作为父进程的一个单独的线程在它的地址空间里运行直到子进程退出或执行 exec 。子进程不能向地址空间写入。在过去没有出现 COW 技术前，这个优化是很有意义的，</p>
+<blockquote>
+<p>（为啥有意义：因为以前的 fork 当它创建一个子进程时，将会创建一个新的地址空间，并且拷贝父进程的资源，而往往在子进程中会执行 exec 调用，这样，前面的拷贝工作就是白费力气了，这种情况下，聪明的人就想出了 vfork，它产生的子进程刚开始暂时与父进程共享地址空间（其实就是线程的概念了），因为这时候子进程在父进程的地址空间中运行，所以子进程不能进行写操作，并且在儿子“霸占”着老子的房子时候，要委屈老子一下了，让他在外面歇着（阻塞），一旦儿子执行了exec 或者 exit 后，相当于儿子买了自己的房子了，这时候就相当于分家了。此时 vfork 保证子进程先运行，在她调用 exec 或 exit 之后父进程才可能被调度运行。</p>
+</blockquote>
+<p>因此 vfork 设计用以子进程创建后立即执行 execve 系统调用加载新程序的情形。在子进程退出或开始新程序之前，内核保证了父进程处于阻塞状态（用 vfork 函数创建子进程后，子进程往往要调用一种 exec 函数以执行另一个程序，当进程调用一种 exec 函数时，该进程完全由新程序代换，而新程序则从其 main 函数开始执行，因为调用 exec 并不创建新进程，所以前后的进程 id 并未改变，exec 只是用另一个新程序替换了当前进程的正文，数据，堆和栈段。）</p>
+<p>现在由于在执行 fork 时引入了 COW 技术并且明确了子进程先执行，vfork 的好处就仅限于不拷贝父进程的页表项了。如果 Linux 将来 fork 有了写时拷贝页表项，那么 vfork 就彻底没用了。</p>
+<h3 id="线程在-Linux-中的实现"><a href="#线程在-Linux-中的实现" class="headerlink" title="线程在 Linux 中的实现"></a>线程在 Linux 中的实现</h3><p>线程机制提供了在同一程序内共享内存地址空间运行的一组线程，这些线程可以共享打开的文件和其他资源。</p>
+<p>从 unix 内核的角度来说，它没有线程这个概念，Linux 把所有的线程当作进程来实现。内核并没有准备特别的调度算法或者定义特别的数据结构来表征线程。相反，线程仅仅被视作为一个与其他进程共享某些资源的进程。每个线程都有唯一隶属于自己的 task_struct，所以在内核中，它看起来就像是一个普通的进程（只是线程和其他一些进程共享某些资源，如地址空间）。</p>
+<p>Windows系统在内核中提供了专门支持线程的机制，叫做轻量级进程。</p>
+<p>对于Linux 来说，线程只是一种进程间共享资源的手段（Linux 的进程本身就够轻量级了）</p>
+<p>举个例子：假如我们有一个包含四个线程的进程，在Windows中通常都会有一个包含指向四个不同线程的指针的<strong>进程描述符</strong>，该描述符负责描述像地址空间、打开的文件这样的共享资源。线程本身再去描述它所独占的资源。</p>
+<p>相反，Linux 仅仅创建四个进程并分配四个普通的 task_struct 结构。建立这四个进程时指定他们共享某些资源，这是相当高雅的做法。（原谅我暂时领会不到这种高雅）</p>
+<h3 id="线程的创建"><a href="#线程的创建" class="headerlink" title="线程的创建"></a>线程的创建</h3><p>线程的创建和普通进程的创建类似，只不过在调用 clone 的时候需要传递一些参数标志来指明需要共享的资源：</p>
+<p><code>clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0)</code></p>
+<p>父子俩共享地址空间（Virtual Memory）、文件系统资源、文件描述符和信号处理程序。</p>
+<p>对比一下，一个普通的 fork 函数实现是：</p>
+<p><code>clone(SIGCHLD, 0)</code></p>
+<p>传递给 clone () 函数的参数标志决定了新创建的进程的行为方式和父子进程之间共享的资源种类。</p>
+<h3 id="内核线程"><a href="#内核线程" class="headerlink" title="内核线程"></a>内核线程</h3><p>内核经常需要在后台执行一些操作。这种任务可以通过内核线程完成–独立运行在内核空间的标准线程。内核线程与普通线程之间的区别是内核线程没有独立的地址空间（实际上指向地址空间的 mm 指针被设置为 NULL）这是为什么呢？它们只在内核空间运行，从不切换到用户空间去。</p>
+<blockquote>
+<p>首先内核页表有一份，在内核初始时产生了，保存在某个地方。然后在创建每个进程时，每个进程 都拷贝了 一份 内核的页表，加上 自己的用户空间的页表，构成了整个 4g空间的页表，当然实际上这个页表没那么大，因为很多地址是没映射的。那么一个进程执行前，肯定要 在某些寄存器设置 设置好页表，这样mmu才能找到 根据某逻辑地址找到相应的物理内存地址。</p>
+<p>正因为 内核的页表 在每个进程下都一样，只要某个进程的页表被正确设置，那么 内核线程就可以不管当前是设置哪个进程的页表，只要 内核线程访问的 内核逻辑地址，就可以正确地找到物理地址。</p>
+<p>从这个角度看，进程中所谓独立的地址空间，只是因为有一个 独立的用户空间页表。 而对于内核线程，内核页表都是一样的，因此没有所谓的独立地址空间。</p>
+</blockquote>
+<h3 id="进程终结"><a href="#进程终结" class="headerlink" title="进程终结"></a>进程终结</h3><p>虽然让人伤感，但是进程总归是要终结的。当一个进程终结时，内核必须释放它所占有的资源并把这一不幸告知其父进程。（瞅瞅人家这话说的，有水平，翻译的也有水平）</p>
+<p>一般来说，进程的析构是自身引起的，它发生在进程调用 exit() 系统调用时，既可能显式地调用这系统调用，也可能隐式地从某个程序的主函数返回（其实C语言编译器会在 main() 函数的返回点后面放置调用 exit() 的代码）。当进程接收到它既不能处理也不能忽略的信号和异常时，它还可能被动的终结。不管进程是怎么终结的，该任务大部分都要靠 do_exit() 来完成，它要做下面这些繁琐的工作：</p>
+<p>1）将 task_struct 中的标志成员设置为 PF_EXITING;</p>
+<p>2）调用 del_timer_sync() 删除任一内核定时器。</p>
+<p>3）释放进程占用的 mm_struct，如果没有别的进程使用它们（也就是说这个地址空间没有被共享），就彻底释放它们。</p>
+<p>4）递减文件描述符、文件系统数据的引用计数，如果某个引用计数的值降为0，那么就代表没有进程在使用相应的资源，允以释放。</p>
+<p>5）调用 schedule() 切换到新的进程，因为处于 PF_EXITING 的进程不会再被调度，所以这是进程所执行的最后一段代码。</p>
+<p>进程占用的所有内存就是内核栈、thread_info 结构和 task_struct 结构。此时进程存在的唯一目的就是向它的父进程提供信息。父进程检索到信息后，或者通知内核那是无关的信息后，由进程所持有的剩余内存被释放，归还给系统使用。</p>
+<p>在调用了 do_exit 之后，尽管线程已经僵死不能再运行了，但是系统还保留了它的进程描述符。前面说过，这样做可以让系统有办法在子进程终结后仍能获得它的信息。在父进程获得已终结的子进程的信息后，或者通知内核它并不关注那些信息后，子进程的 task_struct 才被释放。</p>
+<p>如果父进程在子进程之前退出，必须有机制来保证子进程能找到一个新的父亲，否则这些成为孤儿的进程就会在退出时永远处于僵死状态，白白地耗费内存。解决方法就是给子进程在当前线程组里找一个线程作为父亲，如果不行，就让 init 作为它们的父进程。 在 do_exit 中会调用 exit_notify(),该函数会调用 forget_original_parent() ，而后者会调用 find_new_reaper() 来执行寻父过程。</p>
 
     </div>
 
@@ -414,7 +489,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">孤儿进程与僵尸进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%8D%B1%E5%AE%B3%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">僵尸进程危害场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">创建守护进程的过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">4.</span> <span class="nav-text">进程启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">exec函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number">5.</span> <span class="nav-text">进程终止</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">孤儿进程与僵尸进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%8D%B1%E5%AE%B3%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">僵尸进程危害场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">创建守护进程的过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">4.</span> <span class="nav-text">进程启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">exec函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number">5.</span> <span class="nav-text">进程终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8ALinux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E3%80%8B%E2%80%93%E8%BF%9B%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">《Linux内核设计与实现》–进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97"><span class="nav-number">6.1.</span> <span class="nav-text">任务队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">6.2.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">6.3.</span> <span class="nav-text">进程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E6%97%B6%E6%8B%B7%E8%B4%9D%EF%BC%88COW%EF%BC%89"><span class="nav-number">6.4.</span> <span class="nav-text">写时拷贝（COW）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork"><span class="nav-number">6.5.</span> <span class="nav-text">fork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vfork"><span class="nav-number">6.6.</span> <span class="nav-text">vfork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%9C%A8-Linux-%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.7.</span> <span class="nav-text">线程在 Linux 中的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.8.</span> <span class="nav-text">线程的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B"><span class="nav-number">6.9.</span> <span class="nav-text">内核线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E7%BB%93"><span class="nav-number">6.10.</span> <span class="nav-text">进程终结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -428,13 +503,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -478,7 +553,7 @@
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
