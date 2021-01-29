@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/11/12/xJlVRyXd9LH72uT.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/12/8NBdiTVwDmzSshC.png">
 <meta property="article:published_time" content="2020-11-12T07:15:18.000Z">
-<meta property="article:modified_time" content="2020-11-12T08:43:46.809Z">
+<meta property="article:modified_time" content="2021-01-27T09:33:01.000Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="Net">
 <meta property="article:tag" content="HTTPS">
@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-12 15:15:18 / Modified: 16:43:46" itemprop="dateCreated datePublished" datetime="2020-11-12T15:15:18+08:00">2020-11-12</time>
+              <time title="Created: 2020-11-12 15:15:18" itemprop="dateCreated datePublished" datetime="2020-11-12T15:15:18+08:00">2020-11-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-27 17:33:01" itemprop="dateModified" datetime="2021-01-27T17:33:01+08:00">2021-01-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -260,6 +266,9 @@
 <p>假如中间人拦截后把服务器的公钥替换为自己的公钥，因为数字签名的存在，会导致客户端验证签名不匹配，这样就防止了中间人替换公钥的问题。</p>
 <p> <img src="https://i.loli.net/2020/11/12/Y9tdkce6CsrIDma.png" alt="image-20201112153543261"></p>
 <p>浏览器安装后会内置一些权威第三方认证机构的公钥，比如VeriSign、Symantec以及GlobalSign等等，验证签名的时候直接就从本地拿到相应第三方机构的公钥，对私钥加密后的数字签名进行解密得到真正的签名，然后客户端利用签名生成规则进行签名生成，看两个签名是否匹配，如果匹配认证通过，不匹配则获取证书失败。</p>
+<p>补：</p>
+<p>数字证书是如何保证公钥来自请求的服务器呢？数字证书上由持有人的相关信息，通过这点可以确定其不是一个中间人；但是证书也是可以伪造的，如何保证证书为真呢？<br> 一个证书中含有三个部分:”证书内容，散列算法，加密密文”，证书内容会被散列算法hash计算出hash值，然后使用CA机构提供的私钥进行RSA加密。</p>
+<p>当客户端发起请求时，服务器将该数字证书发送给客户端，客户端通过CA机构提供的公钥对加密密文进行解密获得散列值（数字签名），同时将证书内容使用相同的散列算法进行Hash得到另一个散列值，比对两个散列值，如果两者相等则说明证书没问题。</p>
 <h2 id="为什么要有签名？"><a href="#为什么要有签名？" class="headerlink" title="为什么要有签名？"></a>为什么要有签名？</h2><p>大家可以想一下，为什么要有数字签名这个东西呢？</p>
 <p>第三方认证机构是一个开放的平台，我们可以去申请，中间人也可以去申请呀：</p>
 <p><img src="https://i.loli.net/2020/11/12/peNF3RlAIkU9Pxy.png" alt="image-20201112153647275"></p>
@@ -410,19 +419,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

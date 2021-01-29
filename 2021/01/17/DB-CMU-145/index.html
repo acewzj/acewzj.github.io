@@ -22,14 +22,19 @@
 
   <meta name="description" content="这篇文章记述了关于CMU15-445数据库的知识点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql">
+<meta property="og:title" content="CMU-15-445 实验开发日志">
 <meta property="og:url" content="http://acewzj.github.io/2021/01/17/DB-CMU-145/index.html">
 <meta property="og:site_name" content="acewzj">
 <meta property="og:description" content="这篇文章记述了关于CMU15-445数据库的知识点。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2021/01/18/urDoMYcJsqjVT7t.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/29/wYLpt47PRmrk12h.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/29/23MEvjcRDbVKgw6.png">
+<meta property="og:image" content="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab2-B-Tree/images/B-Tree-Node.png">
+<meta property="og:image" content="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab2-B-Tree/images/DeepinScreenshot_select-area_20180924103212.png">
+<meta property="og:image" content="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab3-Concurrency-Control/%E9%94%81%E8%A1%A8.png">
 <meta property="article:published_time" content="2021-01-17T08:55:09.000Z">
-<meta property="article:modified_time" content="2021-01-20T06:04:10.803Z">
+<meta property="article:modified_time" content="2021-01-29T14:27:45.000Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -48,7 +53,7 @@
   };
 </script>
 
-  <title>mysql | acewzj</title>
+  <title>CMU-15-445 实验开发日志 | acewzj</title>
   
     <script>
       function sendPageView() {
@@ -194,7 +199,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mysql
+          CMU-15-445 实验开发日志
         </h1>
 
         <div class="post-meta">
@@ -211,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-20 14:04:10" itemprop="dateModified" datetime="2021-01-20T14:04:10+08:00">2021-01-20</time>
+                <time title="Modified: 2021-01-29 22:27:45" itemprop="dateModified" datetime="2021-01-29T22:27:45+08:00">2021-01-29</time>
               </span>
 
           
@@ -228,11 +233,10 @@
         <p>这篇文章记述了关于CMU15-445数据库的知识点。</p>
 <a id="more"></a>
 
-<h3 id="2021-01-18-开发日志"><a href="#2021-01-18-开发日志" class="headerlink" title="2021-01-18 开发日志"></a>2021-01-18 开发日志</h3><p>今天配置了一天的开发环境。<code>centos 7</code> 的 <code>gcc </code>版本是 <code>4.8</code>，不支持 <code>C++ 17</code> 的编译。于是又下载最新的 <code>gcc </code>源码进行编译：编译的速度巨慢不说，它还老报错，缺这个少那个的。真让人头大，最后直接编译不下去了，留下一个烂摊子给我，郁闷死了。好在最后在网上找到一篇博客挺靠谱的。</p>
+<h3 id="2021-01-18"><a href="#2021-01-18" class="headerlink" title="2021-01-18"></a>2021-01-18</h3><p>今天配置了一天的开发环境。<code>centos 7</code> 的 <code>gcc </code>版本是 <code>4.8</code>，不支持 <code>C++ 17</code> 的编译。于是又下载最新的 <code>gcc </code>源码进行编译：编译的速度巨慢不说，它还老报错，缺这个少那个的。真让人头大，最后直接编译不下去了，留下一个烂摊子给我，郁闷死了。好在最后在网上找到一篇博客挺靠谱的。</p>
 <h4 id="升级GCC版本"><a href="#升级GCC版本" class="headerlink" title="升级GCC版本"></a>升级GCC版本</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ToBeExpert/p/10297697.html">https://www.cnblogs.com/ToBeExpert/p/10297697.html</a></p>
 <p><img src="https://i.loli.net/2021/01/18/urDoMYcJsqjVT7t.png" alt="image-20210118221025723"></p>
-<p>编译的时候出现了一个小插曲，我本来是想删除 <code>build</code> 文件夹下的所有文件，于是就脑抽的执行了<code> rm -rf /*</code> 命令。好家伙，当时就感觉不对劲了，怎么出现这么多 <code>permission denied</code> ？最后发现我的用户目录下所有文件都没了，好在不是在 <code>root </code>权限下执行的命令，否则就真的会上演“删库跑路”的局面了。我的目服务器平时也没啥用，只是作为远程调试 <code>Linux </code>程序的机器，误删的程序也都在 <code>Github </code>上进行了备份。不过这可是给我敲响了警钟：以后在使用 <code>rm -rf</code> 的时候一定要知道自己在干什么！正确的做法应该是 <code>rm -f *</code> ，不过这也太危险了，以后尽量还是带路径的进行删除吧。</p>
-<h3 id="2021-01-19-开发日志"><a href="#2021-01-19-开发日志" class="headerlink" title="2021-01-19 开发日志"></a>2021-01-19 开发日志</h3><p>试了其他人写好的程序发现编译不通过。最后决定就用官方的版本进行了编译，可是官方的版本采用了 <code>Google Test </code>进行测试，咱野路子用惯了，没用过这么高级的工具，再加上 <code>Github </code>的渣渣网速，就一直卡在 <code>clone Google Test</code> 的进度上，最后找了谷歌应用商店里的一个插件 <code>Github</code>加速 ，更换了下载地址，顿时下载速度起飞。</p>
+<h3 id="2021-01-19"><a href="#2021-01-19" class="headerlink" title="2021-01-19"></a>2021-01-19</h3><p>试了其他人写好的程序发现编译不通过。最后决定就用官方的版本进行了编译，可是官方的版本采用了 <code>Google Test </code>进行测试，咱野路子用惯了，没用过这么高级的工具，再加上 <code>Github </code>的渣渣网速，就一直卡在 <code>clone Google Test</code> 的进度上，最后找了谷歌应用商店里的一个插件 <code>Github</code>加速 ，更换了下载地址，顿时下载速度起飞。</p>
 <p>可是我一直习惯用 <code>VSCode </code>连接远端服务器进行调试。由于我之前刚重装过系统，进 <code>VSCode </code>之后死活连不上服务器，总是报错 “过程试图写入的管道不存在”。重新生成公钥私钥也解决不了。最后发现问题所在：我的系统环境变量里的 <code>ssh </code>被设置成了 <code>win10 </code>自带的 <code>openSSH </code>，替换掉我自己的 <code>Git </code>里的 <code>ssh </code>路径之后还是不行，隐隐看到 <code>VSCode </code>还是用的 <code>openSSH </code>进行连接，于是重启电脑之后让环境变量生效，轻松连上服务器。</p>
 <p>接着进行测试，发现加上这 <code>Google Test </code> 之后我连 <code>main </code>函数入口都找不到了，这怎么单步调试呢？加断点也进不去啊。总是显示有几个 <code>Test </code>被 <code>DISABLED </code>了。</p>
 <p>解决办法：</p>
@@ -241,7 +245,7 @@
 <p><code>TEST(BufferPoolManagerTest, BinaryDataTest)</code></p>
 <p>就能进入断点里面了。</p>
 <p>真TND高级！</p>
-<h3 id="2021-01-20-开发日志"><a href="#2021-01-20-开发日志" class="headerlink" title="2021-01-20 开发日志"></a>2021-01-20 开发日志</h3><p>今天看了 HashTable 和 B+ 树的视频。</p>
+<h3 id="2021-01-20"><a href="#2021-01-20" class="headerlink" title="2021-01-20"></a>2021-01-20</h3><p>今天看了 HashTable 和 B+ 树的视频。</p>
 <p>这算得上是数据库中最重要的两个数据结构了吧。</p>
 <p>先来理清一下“索引 index”的概念：</p>
 <blockquote>
@@ -265,6 +269,225 @@
 <p>检查查询的WHERE和JOIN子句。在任一子句中包括的每一列都是索引可以选择的对象。对新索引进行试验以检查它对运行查询性能的影响。考虑已在表上创建的索引数量。最好避免在单个表上有很多索引。检查已在表上创建的索引的定义。最好避免包含共享列的重叠<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%B4%A2%E5%BC%95">索引</a>。</p>
 <p>检查某列中唯一数据值的数量，并将该数量与表中的行数进行比较。比较的结果就是该列的可选择性，这有助于确定该列是否适合建立索引，如果适合，确定索引的类型。</p>
 </blockquote>
+<h3 id="2021-01-23-开发日志"><a href="#2021-01-23-开发日志" class="headerlink" title="2021-01-23 开发日志"></a>2021-01-23 开发日志</h3><p>今天主要是完成了 LRU 替换算法的开发。出现了两个小失误：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">LRUReplacer::Victim</span><span class="params">(<span class="keyword">frame_id_t</span> *frame_id)</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (size_ == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到最后一个节点</span></span><br><span class="line">    LinkNode* node = tail_-&gt;prev;</span><br><span class="line">    <span class="comment">//删除掉它</span></span><br><span class="line">    node-&gt;prev-&gt;next = tail_;<span class="comment">//2、这里误写为 node-&gt;prev = tail_; 粗心大意</span></span><br><span class="line">    tail_-&gt;prev = node-&gt;prev;</span><br><span class="line">    *frame_id = node-&gt;data;<span class="comment">// 1、这里误写为 frame_id = &amp;(node-&gt;data); 这样的话当 delete node 之后 frame_id 指向的值会灰飞烟灭。</span></span><br><span class="line">    map_cache.erase(node-&gt;data);</span><br><span class="line">    <span class="keyword">delete</span> node;</span><br><span class="line">    --size_;    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2021-01-26"><a href="#2021-01-26" class="headerlink" title="2021-01-26"></a>2021-01-26</h3><p>今天是回到家的第一天，主要工作计划如下：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> CMU 的 B+ 树的代码编写</li>
+<li><input disabled="" type="checkbox"> 2+2方法的彩色纹理实现</li>
+<li><input disabled="" type="checkbox"> 更新一下自己的简历和个人主页</li>
+</ul>
+<p>reinterpret_cast运算符是用来处理无关类型之间的转换；它会产生一个新的值，这个值会有与原始参数（expressoin）有完全相同的比特位。</p>
+<p>什么是无关类型？我没有弄清楚，没有找到好的文档来说明类型之间到底都有些什么关系（除了类的继承以外）。后半句倒是看出了reinterpret_cast的字面意思：重新解释（类型的比特位）。我们真的可以随意将一个类型值的比特位交给另一个类型作为它的值吗？其实不然。</p>
+<p><code>auto root = reinterpret_cast&lt;BPlusTreeLeafPage&lt;KeyType, ValueType, KeyComparator&gt; *&gt;(page-&gt;GetData());</code></p>
+<h4 id="std-atomic-next-page-id"><a href="#std-atomic-next-page-id" class="headerlink" title="std::atomic next_page_id_;"></a>std::atomic<page_id_t> next_page_id_;</h4><p>C++中对共享数据的存取在并发条件下可能会引起data race的undifined行为，需要限制并发程序以某种特定的顺序执行，有两种方式：使用mutex保护共享数据，原子操作：针对原子类型操作要不一步完成，要么不做，不可能出现操作一半被切换CPU，这样防止由于多线程指令交叉执行带来的可能错误。非原子操作下，某个线程可能看见的是一个其它线程操作未完成的数据。</p>
+<h4 id="NewPageImpl"><a href="#NewPageImpl" class="headerlink" title="NewPageImpl"></a>NewPageImpl</h4><p>分配新页：</p>
+<p>先在缓冲池里面分配：如果缓冲池里面没满–&gt;直接从空闲链表上摘一个空闲页面进行分配；如果缓冲池里面满了–&gt;利用LRU替换掉一页</p>
+<p>Page *BufferPoolManager::NewPageImpl(page_id_t *page_id)</p>
+<h3 id="2021-01-28"><a href="#2021-01-28" class="headerlink" title="2021-01-28"></a>2021-01-28</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要插入的值比当前最小的还小,赶紧给我腾位置 array 指的是数组首地址， + 1 代表移动一个元素的空间大小（此处为sizeof(MappingType)的大小）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (comparator(key, <span class="built_in">array</span>[<span class="number">0</span>].first) &lt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line"> memmove(<span class="built_in">array</span> + <span class="number">1</span>, <span class="built_in">array</span>, <span class="keyword">static_cast</span>&lt;<span class="keyword">size_t</span>&gt;(GetSize() * <span class="keyword">sizeof</span>(MappingType)));</span><br><span class="line"></span><br><span class="line"> <span class="built_in">array</span>[<span class="number">0</span>] = &#123;key, value&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>改动了 <code>b_plus_tree_leaf_page.h</code>中 <code>bool Lookup(const KeyType &amp;key, ValueType *value, const KeyComparator &amp;comparator) const;</code>为 ``bool Lookup(const KeyType &amp;key, ValueType &amp;value, const KeyComparator &amp;comparator) const`</p>
+<p>链接时出现下面报错：原因是 static 变量要在类外面进行初始化，不然就会出现链接错误。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">100</span>%] Linking CXX executable b_plus_tree_insert_test</span><br><span class="line">../lib/libbustub_shared.so: undefined reference to `bustub::BPlusTree&lt;bustub::GenericKey&lt;<span class="number">8u</span>l&gt;, bustub::RID, bustub::GenericComparator&lt;<span class="number">8u</span>l&gt; &gt;::root_is_locked<span class="number">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2021-01-29"><a href="#2021-01-29" class="headerlink" title="2021-01-29"></a>2021-01-29</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除节点</span></span><br><span class="line">memmove(<span class="built_in">array</span> + mid, <span class="built_in">array</span> + mid + <span class="number">1</span>,</span><br><span class="line">              <span class="keyword">static_cast</span>&lt;<span class="keyword">size_t</span>&gt;((GetSize() - mid - <span class="number">1</span>) * <span class="keyword">sizeof</span>(MappingType)));</span><br><span class="line"></span><br><span class="line">这段代码是删除找到的 key ,即为 mid ,内存移动时将 mid 往后的所有字节往前移动一下</span><br><span class="line"></span><br><span class="line">需要移动多少个字节呢？</span><br><span class="line"></span><br><span class="line">总共的字节数为 GetSize()；</span><br><span class="line"></span><br><span class="line">mid 所占的下标为 mid；</span><br><span class="line"></span><br><span class="line">如果说下标是从<span class="number">1</span>开始的，那么需要移动 GetSize() - mid 个就行了；</span><br><span class="line"></span><br><span class="line">但是现在下标是从<span class="number">0</span>开始的，所以需要移动 GetSize() - (mid + <span class="number">1</span>)个位置；</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2021/01/29/wYLpt47PRmrk12h.png" alt="image-20210129110137853"></p>
+<p><img src="https://i.loli.net/2021/01/29/23MEvjcRDbVKgw6.png" alt="image-20210129110112953"></p>
+<h1 id="实验一：缓冲池"><a href="#实验一：缓冲池" class="headerlink" title="实验一：缓冲池"></a>实验一：缓冲池</h1><p>在存储管理器中实现缓冲池。缓冲池负责将物理页面从主存储器来回移动到磁盘。</p>
+<p>它允许DBMS支持大于系统可用内存量的数据库。它的操作对系统中的其他部分是透明的。</p>
+<p>例如，系统使用其唯一标识符（page_id）向缓冲池请求页面，并且它不知道该页面是否已经在内存中，或者系统是否必须从磁盘检索它。</p>
+<p>你的实现需要是线程安全的。多个线程将同时访问内部数据结构，因此您需要确保其关键部分受锁存器保护（这些在操作系统中称为“锁”）。</p>
+<p>需要在存储管理器中实现以下三个组件：</p>
+<ol>
+<li>可扩展的哈希表</li>
+<li>LRU页面替换政策</li>
+<li>缓冲池管理器</li>
+</ol>
+<h2 id="可扩展的哈希表"><a href="#可扩展的哈希表" class="headerlink" title="可扩展的哈希表"></a>可扩展的哈希表</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>可扩展哈希表是一种动态哈希表，也就是说，它的桶的个数是可以增加的</p>
+<h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><p>你将构建一个通用哈希表，该表使用无序桶来存储唯一的键/值对。你的哈希表必须支持插入/删除键/值条目而不指定表的最大大小的功能。你的表需要根据需要自动增大，但不需要缩小它。也就是说，不需要实现对缩小或压缩哈希表的支持。还需要支持检查哈希表中是否存在密钥并返回其对应的值。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ol>
+<li>相比较静态哈希表，桶不再是数据块本身，而是用一个指向块的指针数组来表示桶</li>
+<li>指针数组能增长，它的长度总是2的幂，因此数组每增长一次，桶的数目就翻倍</li>
+<li>不过并非每个桶都有一个数据块，如果某些桶中的所有记录可以放在一个块中，那么这些桶可以共享一个块</li>
+<li>哈希函数h为每个键计算出一个K位二进制序列，该K足够大，比如32。但是桶的数目总是使用从序列第一位或者最后一位算起的若干位，此位数小于K，比如说i位。也就是说，当i是使用的位数时，桶数组将有2的i次方个项</li>
+</ol>
+<h3 id="实验中的难点"><a href="#实验中的难点" class="headerlink" title="实验中的难点"></a>实验中的难点</h3><ol>
+<li>要理解全局的<code>depth</code>和局部(桶)的<code>depth</code>的作用，用<code>HashKey</code>找位置时要仔细</li>
+<li>实验中最难的操作就是插入了，因为要考虑到当某个桶里的数据满的时候，就要分裂，即增加局部的<code>depth</code>，然后重新分配桶的<code>map</code>，分裂后桶的数目要加倍，全局的<code>depth</code>要一直大于等于局部的<code>depth</code></li>
+</ol>
+<h2 id="LRU页面替换政策"><a href="#LRU页面替换政策" class="headerlink" title="LRU页面替换政策"></a>LRU页面替换政策</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>内存管理的一种页面置换算法，对于在内存中但又不用的数据块（内存块）叫做LRU，操作系统会根据哪些数据属于LRU而将其移出内存而腾出空间来加载另外的数据。</p>
+<p>LRU是Least Recently Used的缩写，即最近最少使用，常用于页面置换算法，是为虚拟页式存储管理服务的。</p>
+<h3 id="要求-1"><a href="#要求-1" class="headerlink" title="要求"></a>要求</h3><p>该组件负责跟踪缓冲池中页面的使用情况。你将<code>LRUReplacer</code>在<code>src/include/buffer/lru_replacer.h</code>中实现一个新的子类，并在<code>src/buffer/lru_replacer.cpp</code>中实现相应的实现文件。这是一个通用类，用于跟踪何时使用它跟踪的元素。</p>
+<h3 id="实验中的难点-1"><a href="#实验中的难点-1" class="headerlink" title="实验中的难点"></a>实验中的难点</h3><ol>
+<li>要选好数据结构，我选择的数据结构是哈希表，即STL中的<code>unordered_map</code>，键是页面，值是一个节点，节点我用一个双向链表连接起来</li>
+<li>剩下的工作就很简单了</li>
+</ol>
+<h3 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h3><h4 id="为什么要用哈希表？"><a href="#为什么要用哈希表？" class="headerlink" title="为什么要用哈希表？"></a>为什么要用哈希表？</h4><p>虽然说实现LRU算法虽简单的数据结构是队列，但当你插入一个页面时，如果该页面是之前就已经在队列中的，那么就要找出之前已经存在队列中的那个页面，然后删除，在重新插入在队列尾部，找到并删除这个操作对于队列来说明显不合适，哈希表能快速查找并删除</p>
+<h4 id="为什么节点要用双向链表连接？"><a href="#为什么节点要用双向链表连接？" class="headerlink" title="为什么节点要用双向链表连接？"></a>为什么节点要用双向链表连接？</h4><p>既然已经决定了要用双向链表，那么怎么知道那个页面是最近未使用呢？那必定要用一个类似队列的东西，选择链表最为合适，然后为什么要用双向呢？是由于实验要求要支持<code>Erase</code>操作，即指定某个页面并删除，虽然用单向链表能找到要删除的页面，但是要删除一条链表中的某个节点，必须要知道前后的节点才能删除，因此要保存指向前一个节点的指针</p>
+<h2 id="缓冲池管理器"><a href="#缓冲池管理器" class="headerlink" title="缓冲池管理器"></a>缓冲池管理器</h2><h3 id="要求-2"><a href="#要求-2" class="headerlink" title="要求"></a>要求</h3><p>缓冲池管理器负责从中获取数据库页面DiskManager并将其存储在内存中。该<code>BufferPoolManager</code>也可以写脏页到磁盘时，它明确地指示这样做或何时需要移除一个页面，或产生新的一页。</p>
+<p>系统中的所有内存页面都由<code>Page</code>对象表示。在<code>BufferPoolManager</code>并不需要了解这些网页的内容。但是，你必须了解<code>Page</code>对象只是缓冲池中内存的容器，因此并不特定于唯一页面。也就是说，每个<code>Page</code>对象都包含一块内存，DiskManager用作复制从磁盘读取的物理页面内容的位置。当它来回移动到磁盘时，<code>BufferPoolManager</code>它将重用相同的Page对象来存储数据。这意味着同一<code>Page</code>对象在整个系统生命周期中可能包含不同的物理页面。该<code>Page</code>对象的<code>IDENTIFER（page_id）</code>跟踪它包含的物理页面; 如果<code>Page</code>对象不包含物理页面，则<code>page_id</code>必须将其设置为<code>INVALID_PAGE_ID</code>。</p>
+<p>每个<code>Page</code>对象还维护一个计数器，用于“固定”该页面的线程数。<code>BufferPoolManager</code>不能释放<code>Page</code>被钉住的东西。每个<code>Page</code>对象还会跟踪它是否脏。在取消固定页面时，记录页面是否被修改是您的工作。<code>BufferPoolManager</code>必须写一个肮脏的内容Page背到磁盘之前，该对象可重复使用。</p>
+<p><code>BufferPoolManager</code>实现将使用在先前步骤中创建的<code>ExtendibleHashTable</code>和<code>LRUReplacer</code>。它将使用<code>ExtendibleHashTable</code>映射<code>page_id</code>到<code>Page</code>对象的表。它还将使用它<code>LRUReplacer</code>来跟踪何时Page访问对象，以便它可以决定在必须释放帧以从磁盘复制新物理页面时腾出哪一个。</p>
+<h3 id="实验中的难点-2"><a href="#实验中的难点-2" class="headerlink" title="实验中的难点"></a>实验中的难点</h3><ol>
+<li>需要了解<code>DiskManager</code>和<code>Page</code></li>
+<li>剩下的实现只要按照注释中的解释就很简单了</li>
+</ol>
+<h1 id="实验2-B-Tree"><a href="#实验2-B-Tree" class="headerlink" title="实验2 B+ Tree"></a>实验2 B+ Tree</h1><h2 id="B-Tree知识笔记"><a href="#B-Tree知识笔记" class="headerlink" title="B+ Tree知识笔记"></a>B+ Tree知识笔记</h2><ul>
+<li>平衡的</li>
+<li>叶节点中的键是数据文件中的键的拷贝，这些键以排好序的形式，从左到右分布在叶节点中</li>
+<li>根节点中至少有两个指针被使用。所有指针指向位于B-Tree下一层的存储快</li>
+<li>叶节点中，最后一个节点指向它右边的下一个叶节点。在叶节点的其他n个指针中，至少有(n+1)/2个指针被使用</li>
+<li>在内层节点中，所有的n+1个节点都可以用来指向B-Tree中下一层的块，至少有(n+1)/2个指针被使用</li>
+</ul>
+<p><img src="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab2-B-Tree/images/B-Tree-Node.png"><br><img src="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab2-B-Tree/images/DeepinScreenshot_select-area_20180924103212.png"></p>
+<h2 id="实验简介"><a href="#实验简介" class="headerlink" title="实验简介"></a>实验简介</h2><h3 id="任务一：B-Tree页面"><a href="#任务一：B-Tree页面" class="headerlink" title="任务一：B+Tree页面"></a>任务一：B+Tree页面</h3><p>实现三个类：</p>
+<ol>
+<li>B+Tree Parent Page(父类)</li>
+<li>B+Tree Internal Page</li>
+<li>B+Tree Leaf Page</li>
+</ol>
+<p>要特别注意的一点：</p>
+<p>每个B+树叶/内部页面对应于缓冲池提取的存储器页面的内容（即字节数组data_）。因此，每次尝试读取或写入叶子/内部页面时，都需要首先使用其唯一的page_id从缓冲池中获取页面，然后 将其转换为叶子或内部页面，并在任何写入或读取后取消固定(Unpin)页面操作。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> *page = buffer_pool_manager-&gt;FetchPage(ValueAt(i));</span><br><span class="line"><span class="keyword">auto</span> child = <span class="keyword">reinterpret_cast</span>&lt;BPlusTreePage *&gt;(page-&gt;GetData());</span><br><span class="line"><span class="comment">// 一些读取页面或修改页面的操作</span></span><br><span class="line">buffer_pool_manager-&gt;UnpinPage(child-&gt;GetPageId(), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>上面这几行代码在整个实验二中用的特别多，做的事很简单，就是从缓冲区管理器中取得一个页面，<br>然后用<code>reinterpert_cast</code>转换为一个实验二中的内部页面或叶子页面，接着就可以对这个页面读取或修改了，<br>最后要<code>Unpin</code>掉这个页面。</p>
+<ul>
+<li>父类肯定是要先实现的，而且也最简单，重要的是了解父类中有什么方法，因为这些方法是内部节点页面和叶子节点页面共用的。</li>
+<li>接着实现内部节点页面，难点是插入一个节点之后遇到的节点页面要分裂的情况和删除一个节点之后节点页面需要合并或重分配的情况。</li>
+<li>最后实现叶子节点页面，和内部节点页面类似，叶子节点也可能需要分裂或合并或重分配。和内部节点页面不同的是，叶子节点页面的<code>ValueType</code>是<code>record_id</code>，<br>所以在模板特化的时候要注意。</li>
+</ul>
+<h3 id="任务二：B-Tree数据结构"><a href="#任务二：B-Tree数据结构" class="headerlink" title="任务二：B+Tree数据结构"></a>任务二：B+Tree数据结构</h3><p>任务二实际就是将任务一完成的页面用B+Tree数据结构串起来，这个真正的B+Tree，也就是整个实验二的重点和难点。</p>
+<ul>
+<li>由于B+Tree需要分裂、合并和重分配的操作，而且这些操作是递归的，<br>即叶子节点页面的分裂可能会导致其父亲节点页面的分裂，以此类推，所以实现的是后要特别注意。<br>而且还要注意某些特殊情况，如该页面是否是根节点页面。</li>
+<li>当需要节点分裂时，需要new一个新页面，这时候要调用它们的<code>Init</code>函数</li>
+</ul>
+<h3 id="任务三：索引迭代器"><a href="#任务三：索引迭代器" class="headerlink" title="任务三：索引迭代器"></a>任务三：索引迭代器</h3><p>最后一个任务，起到了辅助的作用，为了方便迭代数据，不难。</p>
+<h2 id="调试阶段"><a href="#调试阶段" class="headerlink" title="调试阶段"></a>调试阶段</h2><p>写了两天才将这三个任务写完了，但最难的地方还没有到来——调试。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make all b_plus_tree_test</span></span><br></pre></td></tr></table></figure>
+<p>出现了一大堆错误，修改完之后编译通过，运行程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">test</span>/b_plus_tree_test                                                                                                       </span></span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[==========] Running 5 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 5 tests from BPlusTreeTests</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest1</span><br><span class="line">2018-10-13 20:19:50 [src/disk/disk_manager.cpp:96:ReadPage] DEBUG - Read less than a page</span><br></pre></td></tr></table></figure>
+<p>程序就一直卡在这里，<code>disk_manager</code>是实验一里面<code>buffer pool manager</code>这个类有用到这个类，说明实验一的坑在实验二中出现了。再仔细看看<code>b_plus_tree_test.cpp</code>，错误应该是在插入第一个节点时就出现了问题。</p>
+<p>继续查看实验一写的代码，发现没什么问题，又看了<code>b_plus_tree.cpp</code>中的<code>Insert</code>，里面调用了<code>StartNewTree</code>，发现这个函数第一句调用错了函数，<br>本应该调用<code>NewPage</code>结果写成了<code>FetchPage</code>，难怪会出错。</p>
+<p>虽然解决了第一个错误，但接下来还有更多的错误。继续debug…….</p>
+<p>虽然有很多错误，但是从第一个开始看起：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;b_plus_tree_test</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 5 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 5 tests from BPlusTreeTests</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest1 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest2</span><br><span class="line">&#x2F;home&#x2F;liu&#x2F;Desktop&#x2F;CMU&#x2F;CMU-15-445&#x2F;Lab&#x2F;test&#x2F;index&#x2F;b_plus_tree_test.cpp:111: Failure</span><br><span class="line">Value of: 1</span><br><span class="line">Expected: rids.size()</span><br><span class="line">Which is: 0</span><br></pre></td></tr></table></figure>
+<p><code>rids</code>是在树叶节点页面才使用的，所以应该是树叶节点插入有问题，或者计数有问题。</p>
+<p>果然不出所料，在树叶节点页面的<code>Insert</code>方法中在其中一种情况中忘了要插入键值对….</p>
+<p>改了之后还有错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">test&#x2F;b_plus_tree_test</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 5 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 5 tests from BPlusTreeTests</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest1 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest2</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest2 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteTest1</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteTest1 (1 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteTest2</span><br><span class="line">&#x2F;home&#x2F;liu&#x2F;Desktop&#x2F;CMU&#x2F;CMU-15-445&#x2F;Lab&#x2F;test&#x2F;index&#x2F;b_plus_tree_test.cpp:297: Failure</span><br><span class="line">Value of: current_key</span><br><span class="line">  Actual: 2</span><br><span class="line">Expected: location.GetSlotNum()</span><br><span class="line">Which is: 1</span><br><span class="line">&#x2F;home&#x2F;liu&#x2F;Desktop&#x2F;CMU&#x2F;CMU-15-445&#x2F;Lab&#x2F;test&#x2F;index&#x2F;b_plus_tree_test.cpp:296: Failure</span><br><span class="line">Value of: 0</span><br><span class="line">Expected: location.GetPageId()</span><br><span class="line">Which is: 1</span><br></pre></td></tr></table></figure>
+<p>错误一直循环下去直到程序崩了，检查了两天发现原来从别人那里拷贝来的测试实验代码好像有些问题，换了之后虽然程序还有bug，但没有一直循环出现错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;b_plus_tree_test</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 11 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 11 tests from BPlusTreeTests</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest1 (1 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest2</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest2 (1 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertScale</span><br><span class="line">b_plus_tree_test: &#x2F;home&#x2F;liu&#x2F;Desktop&#x2F;CMU&#x2F;CMU-15-445&#x2F;Lab&#x2F;src&#x2F;page&#x2F;b_plus_tree_leaf_page.cpp:94: const std::pair&lt;_T1, _T2&gt;&amp; cmudb::BPlusTreeLeafPage&lt;KeyType, ValueType, KeyComparator&gt;::GetItem(int) [with KeyType &#x3D; cmudb::GenericKey&lt;8&gt;; ValueType &#x3D; cmudb::RID; KeyComparator &#x3D; cmudb::GenericComparator&lt;8&gt;]: Assertion &#96;0 &lt;&#x3D; index &amp;&amp; index &lt; GetSize()&#39; failed.</span><br><span class="line">[1]    25190 abort      test&#x2F;b_plus_tree_test</span><br></pre></td></tr></table></figure>
+<p>可以看出是调用<code>GetItem(int index)</code>时index超出了范围，先查看哪里调用了这个函数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> grep GetItem * -nR</span></span><br><span class="line">include/page/b_plus_tree_leaf_page.h:49:  const MappingType &amp;GetItem(int index);</span><br><span class="line">index/index_iterator.cpp:40:    return leaf_-&gt;GetItem(index_);</span><br><span class="line">page/b_plus_tree_leaf_page.cpp:93:GetItem(int index) &#123;</span><br><span class="line">page/b_plus_tree_leaf_page.cpp:300:  MappingType pair = GetItem(0);</span><br><span class="line">page/b_plus_tree_leaf_page.cpp:331:  MappingType pair = GetItem(GetSize()-1);</span><br></pre></td></tr></table></figure>
+<p>排除第一个和第三个函数的声明和定义，后两个肯定不会超范围，所以只能是在迭代器使用时出现了问题。</p>
+<p>回过头继续检查，实在想不出来，只好参考别人的代码，发现需要锁？？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">page-&gt;RLatch();</span><br><span class="line">buff_pool_manager_-&gt;FetchPage(leaf_-&gt;GetPageId())-&gt;RUnlatch();</span><br></pre></td></tr></table></figure>
+<p>加了之后果然测试全部通过了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;b_plus_tree_test                                                               master-!?</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 11 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 11 tests from BPlusTreeTests</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest1 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertTest2</span><br><span class="line">[       OK ] BPlusTreeTests.InsertTest2 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertScale</span><br><span class="line">[       OK ] BPlusTreeTests.InsertScale (266 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.InsertRandom</span><br><span class="line">[       OK ] BPlusTreeTests.InsertRandom (402 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteBasic</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteBasic (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteScale</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteScale (2 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteRandom</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteRandom (24 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteTest1</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteTest1 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.DeleteTest2</span><br><span class="line">[       OK ] BPlusTreeTests.DeleteTest2 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.ScaleTest</span><br><span class="line">[       OK ] BPlusTreeTests.ScaleTest (395 ms)</span><br><span class="line">[ RUN      ] BPlusTreeTests.RandomTest</span><br><span class="line">[       OK ] BPlusTreeTests.RandomTest (675 ms)</span><br><span class="line">[----------] 11 tests from BPlusTreeTests (1764 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global test environment tear-down</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] 11 tests from 1 test case ran. (1765 ms total)</span><br><span class="line">[  PASSED  ] 11 tests.</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>又是将近一个月的时间，艰难的完成了实验二，看起来简单的一个B+Tree，居然需要那么多需要考虑的东西，自己还是眼高手低了。接下里准备实验三，并发控制。</p>
+<h1 id="实验三：并发控制"><a href="#实验三：并发控制" class="headerlink" title="实验三：并发控制"></a>实验三：并发控制</h1><h2 id="任务一：Lock-Manager"><a href="#任务一：Lock-Manager" class="headerlink" title="任务一：Lock Manager"></a>任务一：Lock Manager</h2><p>为了确保正确交叉事务的操作，DBMS将使用锁管理器（LM）来控制何时允许事务访问数据项。</p>
+<p>LM的基本思想是它维护一个关于活动事务当前持有的锁的内部数据结构。</p>
+<p>然后，事务在允许访问数据项之前向LM发出锁定请求。LM将授予对调用事务的锁定，阻止该事务或中止它。</p>
+<p>此任务要求您实现支持两阶段锁定（2PL）和严格两阶段锁定（S2PL）的元组级LM 。</p>
+<h2 id="知识笔记"><a href="#知识笔记" class="headerlink" title="知识笔记"></a>知识笔记</h2><h3 id="Two-phase-locking-2PL"><a href="#Two-phase-locking-2PL" class="headerlink" title="Two-phase locking - 2PL"></a>Two-phase locking - 2PL</h3><p>简单来说就是，一个事务分为两个阶段，上升阶段(获取锁)和下降阶段(释放锁)，在上升阶段不能释放锁，在下降阶段不能获得锁。</p>
+<p>这样就保证了冲突可串行化，但是不能保证不会发生死锁，所以我门采用下面的方法来预防死锁。</p>
+<h3 id="Strict-Two-phase-locking-S2PL"><a href="#Strict-Two-phase-locking-S2PL" class="headerlink" title="Strict Two-phase locking - S2PL"></a>Strict Two-phase locking - S2PL</h3><p>在2PL的基础上，还要求事务持有的所有排他锁必须在事务提交后方可释放。</p>
+<p>这个要求保证未提交事务所写的任何数据在该事务提交之前均以排它锁方式加锁，防止其他事务读这些数据。</p>
+<h3 id="wait-die"><a href="#wait-die" class="headerlink" title="wait-die"></a>wait-die</h3><p>Lock Manager 将实施WAIT-DIE策略以预防死锁</p>
+<ul>
+<li>该方案是基于非剥夺方法。当进程Pi请求的资源正被进程Pj占有时，只有当Pi的时间戳比进程Pj的时间戳小时，<br>即Pi比Pj老时，Pi才能等待。否则Pi被卷回（roll-back），即死亡。</li>
+<li>一个进程死亡后会释放他所占用的所有资源。在这里假定死亡的进程将带着同样的时间戳重新运行。</li>
+<li>由于具有较小时间戳的进程才等待具有较大时间戳的进程，因此很显然死锁不会发生。当进程在等待特定的资源时，不会释放资源。</li>
+<li>一旦一个进程释放一个资源，与这个资源相联系的等待队列中的一个进程将被激活。</li>
+</ul>
+<h3 id="Lock-Manager"><a href="#Lock-Manager" class="headerlink" title="Lock Manager"></a>Lock Manager</h3><p>锁管理器可以实现为一个过程，它从事务接受消息并反馈消息。锁管理器过程针对锁请求消息返回授予锁消息，或者要求事务回滚的消息。<br>解锁消息只需要得到一个确认回答，但可能引发为其他等待事务的授予锁消息。</p>
+<p>锁管理器为目前已加锁的每个数据项维护一个链表，每一个请求为链表中一条记录，按请求到达的顺序排序。</p>
+<p>它使用一个以数据项名称为索引的散列表来查找链表中的数据项，叫锁表。</p>
+<p><img src="https://github.com/liu-jianhao/CMU-15-445/blob/master/Lab3-Concurrency-Control/%E9%94%81%E8%A1%A8.png"></p>
+<p>上图包含五个不同数据项的锁。已授予锁的事务用深色阴影方块表示，等待授予锁的事务用浅色方块。</p>
+<p>除了图上看到的，锁表还应当维护一个基于事务表示符的索引，这样它可以有效地确定给定事务持有的锁集。</p>
+<p>锁管理器处理请求：</p>
+<ul>
+<li>当一条请求消息到达时，如果相应数据项的链表存在，在该链表末尾增加一个记录；否则，新建一个包含该请求记录的链表。</li>
+<li>收到一个事务的解锁消息是，它将与该事务相对应的数据项链表中的记录删除，然后检查随后的记录，如果有，检查该请求能否被授权</li>
+<li>如果一个事务中止，锁管理器删除该事务产生的正在等待加锁的所有请求。<br>这个算法保证了锁请求无饿死现象，因为在先前接受到的请求正在等待加锁时，后来者不可能获得授权。</li>
+</ul>
+<h2 id="任务一调试"><a href="#任务一调试" class="headerlink" title="任务一调试"></a>任务一调试</h2><p>任务一还算比较简单，主要先将锁表的数据结构想好，之后的操作基本上就水到渠成了，但毕竟是多线程的并发，难免会有问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;lock_manager_test</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 9 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 9 tests from LockManagerTest</span><br><span class="line">[ RUN      ] LockManagerTest.BasicTest</span><br><span class="line">[       OK ] LockManagerTest.BasicTest (1 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicShareTest</span><br><span class="line">[       OK ] LockManagerTest.BasicShareTest (100 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicExclusiveTest</span><br><span class="line">[       OK ] LockManagerTest.BasicExclusiveTest (101 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicUpdateTest</span><br><span class="line">^C</span><br></pre></td></tr></table></figure>
+<p>能通过三个测试，但是最后一样还是卡住了。</p>
+<p>找了快一个小时，终于找到了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(it == lock_table_[rid].<span class="built_in">list</span>.begin() || it-&gt;mode == LockMode::EXCLUSIVE)</span><br><span class="line">&#123;</span><br><span class="line">  cond.notify_all();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">lock_table_[rid].<span class="built_in">list</span>.erase(it);</span><br></pre></td></tr></table></figure>
+<p>这个是改过之后的，之前错误的代码是将erase语句写在了其上面的if语句之前，因为erase会让迭代器失效，所以后面的操作肯定就是错误的了。</p>
+<p>然后就通过测试了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 9 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 9 tests from LockManagerTest</span><br><span class="line">[ RUN      ] LockManagerTest.BasicTest</span><br><span class="line">[       OK ] LockManagerTest.BasicTest (0 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicShareTest</span><br><span class="line">[       OK ] LockManagerTest.BasicShareTest (101 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicExclusiveTest</span><br><span class="line">[       OK ] LockManagerTest.BasicExclusiveTest (100 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicUpdateTest</span><br><span class="line">[       OK ] LockManagerTest.BasicUpdateTest (101 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicTest1</span><br><span class="line">[       OK ] LockManagerTest.BasicTest1 (100 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.BasicTest2</span><br><span class="line">[       OK ] LockManagerTest.BasicTest2 (200 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.DeadlockTest1</span><br><span class="line">[       OK ] LockManagerTest.DeadlockTest1 (0 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.DeadlockTest2</span><br><span class="line">[       OK ] LockManagerTest.DeadlockTest2 (1 ms)</span><br><span class="line">[ RUN      ] LockManagerTest.DeadlockTest3</span><br><span class="line">[       OK ] LockManagerTest.DeadlockTest3 (500 ms)</span><br><span class="line">[----------] 9 tests from LockManagerTest (1104 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global test environment tear-down</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] 9 tests from 1 test case ran. (1104 ms total)</span><br><span class="line">[  PASSED  ] 9 tests.</span><br></pre></td></tr></table></figure>
+
+<h2 id="任务二：并发索引"><a href="#任务二：并发索引" class="headerlink" title="任务二：并发索引"></a>任务二：并发索引</h2><h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><ul>
+<li>不能使用全局范围锁存器来保护你的数据结构，也就是说，无法锁定整个索引，只能在操作完成时解锁锁存器。</li>
+<li>提供了读写锁存器的实现<code>src/include/common/rwmutex.h</code>。并且已经在文件下添加了辅助函数来获取和释放<code>latch</code>(<code>src/include/page / page.h</code>)</li>
+<li>必须使用名为<code>transaction</code>的传入指针参数。它提供了在遍历B +树时存储已获取锁存页面的方法，以及存储在<code>Remove</code>操作期间删除的页面的方法。我们的建议是仔细查看<code>FindLeafPage()</code>B+树中的方法，你可能想改变以前的实现并在这个特定方法中添加<code>latch crabbing</code>的逻辑。</li>
+<li>　缓冲池管理器中<code>FetchPage</code>的返回值是一个指向<code>Page</code>的实例<code>src/include/page/page.h</code>的指针。你可以获得一个Page的锁，但你不能获得B+Tree节点上的锁（既不是内部节点也不是叶子节点）</li>
+</ul>
+<h3 id="常见的问题"><a href="#常见的问题" class="headerlink" title="常见的问题"></a>常见的问题</h3><ul>
+<li>仔细考虑<code>UnpinPage(page_id, is_dirty)</code>缓冲池管理器类中的<code>UnLock()</code>方法与页面类中的方法之间的顺序和关系。在从缓冲池取消固定同一页面之前，必须释放该页面上的锁存器。</li>
+<li>如果你正确地实现并发B+树索引，那么每个线程将始终从根到底获取锁存器。释放闩锁时，请确保遵循相同的顺序（也称为从根到下）以避免可能的死锁情况。</li>
+<li>其中一个例子是插入和删除时，成员变量<code>root_page_id（src/include/index/b_plus_tree.h）</code>也将被更新。您有责任防止此共享变量的并发更新（提示：在B +树索引中添加一个抽象层，您可以使用std::mutex来保护此变量）</li>
+</ul>
+<h2 id="任务二调试"><a href="#任务二调试" class="headerlink" title="任务二调试"></a>任务二调试</h2><p>前面两次实验都需要花很多时间来调试，这次也不例外。。。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">test</span>/b_plus_tree_concurrent_test </span></span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[==========] Running 6 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 6 tests from BPlusTreeConcurrentTest</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest1</span><br><span class="line">[1]    1189 segmentation fault  test/b_plus_tree_concurrent_test</span><br></pre></td></tr></table></figure>
+<p>用<code>valgrand</code>检查得到下面结果(部分)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;25834&#x3D;&#x3D;    at 0x4F47E4A: cmudb::BPlusTreeInternalPage&lt;cmudb::GenericKey&lt;8ul&gt;, int, cmudb::GenericComparator&lt;8ul&gt; &gt;::Lookup(cmudb::GenericKey&lt;8ul&gt; const&amp;, cmudb::GenericComparator&lt;8ul&gt; const&amp;) const (in &#x2F;home&#x2F;liu&#x2F;Desktop&#x2F;CMU&#x2F;CMU-15-445&#x2F;Lab&#x2F;build&#x2F;lib&#x2F;libvtable.so)</span><br></pre></td></tr></table></figure>
+<p>可以看到是在之前内部节点页面中的<code>Lookup</code>函数出了问题</p>
+<p>检查一遍<code>Lookup</code>函数，猜测应该是没有处理边界条件，加上之后，再次编译运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">test</span>/b_plus_tree_concurrent_test</span></span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[==========] Running 6 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 6 tests from BPlusTreeConcurrentTest</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest1</span><br><span class="line">b_plus_tree_concurrent_test: /home/liu/Desktop/CMU/CMU-15-445/Lab/src/index/b_plus_tree.cpp:670: cmudb::BPlusTreeLeafPage&lt;KeyType, ValueType, KeyComparator&gt;* cmudb::BPlusTree&lt;KeyType, ValueType, KeyComparator&gt;::FindLeafPage(const KeyType&amp;, bool, cmudb::Operation, cmudb::Transaction*) [with KeyType = cmudb::GenericKey&lt;8&gt;; ValueType = cmudb::RID; KeyComparator = cmudb::GenericComparator&lt;8&gt;]: Assertion `node-&gt;GetParentPageId() == parent_page_id&#x27; failed.</span><br></pre></td></tr></table></figure>
+<p>偶尔会出现上面的情况，或者直接卡死在第一个测试。重新检查实验二中写的代码，修修补补了一些代码。再次编译运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;b_plus_tree_concurrent_test </span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 6 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 6 tests from BPlusTreeConcurrentTest</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.InsertTest1 (5 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest2</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.InsertTest2 (2 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.DeleteTest1</span><br><span class="line">[1]    2207 segmentation fault  test&#x2F;b_plus_tree_concurrent_test</span><br></pre></td></tr></table></figure>
+<p>现在只会出现上面的情况，直接崩溃。第三个测试是删除的测试，再去检查有关删除的函数。</p>
+<p>检查后发现<code>AdjustRoot</code>这个函数没有考虑删除完最后一个元素后的情况，补充之后，能通过全部测试了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ test&#x2F;b_plus_tree_concurrent_test                                                                                                                1 ↵</span><br><span class="line">Running main() from gmock_main.cc</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] Running 6 tests from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 6 tests from BPlusTreeConcurrentTest</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest1</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.InsertTest1 (3 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.InsertTest2</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.InsertTest2 (1 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.DeleteTest1</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.DeleteTest1 (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.DeleteTest2</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.DeleteTest2 (1 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.MixTest</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.MixTest (0 ms)</span><br><span class="line">[ RUN      ] BPlusTreeConcurrentTest.MixTest2</span><br><span class="line">[       OK ] BPlusTreeConcurrentTest.MixTest2 (4 ms)</span><br><span class="line">[----------] 6 tests from BPlusTreeConcurrentTest (9 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global test environment tear-down</span><br><span class="line">[&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] 6 tests from 1 test case ran. (9 ms total)</span><br><span class="line">[  PASSED  ] 6 tests.</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="实验四：日志和恢复"><a href="#实验四：日志和恢复" class="headerlink" title="实验四：日志和恢复"></a>实验四：日志和恢复</h1><p>第四个实验是在数据库系统中实现日志记录和恢复机制。</p>
+<h2 id="任务一：日志管理器-amp-任务二：系统恢复"><a href="#任务一：日志管理器-amp-任务二：系统恢复" class="headerlink" title="任务一：日志管理器 &amp; 任务二：系统恢复"></a>任务一：日志管理器 &amp; 任务二：系统恢复</h2><ul>
+<li><p><code>include/logging/log_record.h</code></p>
+<ul>
+<li>日志记录的基本结构</li>
+</ul>
+</li>
+<li><p><code>logging/log_manager.cpp和logging/log_manager.h</code></p>
+<ul>
+<li>刷新日志记录到磁盘</li>
+</ul>
+</li>
+<li><p><code>table/table_page.cpp和include/logging/table_page.h</code></p>
+<ul>
+<li>以元组为单位，构造日志项，并通过log_manager写入日志</li>
+</ul>
+</li>
+<li><p><code>concurrency/transaction_manager.cpp和include/concurrency/transaction_manager.h</code></p>
+<ul>
+<li>更新事务的lsn</li>
+</ul>
+</li>
+<li><p><code>logging/log_recovey.cpp和include/logging/log_recovey.h</code></p>
+<ul>
+<li>反序列化日志(即分析阶段)，重做、撤销</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>第四次实验虽然改的文件多，但量并不大，比起上一次实验的并发控制简单多了。</p>
+<p>虽然比上次实验简单，但是这次实验也有一些难点，首当其冲的就是log_manager，因为要实现后台线程和线程同步。</p>
+<p>我采用的是最直观但不怎么简洁的办法，用条件变量控制线程，再用一个原子布尔变量来判断后台线程是否在运行。</p>
+<p>任务二只要理解恢复算法就能很快写出来了。</p>
+<h3 id="2021-01-23-开发日志-1"><a href="#2021-01-23-开发日志-1" class="headerlink" title="2021-01-23 开发日志"></a>2021-01-23 开发日志</h3><p>今天主要是完成了 LRU 替换算法的开发。出现了两个小失误：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">LRUReplacer::Victim</span><span class="params">(<span class="keyword">frame_id_t</span> *frame_id)</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (size_ == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到最后一个节点</span></span><br><span class="line">    LinkNode* node = tail_-&gt;prev;</span><br><span class="line">    <span class="comment">//删除掉它</span></span><br><span class="line">    node-&gt;prev-&gt;next = tail_;<span class="comment">//2、这里误写为 node-&gt;prev = tail_; 粗心大意</span></span><br><span class="line">    tail_-&gt;prev = node-&gt;prev;</span><br><span class="line">    *frame_id = node-&gt;data;<span class="comment">// 1、这里误写为 frame_id = &amp;(node-&gt;data); 这样的话当 delete node 之后 frame_id 指向的值会灰飞烟灭。</span></span><br><span class="line">    map_cache.erase(node-&gt;data);</span><br><span class="line">    <span class="keyword">delete</span> node;</span><br><span class="line">    --size_;    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -375,7 +598,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-18-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97"><span class="nav-number">1.</span> <span class="nav-text">2021-01-18 开发日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7GCC%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">升级GCC版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-19-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97"><span class="nav-number">2.</span> <span class="nav-text">2021-01-19 开发日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-20-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97"><span class="nav-number">3.</span> <span class="nav-text">2021-01-20 开发日志</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-18"><span class="nav-number">1.</span> <span class="nav-text">2021-01-18</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7GCC%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">升级GCC版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-19"><span class="nav-number">2.</span> <span class="nav-text">2021-01-19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-20"><span class="nav-number">3.</span> <span class="nav-text">2021-01-20</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-23-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97"><span class="nav-number">4.</span> <span class="nav-text">2021-01-23 开发日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-26"><span class="nav-number">5.</span> <span class="nav-text">2021-01-26</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#std-atomic-next-page-id"><span class="nav-number">5.1.</span> <span class="nav-text">std::atomic next_page_id_;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NewPageImpl"><span class="nav-number">5.2.</span> <span class="nav-text">NewPageImpl</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-28"><span class="nav-number">6.</span> <span class="nav-text">2021-01-28</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-29"><span class="nav-number">7.</span> <span class="nav-text">2021-01-29</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E7%BC%93%E5%86%B2%E6%B1%A0"><span class="nav-number"></span> <span class="nav-text">实验一：缓冲池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number"></span> <span class="nav-text">可扩展的哈希表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9A%84%E9%9A%BE%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">实验中的难点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU%E9%A1%B5%E9%9D%A2%E6%9B%BF%E6%8D%A2%E6%94%BF%E7%AD%96"><span class="nav-number"></span> <span class="nav-text">LRU页面替换政策</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E6%B1%82-1"><span class="nav-number">2.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9A%84%E9%9A%BE%E7%82%B9-1"><span class="nav-number">3.</span> <span class="nav-text">实验中的难点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">4.</span> <span class="nav-text">Q&amp;A</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">为什么要用哈希表？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%8A%82%E7%82%B9%E8%A6%81%E7%94%A8%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8%E8%BF%9E%E6%8E%A5%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">为什么节点要用双向链表连接？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E6%B1%A0%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number"></span> <span class="nav-text">缓冲池管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E6%B1%82-2"><span class="nav-number">1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9A%84%E9%9A%BE%E7%82%B9-2"><span class="nav-number">2.</span> <span class="nav-text">实验中的难点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C2-B-Tree"><span class="nav-number"></span> <span class="nav-text">实验2 B+ Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0"><span class="nav-number"></span> <span class="nav-text">B+ Tree知识笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%AE%80%E4%BB%8B"><span class="nav-number"></span> <span class="nav-text">实验简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80%EF%BC%9AB-Tree%E9%A1%B5%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">任务一：B+Tree页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%BA%8C%EF%BC%9AB-Tree%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">任务二：B+Tree数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%89%EF%BC%9A%E7%B4%A2%E5%BC%95%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">任务三：索引迭代器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E9%98%B6%E6%AE%B5"><span class="nav-number"></span> <span class="nav-text">调试阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="nav-number"></span> <span class="nav-text">实验三：并发控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80%EF%BC%9ALock-Manager"><span class="nav-number"></span> <span class="nav-text">任务一：Lock Manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0"><span class="nav-number"></span> <span class="nav-text">知识笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-phase-locking-2PL"><span class="nav-number">1.</span> <span class="nav-text">Two-phase locking - 2PL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Strict-Two-phase-locking-S2PL"><span class="nav-number">2.</span> <span class="nav-text">Strict Two-phase locking - S2PL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait-die"><span class="nav-number">3.</span> <span class="nav-text">wait-die</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lock-Manager"><span class="nav-number">4.</span> <span class="nav-text">Lock Manager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80%E8%B0%83%E8%AF%95"><span class="nav-number"></span> <span class="nav-text">任务一调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%BA%8C%EF%BC%9A%E5%B9%B6%E5%8F%91%E7%B4%A2%E5%BC%95"><span class="nav-number"></span> <span class="nav-text">任务二：并发索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA"><span class="nav-number">1.</span> <span class="nav-text">提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">常见的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%BA%8C%E8%B0%83%E8%AF%95"><span class="nav-number"></span> <span class="nav-text">任务二调试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A%E6%97%A5%E5%BF%97%E5%92%8C%E6%81%A2%E5%A4%8D"><span class="nav-number"></span> <span class="nav-text">实验四：日志和恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80%EF%BC%9A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%99%A8-amp-%E4%BB%BB%E5%8A%A1%E4%BA%8C%EF%BC%9A%E7%B3%BB%E7%BB%9F%E6%81%A2%E5%A4%8D"><span class="nav-number"></span> <span class="nav-text">任务一：日志管理器 &amp; 任务二：系统恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number"></span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2021-01-23-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97-1"><span class="nav-number">1.</span> <span class="nav-text">2021-01-23 开发日志</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -389,19 +612,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
