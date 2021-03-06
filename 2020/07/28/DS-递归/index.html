@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/08/05/ZstUdhLSmQFyBD3.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/24/EyqN3GRUnabeigA.png">
 <meta property="article:published_time" content="2020-07-28T07:00:50.000Z">
-<meta property="article:modified_time" content="2021-02-19T02:39:12.000Z">
+<meta property="article:modified_time" content="2021-03-03T03:48:18.418Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="递归">
 <meta property="article:tag" content="算法">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-19 10:39:12" itemprop="dateModified" datetime="2021-02-19T10:39:12+08:00">2021-02-19</time>
+                <time title="Modified: 2021-03-03 11:48:18" itemprop="dateModified" datetime="2021-03-03T11:48:18+08:00">2021-03-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,8 +272,6 @@
 <p>应该是自顶向下吧</p>
 <p>先比较 root 的左孩子和右孩子</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> root == <span class="literal">nullptr</span>? <span class="literal">true</span> : (recur(root-&gt;left, root-&gt;right));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">recur</span><span class="params">(TreeNode* l, TreeNode* r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l == <span class="literal">nullptr</span> &amp;&amp; r == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (l == <span class="literal">nullptr</span> || r == <span class="literal">nullptr</span> || l-&gt;val != r-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> recur(l-&gt;left, r-&gt;right) &amp;&amp; recur(l-&gt;right, r-&gt;left);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
 
 
 
