@@ -34,8 +34,9 @@
 <meta property="og:image" content="https://i.loli.net/2019/09/08/G2svTNJrOc3fhei.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/13/Q1hEX6dIOHfmMSx.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/10/zkp5WbaRUmhlycw.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/11/Wy51jaBTCsgfItd.png">
 <meta property="article:published_time" content="2020-04-06T00:13:29.000Z">
-<meta property="article:modified_time" content="2021-01-27T01:06:35.000Z">
+<meta property="article:modified_time" content="2021-03-07T08:01:52.808Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="compiling">
 <meta property="article:tag" content="link">
@@ -219,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-27 09:06:35" itemprop="dateModified" datetime="2021-01-27T09:06:35+08:00">2021-01-27</time>
+                <time title="Modified: 2021-03-07 16:01:52" itemprop="dateModified" datetime="2021-03-07T16:01:52+08:00">2021-03-07</time>
               </span>
 
           
@@ -235,6 +236,11 @@
       
         <p>这篇文章主要记述编译原理以及链接的一些知识点。</p>
 <a id="more"></a>
+
+<p>调用一个函数时，先把自己的基地址入栈，防止从函数退出时找不到主调函数的基地址，这样的话一些偏移就不好计算了；</p>
+<p>接着还要把函数返回后要执行的下一条指令的地址要入栈；</p>
+<p>比如：ip 就会保存 printf 的地址，为了从 add 函数返回之后能执行 printf ！</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    add(); <span class="comment">//主调函数</span></span><br><span class="line">    <span class="built_in">printf</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://i.loli.net/2020/11/17/5U1XtSm7ib6oFu2.png" alt="image-20201117095102616"></p>
 <h1 id="链接原理"><a href="#链接原理" class="headerlink" title="链接原理"></a>链接原理</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/52964760">转载自–刘叔–深入Linux内核</a></p>
@@ -294,6 +300,36 @@
 <p>2.接下来利用ldconfig这个可执行文件将<code>/etc/ld.so.conf.d</code>的数据读入缓存中；</p>
 <p>3.同时也将数据记录一份在<code>/etc/ld.so.cache</code> 这个文件当中。</p>
 <p>Tips:可以使用<code>ldconfig -p</code>指令查看函数库内容（ld.so.cache）</p>
+<h2 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="CMakeLists.txt"></a>CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)<span class="comment"># 规定最低版本</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(CloudViewer) <span class="comment"># 项目名称</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># init qt</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOMOC <span class="keyword">ON</span>) <span class="comment"># for meta object compiler</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTORCC <span class="keyword">ON</span>) <span class="comment"># resource files</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOUIC <span class="keyword">ON</span>) <span class="comment"># UI files</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># find package</span></span><br><span class="line"><span class="keyword">find_package</span>(Qt5 REQUIRED Widgets)</span><br><span class="line"><span class="keyword">find_package</span>(PCL <span class="number">1.7</span>.<span class="number">1</span> REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PCL_INCLUDE_DIRS&#125;</span>)<span class="comment"># 将PCL_INCLUDE_DIRS（上面find 到了） 文件夹下的头文件加入到包含路径中，类似于加入到VC++---&gt;包含目录</span></span><br><span class="line"><span class="keyword">link_directories</span>(<span class="variable">$&#123;PCL_LIBRARY_DIRS&#125;</span>)<span class="comment"># 同理，链接--》库目录</span></span><br><span class="line"><span class="keyword">add_definitions</span>(<span class="variable">$&#123;PCL_DEFINITIONS&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># find source files, header files and ui files</span></span><br><span class="line"><span class="comment"># aux_source_directory(. DIR_SRCS)</span></span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE DIR_SRCS    <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/*.cpp)<span class="comment">#GLOB_RECURSE 将会递归所有匹配文件夹的子文件夹和匹配的文件。将结果保存到变量里面去供下文使用</span></span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE DIR_HEADERS <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/*.h)</span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE DIR_UIS     <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/*.ui)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add resource</span></span><br><span class="line"><span class="keyword">set</span>(RESOURCE <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/CloudViewer.qrc)</span><br><span class="line">qt5_add_resources(RESOURCE_ADDED <span class="variable">$&#123;RESOURCE&#125;</span>)</span><br><span class="line"><span class="comment"># 相当于 GCC -o $&#123;PROJECT_NAME&#125; $&#123;DIR_SRCS&#125;...</span></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span></span><br><span class="line">    <span class="variable">$&#123;DIR_SRCS&#125;</span></span><br><span class="line">    <span class="variable">$&#123;DIR_HEADERS&#125;</span></span><br><span class="line">    <span class="variable">$&#123;DIR_UIS&#125;</span></span><br><span class="line">    <span class="variable">$&#123;RESOURCE_ADDED&#125;</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># 相当于 GCC -o $&#123;PROJECT_NAME&#125; -l$&#123;PCL_LIBRARIES&#125;</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span></span><br><span class="line">    <span class="variable">$&#123;PCL_LIBRARIES&#125;</span></span><br><span class="line">    Qt5::Widgets</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="find-package原理"><a href="#find-package原理" class="headerlink" title="find_package原理"></a>find_package原理</h3><p>首先明确一点，cmake本身不提供任何搜索库的便捷方法，所有搜索库并给变量赋值的操作必须由cmake代码完成，比如下面将要提到的FindXXX.cmake和XXXConfig.cmake。只不过，库的作者通常会提供这两个文件，以方便使用者调用。</p>
+<p>find_package采用两种模式搜索库：</p>
+<p>Module模式：搜索CMAKE_MODULE_PATH指定路径下的FindXXX.cmake文件，执行该文件从而找到XXX库。其中，具体查找库并给XXX_INCLUDE_DIRS和XXX_LIBRARIES两个变量赋值的操作由FindXXX.cmake模块完成。<br>Config模式：搜索XXX_DIR指定路径下的XXXConfig.cmake文件，执行该文件从而找到XXX库。其中具体查找库并给XXX_INCLUDE_DIRS和XXX_LIBRARIES两个变量赋值的操作由XXXConfig.cmake模块完成。</p>
+<p>两种模式看起来似乎差不多，不过cmake默认采取Module模式，如果Module模式未找到库，才会采取Config模式。如果XXX_DIR路径下找不到XXXConfig.cmake文件，则会找/usr/local/lib/cmake/XXX/中的XXXConfig.cmake文件。总之，Config模式是一个备选策略。通常，库安装时会拷贝一份XXXConfig.cmake到系统目录中，因此在没有显式指定搜索路径时也可以顺利找到。</p>
+<p>在我遇到的问题中，由于Caffe安装时没有安装到系统目录，因此无法自动找到CaffeConfig.cmake，我在CMakeLists.txt最前面添加了一句话之后就可以了。</p>
+<p> <code>set(Caffe_DIR /home/wjg/projects/caffe/build)   #添加CaffeConfig.cmake的搜索路径</code></p>
+<h3 id="add-definitions"><a href="#add-definitions" class="headerlink" title="add_definitions"></a>add_definitions</h3><p>代码中通过宏　USE_MACRO 作为区分．</p>
+<p>．．．</p>
+<p>＃ifdef USE_MACRO</p>
+<p>．．．</p>
+<p>＃endif</p>
+<p>我们可以通过在项目中的CMakeLists.txt 中添加如下代码控制代码的开启和关闭．</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+ OPTION(USE_MACRO</span><br><span class="line"></span><br><span class="line">+  <span class="string">&quot;Build the project using macro&quot;</span></span><br><span class="line"></span><br><span class="line">+  OFF)</span><br><span class="line"></span><br><span class="line">+ IF(USE_MACRO)</span><br><span class="line"></span><br><span class="line">+  add_definitions(<span class="string">&quot;-DUSE_MACRO&quot;</span>)</span><br><span class="line"></span><br><span class="line">+ endif(USE_MACRO)</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于Windows下与Linux下文件编码格式的讨论"><a href="#关于Windows下与Linux下文件编码格式的讨论" class="headerlink" title="关于Windows下与Linux下文件编码格式的讨论"></a>关于Windows下与Linux下文件编码格式的讨论</h2><p>跨平台的程序从GitHub 上下载下来导入到 visual studio 经常报莫名奇怪的错误，经查发现是文件编码的问题。接下来详细记录一下这个问题：</p>
+<p>首先，怎么查看Windows 下一个文件的编码格式呢？</p>
+<p>很简单，就是用记事本打开并点击另存为就可以看到文件是什么格式了</p>
+<p><img src="https://i.loli.net/2020/07/11/Wy51jaBTCsgfItd.png" alt="image-20200711210801609"></p>
+<p>上图中源文件是UTF-8的格式。而我们打开一个正常不乱码的文件查看发现是ANSI格式。不同的国家和地区制定了不同的标准，由此产生了 GB2312、GBK、GB18030、Big5、Shift_JIS 等各自的编码标准。这些使用多个字节来代表一个字符的各种汉字延伸编码方式，称为 ANSI 编码。在简体中文Windows操作系统中，ANSI 编码代表 GB2312编码；在繁体中文Windows操作系统中，ANSI编码代表Big5；</p>
+<p>UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度。</p>
+<p>UTF-8 的编码规则很简单，只有二条：</p>
+<p>1）对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p>
+<p>2）对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</p>
+<p>下表总结了编码规则，字母<code>x</code>表示可用编码的位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Unicode符号范围     |        UTF<span class="number">-8</span>编码方式</span><br><span class="line">(十六进制)        |              （二进制）</span><br><span class="line">----------------------+---------------------------------------------</span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span><span class="number">-0000</span> <span class="number">007F</span> | <span class="number">0</span>xxxxxxx</span><br><span class="line"><span class="number">0000</span> <span class="number">0080</span><span class="number">-0000</span> <span class="number">07F</span>F | <span class="number">110</span>xxxxx <span class="number">10</span>xxxxxx</span><br><span class="line"><span class="number">0000</span> <span class="number">0800</span><span class="number">-0000</span> FFFF | <span class="number">1110</span>xxxx <span class="number">10</span>xxxxxx <span class="number">10</span>xxxxxx</span><br><span class="line"><span class="number">0001</span> <span class="number">0000</span><span class="number">-0010</span> FFFF | <span class="number">11110</span>xxx <span class="number">10</span>xxxxxx <span class="number">10</span>xxxxxx <span class="number">10</span>xxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>跟据上表，解读 UTF-8 编码非常简单。如果一个字节的第一位是<code>0</code>，则这个字节单独就是一个字符；如果第一位是<code>1</code>，则连续有多少个<code>1</code>，就表示当前字符占用多少个字节。</p>
+<p>我们下载了VS 中的御用插件 ForceUTF-8 </p>
 
     </div>
 
@@ -409,7 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">链接原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%97%B6%E6%A0%88"><span class="nav-number">1.1.</span> <span class="nav-text">C编译与运行时栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93"><span class="nav-number">1.2.</span> <span class="nav-text">动态链接库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">一个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么要使用动态链接库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E5%8A%A8%E6%80%81%E5%87%BD%E6%95%B0%E5%BA%93%E5%8A%A0%E8%BD%BD%E5%88%B0%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%E4%B8%AD%E5%91%A2%EF%BC%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何将动态函数库加载到高速缓存中呢？</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">链接原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%97%B6%E6%A0%88"><span class="nav-number">1.1.</span> <span class="nav-text">C编译与运行时栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93"><span class="nav-number">1.2.</span> <span class="nav-text">动态链接库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">一个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么要使用动态链接库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E5%8A%A8%E6%80%81%E5%87%BD%E6%95%B0%E5%BA%93%E5%8A%A0%E8%BD%BD%E5%88%B0%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%E4%B8%AD%E5%91%A2%EF%BC%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何将动态函数库加载到高速缓存中呢？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMakeLists-txt"><span class="nav-number">1.3.</span> <span class="nav-text">CMakeLists.txt</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#find-package%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">find_package原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add-definitions"><span class="nav-number">1.3.2.</span> <span class="nav-text">add_definitions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EWindows%E4%B8%8B%E4%B8%8ELinux%E4%B8%8B%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E7%9A%84%E8%AE%A8%E8%AE%BA"><span class="nav-number">1.4.</span> <span class="nav-text">关于Windows下与Linux下文件编码格式的讨论</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -423,7 +459,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -435,7 +471,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

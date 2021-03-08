@@ -28,7 +28,7 @@
 <meta property="og:description" content="这篇文章记述了关于 C++ inline 关键字的知识点。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-11T07:37:29.000Z">
-<meta property="article:modified_time" content="2021-01-27T01:06:35.000Z">
+<meta property="article:modified_time" content="2021-03-07T06:41:46.731Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="CPP">
 <meta property="article:tag" content="inline">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-27 09:06:35" itemprop="dateModified" datetime="2021-01-27T09:06:35+08:00">2021-01-27</time>
+                <time title="Modified: 2021-03-07 14:41:46" itemprop="dateModified" datetime="2021-03-07T14:41:46+08:00">2021-03-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,7 +240,13 @@
         <p>这篇文章记述了关于 C++ inline 关键字的知识点。</p>
 <a id="more"></a>
 
-<h2 id="阿里：inline-实现原理"><a href="#阿里：inline-实现原理" class="headerlink" title="阿里：inline 实现原理"></a>阿里：inline 实现原理</h2>
+<h2 id="阿里：inline-实现原理"><a href="#阿里：inline-实现原理" class="headerlink" title="阿里：inline 实现原理"></a>阿里：inline 实现原理</h2><p>内联函数(inline function与通常的函数不一样，它不是在调用时发生控制转移，而是在编译阶段将函数体嵌入到每个调用该函数的语句块中。 内联函数(inline function) 与编译器的工做息息相关 。编译器会将程序中出现内联函数的 调用表达式用内联函数的函数体来替换。</p>
+<p>内联函数的优势：</p>
+<p>​    内联函数是将程序执行转移到被调用函数所存放的内存地址，将函数执行完后，在返回到执行此函数前的地方。这种转移操做须要保护现场、包括进栈等操做，在被调用函数代码执行完后，再恢复现场。可是保护现场和恢复现场须要较大的资源开销。对于一些较小的调用函数来讲，如果频繁调用，函数调用过程甚至可能比函数执行过程须要的系统资源更多。因此引入内联函数，可让程序执行效率更高。</p>
+<p>内联函数的缺点：</p>
+<p>​    若是调用内联函数的地方过多，也可能形成代码膨胀。由于编译器会把内联函数的函数体嵌入到每个调用了它的地方，重复地嵌入。</p>
+<p>如下是几种含有内联函数的状况：</p>
+
     </div>
 
     
@@ -368,7 +374,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -380,7 +386,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/11/18/9wVJYB25iTzCptS.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/18/W8OTuXcgk2LmszM.png">
 <meta property="article:published_time" content="2020-04-26T10:45:26.000Z">
-<meta property="article:modified_time" content="2021-01-27T01:06:35.000Z">
+<meta property="article:modified_time" content="2021-03-07T15:20:30.699Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="OS">
 <meta property="article:tag" content="thread">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-27 09:06:35" itemprop="dateModified" datetime="2021-01-27T09:06:35+08:00">2021-01-27</time>
+                <time title="Modified: 2021-03-07 23:20:30" itemprop="dateModified" datetime="2021-03-07T23:20:30+08:00">2021-03-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,8 +242,9 @@
         <p>这篇文章记述了关于进程的知识点。</p>
 <a id="more"></a>
 
-
-
+<h2 id="C语言中return和exit的区别"><a href="#C语言中return和exit的区别" class="headerlink" title="C语言中return和exit的区别"></a>C语言中return和exit的区别</h2><p>exit用于结束进程，返回的状态码是给操作系统使用或父进程使用的。return是堆栈返回，返回的值是给主调函数用的。主线程结束前会默认调用exit结束进程。</p>
+<p>exit函数运行时首先会执行由atexit()函数登记的函数，然后会做一些自身的清理工作，同时刷新所有输出流、关闭所有打开的流并且关闭通过标准I/O函数 tmpfile()创建的临时文件。exit是结束一个进程，它将删除进程使用的内存空间，同时把错误信息返回父进程,而return是返回函数值并退出函数。</p>
+<p>main函数结束时也会隐式地调用exit函数。</p>
 <h2 id="孤儿进程与僵尸进程"><a href="#孤儿进程与僵尸进程" class="headerlink" title="孤儿进程与僵尸进程"></a>孤儿进程与僵尸进程</h2><p>　孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作.</p>
 <p>　僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵死进程。</p>
 <p>unix提供了一种机制可以保证只要父进程想知道子进程结束时的状态信息， 就可以得到。这种机制就是: 在每个进程退出的时候,内核释放该进程所有的资源,包括打开的文件,占用的内存等。 但是仍然为其保留一定的信息(包括进程号the process ID,退出状态the termination status of the process,运行时间the amount of CPU time taken by the process等)。直到父进程通过wait / waitpid来取时才释放。 但这样就导致了问题，<strong>如果进程不调用wait / waitpid的话，</strong> <strong>那么保留的那段信息就不会释放，其进程号就会一直被占用，但是系统所能使用的进程号是有限的，如果大量的产生僵死进程，将因为没有可用的进程号而导致系统不能产生新的进程. 此即为僵尸进程的危害，应当避免。</strong></p>
@@ -276,6 +277,42 @@
 <li>用openlog函数建立与syslogd的连接。</li>
 </ol>
 <p>/dev/null是一个特殊的设备文件，这个文件接收到的任何数据都会被丢弃。因此，null这个设备通常也被成为位桶（bit bucket）或黑洞。</p>
+<h2 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h2><p>1、<strong>管道</strong></p>
+<p>管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道。</p>
+<p>只能用于父子进程或者兄弟进程之间(具有亲缘关系的进程);</p>
+<p>单独构成一种独立的文件系统：管道对于管道两端的进程而言，就是一个文件，但它不是普通的文件，它不属于某种文件系统，而是自立门户，单独构成一种文件系统，并且只存在与内存中。</p>
+<p>数据的读出和写入：一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据。</p>
+<p>2、<strong>信号</strong></p>
+<p>信号是Linux系统中用于进程间互相通信或者操作的一种机制，信号可以在任何时候发给某一进程，而无需知道该进程的状态。</p>
+<p>如果该进程当前并未处于执行状态，则该信号就有内核保存起来，知道该进程回复执行并传递给它为止。</p>
+<p>如果一个信号被进程设置为阻塞，则该信号的传递被延迟，直到其阻塞被取消是才被传递给进程。</p>
+<blockquote>
+<p><strong>Linux系统中常用信号：</strong><br> （1）<strong>SIGHUP：</strong>用户从终端注销，所有已启动进程都将收到该进程。系统缺省状态下对该信号的处理是终止进程。<br> （2）<strong>SIGINT：</strong>程序终止信号。程序运行过程中，按<code>Ctrl+C</code>键将产生该信号。<br> （3）<strong>SIGQUIT：</strong>程序退出信号。程序运行过程中，按<code>Ctrl+\\</code>键将产生该信号。<br> （4）<strong>SIGBUS和SIGSEGV：</strong>进程访问非法地址。<br> （5）<strong>SIGFPE：</strong>运算中出现致命错误，如除零操作、数据溢出等。<br> （6）<strong>SIGKILL：</strong>用户终止进程执行信号。shell下执行<code>kill -9</code>发送该信号。<br> （7）<strong>SIGTERM：</strong>结束进程信号。shell下执行<code>kill 进程pid</code>发送该信号。<br> （8）<strong>SIGALRM：</strong>定时器信号。<br> （9）<strong>SIGCLD：</strong>子进程退出信号。如果其父进程没有忽略该信号也没有处理该信号，则子进程退出后将形成僵尸进程。</p>
+</blockquote>
+<p>3、<strong>消息(Message)队列</strong></p>
+<blockquote>
+<p><strong>消息队列特点总结：</strong><br> （1）消息队列是消息的链表,具有特定的格式,存放在内存中并由消息队列标识符标识.<br> （2）消息队列允许一个或多个进程向它写入与读取消息.<br> （3）管道和消息队列的通信数据都是先进先出的原则。<br> （4）消息队列可以实现消息的随机查询,消息不一定要以先进先出的次序读取,也可以按消息的类型读取.比FIFO更有优势。<br> （5）消息队列克服了信号承载信息量少，管道只能承载无格式字 节流以及缓冲区大小受限等缺。<br> （6）目前主要有两种类型的消息队列：POSIX消息队列以及System V消息队列，系统V消息队列目前被大量使用。系统V消息队列是随内核持续的，只有在内核重起或者人工删除时，该消息队列才会被删除。</p>
+</blockquote>
+<p>4、<strong>共享内存(share memory)</strong></p>
+<p>使得多个进程可以可以直接读写同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。</p>
+<p>为了在多个进程间交换信息，内核专门留出了一块内存区，可以由需要访问的进程将其映射到自己的私有地址空间。进程就可以直接读写这一块内存而不需要进行数据的拷贝，从而大大提高效率。</p>
+<p>由于多个进程共享一段内存，因此需要依靠某种同步机制（如信号量）来达到进程间的同步及互斥。</p>
+<p>5、信号量</p>
+<p>信号量是一个计数器，用于多进程对共享数据的访问，信号量的意图在于进程间同步。<br> 为了获得共享资源，进程需要执行下列操作：<br> （1）<strong>创建一个信号量</strong>：这要求调用者指定初始值，对于二值信号量来说，它通常是1，也可是0。<br> （2）<strong>等待一个信号量</strong>：该操作会测试这个信号量的值，如果小于0，就阻塞。也称为P操作。<br> （3）<strong>挂出一个信号量</strong>：该操作将信号量的值加1，也称为V操作。</p>
+<p>为了正确地实现信号量，信号量值的测试及减1操作应当是原子操作。为此，信号量通常是在内核中实现的。Linux环境中，有三种类型：<strong>Posix（<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://baike.baidu.com/link?url=hYEo6ngm9MlqsQHT3h28baIDxEooeSPX6wr_FdGF-F8mf7wDp2xJWIDtQWGEDxthtPNiJtlsw460g1_N0txJYa">可移植性操作系统接口</a>）有名信号量（使用Posix IPC名字标识）</strong>、<strong>Posix基于内存的信号量（存放在共享内存区中）</strong>、<strong>System V信号量（在内核中维护）</strong>。这三种信号量都可用于进程间或线程间的同步。</p>
+<blockquote>
+<p><strong>信号量与互斥量之间的区别：</strong><br> （1）互斥量用于线程的互斥，信号量用于线程的同步。这是互斥量和信号量的根本区别，也就是互斥和同步之间的区别。<br> <strong>互斥：</strong>是指某一资源同时只允许一个访问者对其进行访问，具有唯一性和排它性。但互斥无法限制访问者对资源的访问顺序，即访问是无序的。<br> <strong>同步：</strong>是指在互斥的基础上（大多数情况），通过其它机制实现访问者对资源的有序访问。<br> 在大多数情况下，同步已经实现了互斥，特别是所有写入资源的情况必定是互斥的。少数情况是指可以允许多个访问者同时访问资源<br> （2）互斥量值只能为0/1，信号量值可以为非负整数。<br> 也就是说，一个互斥量只能用于一个资源的互斥访问，它不能实现多个资源的多线程互斥问题。信号量可以实现多个同类资源的多线程互斥和同步。当信号量为单值信号量是，也可以完成一个资源的互斥访问。<br> （3）互斥量的加锁和解锁必须由同一线程分别对应使用，信号量可以由一个线程释放，另一个线程得到。</p>
+</blockquote>
+<p>6、socket</p>
+<h2 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h2><p>线程间的通信目的主要是用于线程同步，所以线程没有像进程通信中的用于数据交换的通信机制。</p>
+<p><strong>锁机制</strong></p>
+<p>互斥锁、条件变量、读写锁和自旋锁。</p>
+<p>互斥锁确保同一时间只能有一个线程访问共享资源。当锁被占用时试图对其加锁的线程都进入阻塞状态(释放CPU资源使其由运行状态进入等待状态)。当锁释放时哪个等待线程能获得该锁取决于内核的调度。</p>
+<p>读写锁当以写模式加锁而处于写状态时任何试图加锁的线程(不论是读或写)都阻塞，当以读状态模式加锁而处于读状态时“读”线程不阻塞，“写”线程阻塞。读模式共享，写模式互斥。</p>
+<p>条件变量可以以原子的方式阻塞进程，直到某个特定条件为真为止。对条件的测试是在互斥锁的保护下进行的。条件变量始终与互斥锁一起使用。</p>
+<p>自旋锁上锁受阻时线程不阻塞而是在循环中轮询查看能否获得该锁，没有线程的切换因而没有切换开销，不过对CPU的霸占会导致CPU资源的浪费。 所以自旋锁适用于并行结构(多个处理器)或者适用于锁被持有时间短而不希望在线程切换产生开销的情况。</p>
+<p><strong>信号量机制(Semaphore)</strong></p>
+<h2 id="包括无名线程信号量和命名线程信号量。线程的信号和进程的信号量类似，使用线程的信号量可以高效地完成基于线程的资源计数。信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。在公共资源增加的时候，信号量就增加；公共资源减少的时候，信号量就减少；只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。"><a href="#包括无名线程信号量和命名线程信号量。线程的信号和进程的信号量类似，使用线程的信号量可以高效地完成基于线程的资源计数。信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。在公共资源增加的时候，信号量就增加；公共资源减少的时候，信号量就减少；只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。" class="headerlink" title="包括无名线程信号量和命名线程信号量。线程的信号和进程的信号量类似，使用线程的信号量可以高效地完成基于线程的资源计数。信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。在公共资源增加的时候，信号量就增加；公共资源减少的时候，信号量就减少；只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。"></a>包括无名线程信号量和命名线程信号量。线程的信号和进程的信号量类似，使用线程的信号量可以高效地完成基于线程的资源计数。信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。在公共资源增加的时候，信号量就增加；公共资源减少的时候，信号量就减少；只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。</h2><p>版权声明：本文为CSDN博主「流烟默」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/J080624/article/details/87454764">https://blog.csdn.net/J080624/article/details/87454764</a></p>
 <h2 id="进程启动"><a href="#进程启动" class="headerlink" title="进程启动"></a>进程启动</h2><p>内核使程序执行的唯一方法是调用exec函数。</p>
 <h3 id="exec函数"><a href="#exec函数" class="headerlink" title="exec函数"></a>exec函数</h3><p>当进程调用一种exec函数时，该进程执行的程序完全替换为新程序，而新程序则从其main函数开始执行。因为调用exec不会创建新的进程，所以前后的进程ID并未改变。</p>
 <p>exec只是用磁盘上的一个新的程序替换了当前进程的正文段、数据段以及堆、栈段</p>
@@ -428,8 +465,8 @@
       <i class="fa fa-chevron-left"></i> 死锁产生及避免方法
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/26/Linux-Select-Poll-Epoll/" rel="next" title="Select/Poll/Epoll">
-      Select/Poll/Epoll <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/26/Net-TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" rel="next" title="TCP拥塞控制">
+      TCP拥塞控制 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -489,7 +526,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">孤儿进程与僵尸进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%8D%B1%E5%AE%B3%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">僵尸进程危害场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">创建守护进程的过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">4.</span> <span class="nav-text">进程启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">exec函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number">5.</span> <span class="nav-text">进程终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8ALinux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E3%80%8B%E2%80%93%E8%BF%9B%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">《Linux内核设计与实现》–进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97"><span class="nav-number">6.1.</span> <span class="nav-text">任务队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">6.2.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">6.3.</span> <span class="nav-text">进程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E6%97%B6%E6%8B%B7%E8%B4%9D%EF%BC%88COW%EF%BC%89"><span class="nav-number">6.4.</span> <span class="nav-text">写时拷贝（COW）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork"><span class="nav-number">6.5.</span> <span class="nav-text">fork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vfork"><span class="nav-number">6.6.</span> <span class="nav-text">vfork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%9C%A8-Linux-%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.7.</span> <span class="nav-text">线程在 Linux 中的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.8.</span> <span class="nav-text">线程的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B"><span class="nav-number">6.9.</span> <span class="nav-text">内核线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E7%BB%93"><span class="nav-number">6.10.</span> <span class="nav-text">进程终结</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E4%B8%ADreturn%E5%92%8Cexit%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">C语言中return和exit的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">孤儿进程与僵尸进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%8D%B1%E5%AE%B3%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">僵尸进程危害场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">创建守护进程的过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">5.</span> <span class="nav-text">进程通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">6.</span> <span class="nav-text">线程通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E6%8B%AC%E6%97%A0%E5%90%8D%E7%BA%BF%E7%A8%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8C%E5%91%BD%E5%90%8D%E7%BA%BF%E7%A8%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E3%80%82%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BF%A1%E5%8F%B7%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%9A%84%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%B1%BB%E4%BC%BC%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8F%AF%E4%BB%A5%E9%AB%98%E6%95%88%E5%9C%B0%E5%AE%8C%E6%88%90%E5%9F%BA%E4%BA%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%E8%AE%A1%E6%95%B0%E3%80%82%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%AE%9E%E9%99%85%E4%B8%8A%E6%98%AF%E4%B8%80%E4%B8%AA%E9%9D%9E%E8%B4%9F%E7%9A%84%E6%95%B4%E6%95%B0%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%8C%E7%94%A8%E6%9D%A5%E5%AE%9E%E7%8E%B0%E5%AF%B9%E5%85%AC%E5%85%B1%E8%B5%84%E6%BA%90%E7%9A%84%E6%8E%A7%E5%88%B6%E3%80%82%E5%9C%A8%E5%85%AC%E5%85%B1%E8%B5%84%E6%BA%90%E5%A2%9E%E5%8A%A0%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%B0%B1%E5%A2%9E%E5%8A%A0%EF%BC%9B%E5%85%AC%E5%85%B1%E8%B5%84%E6%BA%90%E5%87%8F%E5%B0%91%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%B0%B1%E5%87%8F%E5%B0%91%EF%BC%9B%E5%8F%AA%E6%9C%89%E5%BD%93%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%9A%84%E5%80%BC%E5%A4%A7%E4%BA%8E0%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%89%8D%E8%83%BD%E8%AE%BF%E9%97%AE%E4%BF%A1%E5%8F%B7%E9%87%8F%E6%89%80%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%85%AC%E5%85%B1%E8%B5%84%E6%BA%90%E3%80%82"><span class="nav-number">7.</span> <span class="nav-text">包括无名线程信号量和命名线程信号量。线程的信号和进程的信号量类似，使用线程的信号量可以高效地完成基于线程的资源计数。信号量实际上是一个非负的整数计数器，用来实现对公共资源的控制。在公共资源增加的时候，信号量就增加；公共资源减少的时候，信号量就减少；只有当信号量的值大于0的时候，才能访问信号量所代表的公共资源。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%AF%E5%8A%A8"><span class="nav-number">8.</span> <span class="nav-text">进程启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E5%87%BD%E6%95%B0"><span class="nav-number">8.1.</span> <span class="nav-text">exec函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number">9.</span> <span class="nav-text">进程终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8ALinux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E3%80%8B%E2%80%93%E8%BF%9B%E7%A8%8B"><span class="nav-number">10.</span> <span class="nav-text">《Linux内核设计与实现》–进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97"><span class="nav-number">10.1.</span> <span class="nav-text">任务队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">10.2.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">10.3.</span> <span class="nav-text">进程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E6%97%B6%E6%8B%B7%E8%B4%9D%EF%BC%88COW%EF%BC%89"><span class="nav-number">10.4.</span> <span class="nav-text">写时拷贝（COW）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork"><span class="nav-number">10.5.</span> <span class="nav-text">fork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vfork"><span class="nav-number">10.6.</span> <span class="nav-text">vfork()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%9C%A8-Linux-%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">10.7.</span> <span class="nav-text">线程在 Linux 中的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">10.8.</span> <span class="nav-text">线程的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B"><span class="nav-number">10.9.</span> <span class="nav-text">内核线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E7%BB%93"><span class="nav-number">10.10.</span> <span class="nav-text">进程终结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -503,7 +540,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -515,7 +552,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
