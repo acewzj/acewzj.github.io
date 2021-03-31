@@ -31,8 +31,9 @@
 <meta property="og:image" content="https://i.loli.net/2020/04/26/RCx1y2sFrJUdMhc.png">
 <meta property="og:image" content="https://i.loli.net/2020/04/26/aryd8VMJWbE15t7.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/05/94mlEatvNTnHDGp.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/10/FnSMyp5fQlzjHZK.png">
 <meta property="article:published_time" content="2020-04-26T14:31:42.000Z">
-<meta property="article:modified_time" content="2021-03-07T15:20:19.184Z">
+<meta property="article:modified_time" content="2021-03-13T03:09:14.586Z">
 <meta property="article:author" content="acewzj">
 <meta property="article:tag" content="CPP">
 <meta property="article:tag" content="Cin">
@@ -215,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-07 23:20:19" itemprop="dateModified" datetime="2021-03-07T23:20:19+08:00">2021-03-07</time>
+                <time title="Modified: 2021-03-13 11:09:14" itemprop="dateModified" datetime="2021-03-13T11:09:14+08:00">2021-03-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -377,6 +378,77 @@ if (filestream.is_open()) &#123;
 <p>The key here is that the implicit nul terminator is <em>always</em> added - even if the string literal just happens to end with <code>\0</code>. Of course, <code>strlen</code> just stops at the first <code>\0</code> - it can’t tell the difference.</p>
 </blockquote>
 <h2 id="strlen-“aaa-txt-n”-长度为8，它只会碰到-0-十进制0-截断，空格（十进制32）换行符-n（十进制10）不会进行截断，而且最后的-0不会计入长度。"><a href="#strlen-“aaa-txt-n”-长度为8，它只会碰到-0-十进制0-截断，空格（十进制32）换行符-n（十进制10）不会进行截断，而且最后的-0不会计入长度。" class="headerlink" title="strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。"></a>strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</h2><p><img src="https://i.loli.net/2020/05/05/94mlEatvNTnHDGp.png" alt="image-20200505204223719"></p>
+<p>转载自<a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-27105712-id-3270102.html">http://blog.chinaunix.net/uid-27105712-id-3270102.html</a></p>
+<p>在Linux 开发中，有几个关系到性能的东西，技术人员非常关注：进程，CPU，MEM，网络IO，磁盘IO。本篇文件打算详细全面，深入浅出。剖析文件IO的细节。从多个角度探索如何提高IO性能。本文尽量用通俗易懂的视角去阐述。不copy内核代码。</p>
+<p>  阐述之前，要先有个大视角，让我们站在万米高空，鸟瞰我们的文件IO，它们设计是分层的，分层有2个好处，一是架构清晰，二是解耦。让我们看一下下面这张图。</p>
+<p><img src="https://i.loli.net/2021/03/10/FnSMyp5fQlzjHZK.png" alt="image-20210310193204172"></p>
+<ol>
+<li>穿越各层写文件方式</li>
+</ol>
+<p>程序的最终目的是要把数据写到磁盘上, 但是系统从通用性和性能角度，尽量提供一个折中的方案来保证这些。让我们来看一个最常用的写文件典型example，也是路径最长的IO。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="keyword">char</span> *buf = <span class="built_in">malloc</span>(MAX_BUF_SIZE);</span><br><span class="line"><span class="built_in">strncpy</span>(buf, src, , MAX_BUF_SIZE);</span><br><span class="line">fwrite(buf, MAX_BUF_SIZE, <span class="number">1</span>, fp);</span><br><span class="line">fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里malloc的buf对于图层中的application buffer，即应用程序的buffer；调用fwrite后，把数据从application buffer 拷贝到了 CLib buffer，即C库标准IObuffer。fwrite返回后，数据还在CLib buffer，如果这时候进程core掉。这些数据会丢失。没有写到磁盘介质上。当调用fclose的时候，fclose调用会把这些数据刷新到磁盘介质上。除了fclose方法外，还有一个主动刷新操作fflush 函数，不过fflush函数只是把数据从CLib buffer 拷贝到page cache 中，并没有刷新到磁盘上，从page cache刷新到磁盘上可以通过调用fsync函数完成。</p>
+<p>从上面类子看到，一个常用的fwrite函数过程，基本上历经千辛万苦，数据经过多次copy，才到达目的地。有人心生疑问，这样会提高性能吗，反而会降低性能吧。这个问题先放一放。有人说，我不想通过fwrite+fflush这样组合，我想直接写到page cache。这就是我们常见的文件IO调用read/write函数。这些函数基本上是一个函数对应着一个系统调用，如sys_read/sys_write. 调用write函数，是直接通过系统调用把数据从应用层拷贝到内核层，从application buffer 拷贝到 page cache 中。</p>
+<p>系统调用，write会触发用户态/内核态切换？是的。那有没有办法避免这些消耗。这时候该mmap出场了，mmap把page cache 地址空间映射到用户空间，应用程序像操作应用层内存一样，写文件。省去了系统调用开销。</p>
+<p>那如果继续刨根问底，如果想绕过page cache，直接把数据送到磁盘设备上怎么办。通过open文件带上O_DIRECT参数，这是write该文件。就是直接写到设备上。</p>
+<p>如果继续较劲，直接写扇区有没有办法。这就是所谓的RAW设备写，绕开了文件系统，直接写扇区，想fdsik，dd，cpio之类的工具就是这一类操作。</p>
+<ol start="2">
+<li>IO调用链</li>
+</ol>
+<p>列举了上述各种穿透各种cache 层写操作，可以看到系统提供的接口相当丰富，满足你各种写要求。下面通过讲解图一，了解一下文件IO的调用链。</p>
+<p>fwrite是系统提供的最上层接口，也是最常用的接口。它在用户进程空间开辟一个buffer，将多次小数据量相邻写操作先缓存起来，合并，最终调用write函数一次性写入（或者将大块数据分解多次write调用）。</p>
+<p>Write函数通过调用系统调用接口，将数据从应用层copy到内核层，所以<strong>write**</strong>会触发内核态**<strong>/**</strong>用户态切换<strong>。当数据到达page cache后，内核并不会立即把数据往下传递。而是返回用户空间。数据什么时候写入硬盘，有内核IO调度决定，所以</strong>write**<strong>是一个异步调用</strong>。这一点和read不同，read调用是先检查page cache里面是否有数据，如果有，就取出来返回用户，如果没有，就同步传递下去并等待有数据，再返回用户，所以read是一个同步过程。当然你也可以把write的异步过程改成同步过程，就是在open文件的时候带上O_SYNC标记。</p>
+<p>数据到了page cache后，内核有pdflush线程在不停的检测脏页，判断是否要写回到磁盘中。把需要写回的页提交到IO队列——即IO调度队列。又IO调度队列调度策略调度何时写回。</p>
+<p>提到IO调度队列，不得不提一下磁盘结构。这里要讲一下，磁头和电梯一样，尽量走到头再回来，避免来回抢占是跑，磁盘也是单向旋转，不会反复逆时针顺时针转的。从网上copy一个图下来，具体这里就不介绍。</p>
+<p>IO队列有2个主要任务。一是合并相邻扇区的，而是排序。合并相信很容易理解，排序就是尽量按照磁盘选择方向和磁头前进方向排序。因为磁头寻道时间是和昂贵的。</p>
+<p>这里IO队列和我们常用的分析工具IOStat关系密切。IOStat中rrqm/s wrqm/s表示读写合并个数。avgqu-sz表示平均队列长度。</p>
+<p>内核中有多种IO调度算法。当硬盘是SSD时候，没有什么磁道磁头，人家是随机读写的，加上这些调度算法反而画蛇添足。OK，刚好有个调度算法叫noop调度算法，就是什么都不错（合并是做了）。刚好可以用来配置SSD硬盘的系统。</p>
+<p>从IO队列出来后，就到了驱动层(当然内核中有更多的细分层，这里忽略掉)，驱动层通过DMA，将数据写入磁盘cache。</p>
+<p>至于磁盘cache时候写入磁盘介质，那是磁盘控制器自己的事情。如果想要睡个安慰觉，确认要写到磁盘介质上。就调用fsync函数吧。可以确定写到磁盘上了。</p>
+<ol start="3">
+<li>一致性和安全性<br>谈完调用细节，再将一下一致性问题和安全问题。既然数据没有到到磁盘介质前，可能处在不同的物理内存cache中，那么如果出现进程死机，内核死，掉电这样事件发生。数据会丢失吗。</li>
+</ol>
+<p>当进程死机后：只有数据还处在application cache或CLib cache时候，数据会丢失。数据到了page cache。进程core掉，即使数据还没有到硬盘。数据也不会丢失。当内核core掉后，只要数据没有到达disk cache，数据都会丢失。掉电情况呢，哈哈，这时候神也救不了你，哭吧。</p>
+<p>那么一致性呢，如果两个进程或线程同时写，会写乱吗？或A进程写，B进程读，会写脏吗？</p>
+<p>文章写到这里，写得太长了，就举出各种各样的例子。讲一下大概判断原则吧。fwrite操作的buffer是在进程私有空间，两个线程读写，肯定需要锁保护的。如果进程，各有各的地址空间。是否要加锁，看应用场景。</p>
+<p>write操作如果写大小小于PIPE_BUF（一般是4096），是原子操作，能保证两个进程“AAA”，“BBB”写操作，不会出现“ABAABB”这样的数据交错。O_APPEND 标志能保证每次重新计算pos，写到文件尾的原子性。</p>
+<p>数据到了内核层后，内核会加锁，会保证一致性的。</p>
+<ol start="4">
+<li>性能问题<br>性能从系统层面和设备层面去分析；磁盘的物理特性从根本上决定了性能。IO的调度策略，系统调用也是致命杀手。</li>
+</ol>
+<p>磁盘的寻道时间是相当的慢，平均寻道时间大概是在10ms，也就是是每秒只能100-200次寻道。</p>
+<p>磁盘转速也是影响性能的关键，目前最快15000rpm，大概就每秒500转，满打满算，就让磁头不寻道，设想所有的数据连续存放在一个柱面上。大家可以算一下每秒最多可以读多少数据。当然这个是理论值。一般情况下，盘片转太快，磁头感应跟不上，所以需要转几圈才能完全读出磁道内容。</p>
+<p>另外设备接口总线传输率是实际速率的上限。</p>
+<p>另外有些等密度磁盘，磁盘外围磁道扇区多，线速度快，如果频繁操作的数据放在外围扇区，也能提高性能。</p>
+<p>利用多磁盘并发操作，也不失为提高性能的手段。</p>
+<p>这里给个业界经验值：机械硬盘顺序写～30MB，顺序读取速率一般~50MB好的可以达到100多M, SSD读达到～400MB，SSD写性能和机械硬盘差不多。</p>
+<p>Ps：</p>
+<p>O_DIRECT 和 RAW设备最根本的区别是O_DIRECT是基于文件系统的，也就是在应用层来看，其操作对象是文件句柄，内核和文件层来看，其操作是基于inode和数据块，这些概念都是和ext2/3的文件系统相关，写到磁盘上最终是ext3文件。</p>
+<p>而RAW设备写是没有文件系统概念，操作的是扇区号，操作对象是扇区，写出来的东西不一定是ext3文件（如果按照ext3规则写就是ext3文件）。</p>
+<p>一般基于O_DIRECT来设计优化自己的文件模块，是不满系统的cache和调度策略，自己在应用层实现这些，来制定自己特有的业务特色文件读写。但是写出来的东西是ext3文件，该磁盘卸下来，mount到其他任何linux系统上，都可以查看。</p>
+<p>而基于RAW设备的设计系统，一般是不满现有ext3的诸多缺陷，设计自己的文件系统。自己设计文件布局和索引方式。举个极端例子：把整个磁盘做一个文件来写，不要索引。这样没有inode限制，没有文件大小限制，磁盘有多大，文件就能多大。这样的磁盘卸下来，mount到其他linux系统上，是无法识别其数据的。</p>
+<p>两者都要通过驱动层读写；在系统引导启动，还处于实模式的时候，可以通过bios接口读写raw设备。</p>
+<p>stevenrao 深圳写于2012 年 情人节。献给天下有情码农</p>
+<h2 id="文件IO之我见"><a href="#文件IO之我见" class="headerlink" title="文件IO之我见"></a>文件IO之我见</h2><p>read函数是怎么实现的？</p>
+<p>read 会使用一个参数叫 fd，文件描述符，在内核中通过fd定位到文件打开表项。</p>
+<p>这里我有个疑问，内核中一定存在文件打开表项吗？万一第一次打开，内核中肯定是没有这个文件打开表项的哈。其实我们打开文件都会通过open函数查询一个路径，这个时候文件打开表项就已经被加载到内核里了。文件打开表项的内容主要是Inode节点，偏移，访问状态等。</p>
+<p>在inode中，通过文件内容偏移量计算出要读取的页；</p>
+<p>这个地方也有个疑问，inode节点里存放着以下内容：文件的字节数、拥有者、修改时间、有多少个文件名指向该inode节点、文件数据block的指针数组等。</p>
+<p>这里着重说一下这个引用连接数，类似于智能指针的那个原则，有一个文件名该引用数就加一、删除一个文件名就减一，等引用数为0时，OS就会回收该inode节点和其指向的block 区域。这里顺便说一下目录文件的”链接数”。创建目录时，默认会生成两个目录项：”.”和”..”。前者的inode号码就是当前目录的inode号码，等同于当前目录的”硬链接”；后者的inode号码就是当前目录的父目录的inode号码，等同于父目录的”硬链接”。所以，任何一个目录的”硬链接”总数，总是等于2加上它的子目录总数（含隐藏目录）。</p>
+<p>通过 inode 找到文件对应的 address_space；</p>
+<p>在 address_space 中访问该文件的页缓存树，查找对应的页缓存结点：</p>
+<ul>
+<li><ul>
+<li>如果页缓存命中，那么直接返回文件内容；</li>
+</ul>
+</li>
+<li><ul>
+<li>如果页缓存缺失，那么产生一个页缺失异常，创建一个页缓存页，同时通过 inode 找到文件该页的磁盘地址，读取相应的页填充该缓存页；重新进行第 6 步查找页缓存；</li>
+</ul>
+</li>
+</ul>
+<p>文件内容读取成功</p>
 
     </div>
 
@@ -426,8 +498,8 @@ if (filestream.is_open()) &#123;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/26/Net-TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" rel="prev" title="TCP拥塞控制">
-      <i class="fa fa-chevron-left"></i> TCP拥塞控制
+    <a href="/2020/04/26/Linux-%E8%BF%9B%E7%A8%8B/" rel="prev" title="孤儿进程与僵尸进程">
+      <i class="fa fa-chevron-left"></i> 孤儿进程与僵尸进程
     </a></div>
       <div class="post-nav-item">
     <a href="/2020/05/13/CPP-%E6%8C%87%E9%92%88/" rel="next" title="C 语言指针与指针的指针">
@@ -491,7 +563,7 @@ if (filestream.is_open()) &#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.</span> <span class="nav-text">Linux 多线程多进程文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write%EF%BC%9A%E4%B8%8D%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%95%B0%E6%8D%AE%E4%BA%A4%E5%8F%89%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E8%80%8C%E4%B8%94%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%A7%E8%A1%8C%E5%86%99%E5%85%A5%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">write：不会出现数据交叉的情况，而且父子进程交替执行写入。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E6%9C%AC%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AEC"><span class="nav-number">1.1.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cin"><span class="nav-number">1.2.</span> <span class="nav-text">Cin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA"><span class="nav-number">1.3.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.4.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.5.</span> <span class="nav-text">输入描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.6.</span> <span class="nav-text">输出描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find%E5%87%BD%E6%95%B0"><span class="nav-number">1.7.</span> <span class="nav-text">find函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substr%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">substr函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SplitString"><span class="nav-number">1.9.</span> <span class="nav-text">SplitString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA-1"><span class="nav-number">1.10.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcmp"><span class="nav-number">2.1.</span> <span class="nav-text">strcmp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符串截取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-length-size-%E5%92%8C-strlen-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E2%80%9Caaa-txt-n%E2%80%9D-%E9%95%BF%E5%BA%A6%E4%B8%BA8%EF%BC%8C%E5%AE%83%E5%8F%AA%E4%BC%9A%E7%A2%B0%E5%88%B0-0-%E5%8D%81%E8%BF%9B%E5%88%B60-%E6%88%AA%E6%96%AD%EF%BC%8C%E7%A9%BA%E6%A0%BC%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B632%EF%BC%89%E6%8D%A2%E8%A1%8C%E7%AC%A6-n%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B610%EF%BC%89%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E6%88%AA%E6%96%AD%EF%BC%8C%E8%80%8C%E4%B8%94%E6%9C%80%E5%90%8E%E7%9A%84-0%E4%B8%8D%E4%BC%9A%E8%AE%A1%E5%85%A5%E9%95%BF%E5%BA%A6%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.</span> <span class="nav-text">Linux 多线程多进程文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write%EF%BC%9A%E4%B8%8D%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%95%B0%E6%8D%AE%E4%BA%A4%E5%8F%89%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E8%80%8C%E4%B8%94%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%A7%E8%A1%8C%E5%86%99%E5%85%A5%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">write：不会出现数据交叉的情况，而且父子进程交替执行写入。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E6%9C%AC%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AEC"><span class="nav-number">1.1.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cin"><span class="nav-number">1.2.</span> <span class="nav-text">Cin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA"><span class="nav-number">1.3.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.4.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.5.</span> <span class="nav-text">输入描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.6.</span> <span class="nav-text">输出描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find%E5%87%BD%E6%95%B0"><span class="nav-number">1.7.</span> <span class="nav-text">find函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substr%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">substr函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SplitString"><span class="nav-number">1.9.</span> <span class="nav-text">SplitString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA-1"><span class="nav-number">1.10.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcmp"><span class="nav-number">2.1.</span> <span class="nav-text">strcmp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符串截取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-length-size-%E5%92%8C-strlen-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E2%80%9Caaa-txt-n%E2%80%9D-%E9%95%BF%E5%BA%A6%E4%B8%BA8%EF%BC%8C%E5%AE%83%E5%8F%AA%E4%BC%9A%E7%A2%B0%E5%88%B0-0-%E5%8D%81%E8%BF%9B%E5%88%B60-%E6%88%AA%E6%96%AD%EF%BC%8C%E7%A9%BA%E6%A0%BC%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B632%EF%BC%89%E6%8D%A2%E8%A1%8C%E7%AC%A6-n%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B610%EF%BC%89%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E6%88%AA%E6%96%AD%EF%BC%8C%E8%80%8C%E4%B8%94%E6%9C%80%E5%90%8E%E7%9A%84-0%E4%B8%8D%E4%BC%9A%E8%AE%A1%E5%85%A5%E9%95%BF%E5%BA%A6%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6IO%E4%B9%8B%E6%88%91%E8%A7%81"><span class="nav-number">2.4.</span> <span class="nav-text">文件IO之我见</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
