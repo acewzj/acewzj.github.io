@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要介绍了Linux基础知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础知识">
+<meta property="og:url" content="http://acewzj.github.io/2019/09/07/Linux/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要介绍了Linux基础知识。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/03/16/whf4Erx3t8mq2Mi.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/jlnP3kGIQwpg6dm.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/aJR8LU5YuMQnfXN.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/V5pOtflx3kH4wyg.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-42c63a7320af888f292dd5c883d9a861_1440w.jpeg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-8ff6603692530bdbab64a857efc13162_1440w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-e890b4e13f4ce188d1f6bb5ba1d38b24_1440w.jpeg">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/W9khrpMZGajTsKS.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/CpozLNsBaQG1kiU.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/57dgcxj8HABpRke.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/7QlrWI9op68f4vL.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/uchaCoSYPnHzWpE.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/07/NE7HQIhDatuRUx3.png">
+<meta property="article:published_time" content="2019-09-07T02:16:18.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.272Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/16/whf4Erx3t8mq2Mi.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2019/09/07/Linux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Linux基础知识 | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/09/07/Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-09-07 10:16:18" itemprop="dateCreated datePublished" datetime="2019-09-07T10:16:18+08:00">2019-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要介绍了Linux基础知识。</p>
+<span id="more"></span>
+
+<h2 id="top字段"><a href="#top字段" class="headerlink" title="top字段"></a>top字段</h2><p><img src="https://i.loli.net/2021/03/16/whf4Erx3t8mq2Mi.png" alt="image-20210316095634842"></p>
+<h1 id="Linux信号"><a href="#Linux信号" class="headerlink" title="Linux信号"></a>Linux信号</h1><h2 id="为什么忽略SIGPIPE信号？"><a href="#为什么忽略SIGPIPE信号？" class="headerlink" title="为什么忽略SIGPIPE信号？"></a>为什么忽略SIGPIPE信号？</h2><p>当服务器close掉一个连接时，若client接着发送数据，服务端会返回一个RST报文让客户端不要再发了，复位到close初始状态。但是如果客户端不听，又想往服务端发东西，内核就会产生一个SIGPIPE信号给用户进程，告诉进程这个连接已经断开了，不要再写了。</p>
+<p>而这个SIGPIPE信号的默认执行动作就是terminate（终止）进程，这显然不是我们想看到的。</p>
+<p>这时可以使用signal(SIGPIPE, SIG_IGN);来忽略掉</p>
+<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="VIM全选ggVG"><a href="#VIM全选ggVG" class="headerlink" title="VIM全选ggVG"></a>VIM全选ggVG</h2><p><strong>全选（高亮显示</strong>）：按esc后，然后ggvG或者ggVG</p>
+<p><strong>全部复制：</strong>按esc后，然后ggyG</p>
+<p><strong>全部删除：</strong>按esc后，然后dG</p>
+<p>解析：</p>
+<p><strong>gg：</strong>是让光标移到首行，在<strong>vim</strong>才有效，vi中无效 </p>
+<p><strong>v ：</strong> 是进入Visual(可视）模式 </p>
+<p><strong>G ：</strong>光标移到最后一行 </p>
+<p><strong>选</strong>中内容以后就可以其他的操作了，比如：<br><strong>d</strong> 删除<strong>选</strong>中内容<br><strong>y</strong> 复制<strong>选</strong>中内容到0号寄存器<br>**”+y** 复制<strong>选</strong>中内容到＋寄存器，也就是系统的剪贴板，供其他程序用 </p>
+<h2 id="打包与解压"><a href="#打包与解压" class="headerlink" title="打包与解压"></a>打包与解压</h2><p><strong>首先要弄清两个概念：打包和压缩。打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</strong></p>
+<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。</p>
+<h1 id="Linux硬连接与软连接"><a href="#Linux硬连接与软连接" class="headerlink" title="Linux硬连接与软连接"></a>Linux硬连接与软连接</h1><p>当我们需要在不同的目录，用到相同的文件时，我们不需要在每一个需要的目录下都放一个必须相同的文件，我们只要在某个固定的目录，放上该文件，然后在 其它的目录下用ln命令链接（link）它就可以，不必重复的占用磁盘空间。</p>
+<p>为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名。</p>
+<p>由于硬链接是有着相同 inode 号仅文件名不同的文件，因此硬链接存在以下几点特性：</p>
+<ul>
+<li>文件有相同的 inode 及 data block；</li>
+<li>只能对已存在的文件进行创建；</li>
+<li>不能交叉文件系统进行硬链接的创建；</li>
+<li>不能对目录进行创建，只可对文件创建；</li>
+<li>删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li>
+</ul>
+<p>软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见下图）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p>
+<ul>
+<li>软链接有自己的文件属性及权限等；</li>
+<li>可对不存在的文件或目录创建软链接；</li>
+<li>软链接可交叉文件系统；</li>
+<li>软链接可对文件或目录创建；</li>
+<li>创建软链接时，链接计数 i_nlink 不会增加；</li>
+<li>删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）。</li>
+</ul>
+<img src="https://i.loli.net/2019/09/10/jlnP3kGIQwpg6dm.png" style="zoom:150%;" />
+
+<p>形象比喻：软件总是喜欢加一个中间层来解决问题，硬件喜欢直来直去</p>
+<h2 id="linux下用inode删除文件"><a href="#linux下用inode删除文件" class="headerlink" title="linux下用inode删除文件"></a>linux下用inode删除文件</h2><p>ls -i</p>
+<p>find ./ -inum 401785 -exec rm -i {} ;</p>
+<p><img src="https://i.loli.net/2020/11/01/aJR8LU5YuMQnfXN.png" alt="image-20201101141115072"></p>
+<h1 id="Inode-文件节点"><a href="#Inode-文件节点" class="headerlink" title="Inode 文件节点"></a>Inode 文件节点</h1><h2 id="一、inode是什么？"><a href="#一、inode是什么？" class="headerlink" title="一、inode是什么？"></a>一、inode是什么？</h2><p>理解inode，要从文件储存说起。</p>
+<p>文件储存在硬盘上，硬盘的最小存储单位叫做”扇区”（Sector）。每个扇区储存512字节（相当于0.5KB）。</p>
+<p>操作系统读取硬盘的时候，不会一个个扇区地读取，这样效率太低，而是一次性连续读取多个扇区，即一次性读取一个”块”（block）。这种由多个扇区组成的”块”，是文件存取的最小单位。”块”的大小，最常见的是4KB，即连续八个 sector组成一个 block。</p>
+<p>文件数据都储存在”块”中，那么很显然，我们还必须找到一个地方储存文件的元信息，比如文件的创建者、文件的创建日期、文件的大小等等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。</p>
+<p>每一个文件都有对应的inode，里面包含了与该文件有关的一些信息。</p>
+<h2 id="二、inode的内容"><a href="#二、inode的内容" class="headerlink" title="二、inode的内容"></a>二、inode的内容</h2><p>inode包含文件的元信息，具体来说有以下内容：</p>
+<ul>
+<li>文件的字节数</li>
+<li>文件拥有者的User ID</li>
+<li>文件的Group ID</li>
+<li>文件的读、写、执行权限</li>
+<li>文件的时间戳，共有三个：ctime指inode上一次变动的时间，mtime指文件内容上一次变动的时间，atime指文件上一次打开的时间。</li>
+<li>链接数，即有多少文件名指向这个inode</li>
+<li>文件数据block的位置</li>
+</ul>
+<p><img src="https://i.loli.net/2020/11/01/V5pOtflx3kH4wyg.png" alt="image-20201101141135243"></p>
+<p>可以用<code>stat</code>命令，查看某个文件的inode信息：<br><code>stat 233.txt</code></p>
+<p><img src="https://pic2.zhimg.com/80/v2-42c63a7320af888f292dd5c883d9a861_1440w.jpeg" alt="img"></p>
+<p>总之，除了文件名以外的所有文件信息，都存在inode之中。至于为什么没有文件名，下文会有详细解释。</p>
+<h2 id="三、inode的大小"><a href="#三、inode的大小" class="headerlink" title="三、inode的大小"></a>三、inode的大小</h2><p>inode也会消耗硬盘空间，所以硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；另一个是inode区（inode table），存放inode所包含的信息。</p>
+<p>每个inode节点的大小，一般是128字节或256字节。inode节点的总数，在格式化时就给定，一般是每1KB或每2KB就设置一个inode。假定在一块1GB的硬盘中，每个inode节点的大小为128字节，每1KB就设置一个inode，那么inode table的大小就会达到128MB，占整块硬盘的12.8%。</p>
+<p>查看每个硬盘分区的inode总数和已经使用的数量，可以使用df命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -i</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pic3.zhimg.com/80/v2-8ff6603692530bdbab64a857efc13162_1440w.jpg" alt="img"></p>
+<p>查看每个inode节点的大小，可以用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dumpe2fs -h /dev/hda | grep &quot;Inode size&quot;</span><br></pre></td></tr></table></figure>
+
+<p>由于每个文件都必须有一个inode，因此有可能发生inode已经用光，但是硬盘还未存满的情况。这时，就无法在硬盘上创建新文件。</p>
+<h2 id="四、inode号码"><a href="#四、inode号码" class="headerlink" title="四、inode号码"></a>四、inode号码</h2><p>每个inode都有一个号码，操作系统用inode号码来识别不同的文件。</p>
+<p>这里值得重复一遍，Unix/Linux系统内部不使用文件名，而使用inode号码来识别文件。对于系统来说，文件名只是inode号码便于识别的别称或者绰号。</p>
+<p>表面上，用户通过文件名，打开文件。实际上，系统内部这个过程分成三步：首先，系统找到这个文件名对应的inode号码；其次，通过inode号码，获取inode信息；最后，根据inode信息，找到文件数据所在的block，读出数据。</p>
+<p>使用ls -i命令，可以看到文件名对应的inode号码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -i 233.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://pic1.zhimg.com/80/v2-e890b4e13f4ce188d1f6bb5ba1d38b24_1440w.jpeg" alt="img"></p>
+<p><img src="https://i.loli.net/2020/11/01/W9khrpMZGajTsKS.png" alt="image-20201101141215924"></p>
+<p><img src="https://i.loli.net/2020/11/01/CpozLNsBaQG1kiU.png" alt="image-20201101141250815"></p>
+<p><img src="https://i.loli.net/2020/11/01/57dgcxj8HABpRke.png" alt="image-20201101141305616"></p>
+<h2 id="五、目录文件"><a href="#五、目录文件" class="headerlink" title="五、目录文件"></a>五、目录文件</h2><p>Unix/Linux系统中，目录（directory）也是一种文件。打开目录，实际上就是打开目录文件。</p>
+<p>目录文件的结构非常简单，就是一系列目录项（dirent）的列表。每个目录项，由两部分组成：所包含文件的文件名，以及该文件名对应的inode号码。</p>
+<p>ls命令只列出目录文件中的所有文件名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /etc</span><br></pre></td></tr></table></figure>
+
+<p>ls -i命令列出整个目录文件，即文件名和inode号码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -i /etc</span><br></pre></td></tr></table></figure>
+
+<p>如果要查看文件的详细信息，就必须根据inode号码，访问inode节点，读取信息。ls -l命令列出文件的详细信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l /etc</span><br></pre></td></tr></table></figure>
+
+<p>理解了上面这些知识，就能理解目录的权限。目录文件的读权限（r）和写权限（w），都是针对目录文件本身。由于目录文件内只有文件名和inode号码，所以如果只有读权限，只能获取文件名，无法获取其他信息，因为其他信息都储存在inode节点中，而读取inode节点内的信息需要目录文件的执行权限（x）。</p>
+<p><img src="https://i.loli.net/2020/11/01/7QlrWI9op68f4vL.png" alt="image-20201101141332280"></p>
+<p><img src="https://i.loli.net/2020/11/01/uchaCoSYPnHzWpE.png" alt="image-20201101141440780"></p>
+<h2 id="六、硬链接"><a href="#六、硬链接" class="headerlink" title="六、硬链接"></a>六、硬链接</h2><p>一般情况下，文件名和inode号码是”一一对应”关系，每个inode号码对应一个文件名。但是，Unix/Linux系统允许，多个文件名指向同一个inode号码。</p>
+<p>这意味着，可以用不同的文件名访问同样的内容；对文件内容进行修改，会影响到所有文件名；但是，删除一个文件名，不影响另一个文件名的访问。这种情况就被称为”硬链接”（hard link）。</p>
+<p>ln命令可以创建硬链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln 源文件 目标文件</span><br></pre></td></tr></table></figure>
+
+<p>运行上面这条命令以后，源文件与目标文件的inode号码相同，都指向同一个inode。inode信息中有一项叫做”链接数”，记录指向该inode的文件名总数，这时就会增加1。</p>
+<p>反过来，删除一个文件名，就会使得inode节点中的”链接数”减1。当这个值减到0，表明没有文件名指向这个inode，系统就会回收这个inode号码，以及其所对应block区域。</p>
+<p>这里顺便说一下目录文件的”链接数”。创建目录时，默认会生成两个目录项：”.”和”..”。前者的inode号码就是当前目录的inode号码，等同于当前目录的”硬链接”；后者的inode号码就是当前目录的父目录的inode号码，等同于父目录的”硬链接”。所以，任何一个目录的”硬链接”总数，总是等于2加上它的子目录总数（含隐藏目录）。</p>
+<h2 id="七、软链接"><a href="#七、软链接" class="headerlink" title="七、软链接"></a>七、软链接</h2><p>除了硬链接以外，还有一种特殊情况。</p>
+<p>文件A和文件B的inode号码虽然不一样，但是文件A的内容是文件B的路径。读取文件A时，系统会自动将访问者导向文件B。因此，无论打开哪一个文件，最终读取的都是文件B。这时，文件A就称为文件B的”软链接”（soft link）或者”符号链接（symbolic link）。</p>
+<p>这意味着，文件A依赖于文件B而存在，如果删除了文件B，打开文件A就会报错：”No such file or directory”。这是软链接与硬链接最大的不同：文件A指向文件B的文件名，而不是文件B的inode号码，文件B的inode”链接数”不会因此发生变化。</p>
+<p><strong>ln -s命令可以创建软链接</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s 源文文件或目录 目标文件或目录</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、inode的特殊作用"><a href="#八、inode的特殊作用" class="headerlink" title="八、inode的特殊作用"></a>八、inode的特殊作用</h2><p>由于inode号码与文件名分离，这种机制导致了一些Unix/Linux系统特有的现象。</p>
+<ul>
+<li>有时，文件名包含特殊字符，无法正常删除。这时，直接删除inode节点，就能起到删除文件的作用。</li>
+<li>移动文件或重命名文件，只是改变文件名，不影响inode号码。</li>
+<li>打开一个文件以后，系统就以inode号码来识别这个文件，不再考虑文件名。因此，通常来说，系统无法从inode号码得知文件名。</li>
+</ul>
+<p>第3点使得软件更新变得简单，可以在不关闭软件的情况下进行更新，不需要重启。因为系统通过inode号码，识别运行中的文件，不通过文件名。更新的时候，新版文件以同样的文件名，生成一个新的inode，不会影响到运行中的文件。等到下一次运行这个软件的时候，文件名就自动指向新版文件，旧版文件的inode则被回收。</p>
+<h2 id="Linux动态链接顺序"><a href="#Linux动态链接顺序" class="headerlink" title="Linux动态链接顺序"></a>Linux动态链接顺序</h2><p><img src="https://i.loli.net/2020/11/07/NE7HQIhDatuRUx3.png" alt="image-20201107190033889"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/20/CPP-%E8%BF%90%E8%A1%8C/" rel="prev" title="一个程序在计算机中到底是如何运行的">
+      <i class="fa fa-chevron-left"></i> 一个程序在计算机中到底是如何运行的
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/07/CPP-HelloWorld/" rel="next" title="HelloWorld的运行原理">
+      HelloWorld的运行原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#top%E5%AD%97%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">top字段</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E4%BF%A1%E5%8F%B7"><span class="nav-number"></span> <span class="nav-text">Linux信号</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%BD%E7%95%A5SIGPIPE%E4%BF%A1%E5%8F%B7%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">为什么忽略SIGPIPE信号？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E5%91%BD%E4%BB%A4"><span class="nav-number"></span> <span class="nav-text">Linux命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VIM%E5%85%A8%E9%80%89ggVG"><span class="nav-number">1.</span> <span class="nav-text">VIM全选ggVG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E4%B8%8E%E8%A7%A3%E5%8E%8B"><span class="nav-number">2.</span> <span class="nav-text">打包与解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%A1%AC%E8%BF%9E%E6%8E%A5%E4%B8%8E%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="nav-number"></span> <span class="nav-text">Linux硬连接与软连接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux%E4%B8%8B%E7%94%A8inode%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">linux下用inode删除文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inode-%E6%96%87%E4%BB%B6%E8%8A%82%E7%82%B9"><span class="nav-number"></span> <span class="nav-text">Inode 文件节点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81inode%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">一、inode是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81inode%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">二、inode的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81inode%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="nav-number">3.</span> <span class="nav-text">三、inode的大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81inode%E5%8F%B7%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">四、inode号码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%9B%AE%E5%BD%95%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">五、目录文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="nav-number">6.</span> <span class="nav-text">六、硬链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">7.</span> <span class="nav-text">七、软链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81inode%E7%9A%84%E7%89%B9%E6%AE%8A%E4%BD%9C%E7%94%A8"><span class="nav-number">8.</span> <span class="nav-text">八、inode的特殊作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E9%A1%BA%E5%BA%8F"><span class="nav-number">9.</span> <span class="nav-text">Linux动态链接顺序</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

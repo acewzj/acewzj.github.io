@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章记述了关于虚函数&#x2F;纯虚函数的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚函数&#x2F;纯虚函数&#x2F;多态">
+<meta property="og:url" content="http://acewzj.github.io/2020/10/26/CPP-%E8%99%9A%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章记述了关于虚函数&#x2F;纯虚函数的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/11/11/hYR6e8rbgVsLEjq.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/11/omt6ziqjxgIEQ9a.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/08/zArc8lmLiNwWB51.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/08/7bUA4gKm98EFpYq.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/16/kypzvIgfC6UbwGM.png">
+<meta property="article:published_time" content="2020-10-26T10:47:27.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.280Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CPP">
+<meta property="article:tag" content="VTBL">
+<meta property="article:tag" content="VPTR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/11/11/hYR6e8rbgVsLEjq.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/10/26/CPP-%E8%99%9A%E5%87%BD%E6%95%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>虚函数/纯虚函数/多态 | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/10/26/CPP-%E8%99%9A%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          虚函数/纯虚函数/多态
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-26 18:47:27" itemprop="dateCreated datePublished" datetime="2020-10-26T18:47:27+08:00">2020-10-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index"><span itemprop="name">CPP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章记述了关于虚函数/纯虚函数的知识点。</p>
+<span id="more"></span>
+
+<p>C++的多态分为静态多态和动态多态。</p>
+<p>静态多态是在编译时通过函数重载、模板来实现；</p>
+<p>动态多态则是通过虚函数来实现。</p>
+<h2 id="虚函数的内存分布"><a href="#虚函数的内存分布" class="headerlink" title="虚函数的内存分布"></a>虚函数的内存分布</h2><p><a target="_blank" rel="noopener" href="https://jacktang816.github.io/post/virtualfunction/">https://jacktang816.github.io/post/virtualfunction/</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">v_a</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~A()&#123;&#125;</span><br><span class="line">    <span class="keyword">int64_t</span> _m_a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A* a = <span class="keyword">new</span> A();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如以上代码所示，在C++中定义一个对象 A，那么在内存中的分布大概是如下图这个样子。</p>
+<ul>
+<li>首先在主函数的栈帧上有一个 A 类型的指针<code>A* obj</code>指向堆里面分配好的对象 A 实例。</li>
+<li>对象 A 实例的<strong>头部</strong>是一个 vtable 指针，紧接着是 <strong>A 对象按照声明顺序排列的成员变量</strong>。（当我们创建一个对象时，便可以通过实例对象的地址，得到该实例的虚函数表，从而获取其函数指针。）</li>
+<li>vtable 指针指向的是代码段中的 A 类型的<strong>虚函数表中的第一个虚函数起始地址</strong>。</li>
+<li>虚函数表的结构其实是有一个头部的，叫做 vtable_prefix ，紧接着是按照声明顺序排列的虚函数。</li>
+<li>注意到这里有两个虚析构函数，因为对象有两种构造方式，栈构造和堆构造，所以对应的，对象会有两种析构方式，其中堆上对象的析构和栈上对象的析构不同之处在于，栈内存的析构不需要执行 delete 函数，会自动被回收。</li>
+<li>typeinfo 存储着 A 的类基础信息，包括父类与类名称，C++关键字 typeid 返回的就是这个对象。<code>type_info</code> 对象描述了类的简要信息（如 name, hash_code 等），用以支持 <code>RTTI(runtime type identification)</code> 。我们使用的 <code>typeid</code> 运算符，应该就是通过访问 <code>type_info</code> 对象实现的。</li>
+<li>typeinfo 也是一个类，对于没有父类的 A 来说，当前 tinfo 是 class_type_info 类型的，从虚函数指针指向的vtable 起始位置可以看出。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/11/11/hYR6e8rbgVsLEjq.png" alt="image-20201111194359022"></p>
+<h3 id="多继承中的虚函数表"><a href="#多继承中的虚函数表" class="headerlink" title="多继承中的虚函数表"></a>多继承中的虚函数表</h3><ul>
+<li>一般继承时，子类的虚函数表中先将父类虚函数放在前，再放自己的虚函数指针。</li>
+<li>如果子类覆盖了父类的虚函数，将被放到了虚表中<strong>原来父类虚函数</strong>的位置。</li>
+<li>在多继承的情况下，<strong>每个父类都有自己的虚表，子类的成员函数被放到了第一个父类的表中。</strong>，也就是说当类在多重继承中时，其实例对象的内存结构并不只记录一个虚函数表指针。基类中有几个存在虚函数，则子类就会保存几个虚函数表指针</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">uint64_t</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">A_a</span><span class="params">()</span></span>&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; __func__;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">uint64_t</span> c;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">C_a</span><span class="params">()</span></span>&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; __func__;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span><span class="keyword">public</span> A,<span class="keyword">public</span> C&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">uint64_t</span> d;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">D_a</span><span class="params">()</span></span>&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; __func__;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/11/11/omt6ziqjxgIEQ9a.png" alt="image-20201111194731558"></p>
+<h3 id="虚函数的应用注意事项"><a href="#虚函数的应用注意事项" class="headerlink" title="虚函数的应用注意事项"></a>虚函数的应用注意事项</h3><ul>
+<li>内联函数 (inline)<br>虚函数用于实现运行时的多态，或者称为晚绑定或动态绑定。而内联函数用于提高效率。内联函数的原理是，在编译期间，对调用内联函数的地方的代码替换成函数代码。内联函数对于程序中需要频繁使用和调用的小函数非常有用。默认地，类中定义的所有函数，除了虚函数之外，会隐式地或自动地当成内联函数(注意：内联只是对于编译器的一个建议，编译器可以自己决定是否进行内联).<br>无论何时，**使用基类指针或引用来调用虚函数，它都不能为内联函数(因为调用发生在运行时)**。但是，无论何时，使用类的对象(不是指针或引用)来调用时，可以当做是内联，因为编译器在编译时确切知道对象是哪个类的。</li>
+<li>静态成员函数 (static)<br>static成员不属于任何类对象或类实例，所以即使给此函数加上virutal也是没有任何意义的。此外静态与非静态成员函数之间有一个主要的区别，那就是<strong>静态成员函数没有this指针</strong>，从而导致两者调用方式不同。虚函数依靠vptr和vtable来处理。vptr是一个指针，在类的构造函数中创建生成，并且只能用this指针来访问它，因为它是类的一个成员，并且vptr指向保存虚函数地址的vtable。<strong>虚函数的调用关系：this -&gt; vptr -&gt; vtable -&gt;virtual function</strong>，对于静态成员函数，它没有this指针，所以无法访问vptr. 这就是为何<strong>static函数不能为virtual</strong>。</li>
+<li>构造函数 (constructor)<br>虚函数基于虚表vtable（内存空间），构造函数 (constructor) 如果是virtual的，调用时也需要根据vtable寻找，但是constructor是virtual的情况下是找不到的，因为constructor自己本身都不存在了，创建不到class的实例，没有实例class的成员（除了public static/protected static for friend class/functions，其余无论是否virtual）都不能被访问了。此外构造函数不仅不能是虚函数。而且在构造函数中调用虚函数，实际执行的是父类的对应函数，因为自己还没有构造好,多态是被disable的。</li>
+<li>析构函数 (deconstructor)<br><strong>对于可能作为基类的类的析构函数要求就是virtual的</strong>。因为如果不是virtual的，派生类析构的时候调用的是基类的析构函数，而基类的析构函数只要对基类部分进行析构，从而可能导致派生类部分出现内存泄漏问题。</li>
+<li>纯虚函数<br>析构函数可以是纯虚的，但<strong>纯虚析构函数必须有定义体</strong>，因为析构函数的调用是在子类中隐含的。</li>
+</ul>
+<p>定义一个函数为虚函数，不代表函数为不被实现的函数。<br>定义他为虚函数是为了允许用基类的指针来调用子类的这个函数。<br>定义一个函数为纯虚函数，才代表函数没有被实现。</p>
+<p>定义纯虚函数是为了实现一个接口，起到一个规范的作用，规范继承这个类的程序员必须实现这个函数。</p>
+<h2 id="虚函数与纯虚函数"><a href="#虚函数与纯虚函数" class="headerlink" title="虚函数与纯虚函数"></a>虚函数与纯虚函数</h2><p><strong>虚表是类层面上的，而不是对象层面上的</strong>。即同一个类的不同对象，共享同一个虚表。</p>
+<p><img src="https://i.loli.net/2020/04/08/zArc8lmLiNwWB51.png" alt="image-20200408092835255"></p>
+<ol start="5">
+<li>子类可<strong>自主选择</strong>是否要提供一份属于自己的个性化虚函数实现。</li>
+<li>子类<strong>必须提供</strong>一份属于自己的个性化纯虚函数实现。</li>
+</ol>
+<p><img src="https://i.loli.net/2020/04/08/7bUA4gKm98EFpYq.png" alt="B33DC6CEA3480F8E912BDF9B93AAC158"></p>
+<p>C++的编译器一旦发现一个类型中有虚函数，会为该类型生成虚函数表（vtbl），并在该类型的每一个实例中添加一个指向虚函数表的指针（vptr）。</p>
+<p>通常，编译器处理虚函数的方法是：<br>　　给每个对象添加一个隐藏成员；隐藏成员中保存了一个指向函数地址数组的指针。<br>　　其实这里的函数地址数组指的就是虚函数表（virtual function table),vtbl。<br>　　虚函数表中存储了为类对象进行声明的虚函数的地址。</p>
+<p>　　例如，基类对象包含一个指针，该指针指向基类中所有虚函数的地址表。派生类对象将包含一个指向独立地址表的指针。<br>　　<strong>如果派生类提供了虚函数的新定义，该虚函数表将保存新函数的地址，如果派生类没有B::重新定义虚函数，该vtbl将保存函数原始版本的地址。</strong></p>
+<p>（这句话解释了上图中为什么B在继承A后，B::vfunc2()函数没有出现在B的虚函数表中，这是因为B只是重新定义了vfunc1，所以B的虚函数表中保存了A::vfunc2的地址）</p>
+<p>　　如果派生类定义了新的虚函数，则该函数的地址也将被添加到vtbl中，注意，无论类中包含的虚函数是一个还是多个，都只需要在对象中添加一个地址成员，只是表的大小不同。</p>
+<hr>
+<ol>
+<li>每个对象都将增大，增大量为存储地址的空间</li>
+<li>对每个类，编译器都创建一个虚函数的地址表</li>
+<li>每个函数调用都需要执行一步额外的操作，即到表中查找地址</li>
+</ol>
+<h2 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h2><p>虚函数的声明以<code>=0</code>结束，便可将它声明为纯虚函数。包含纯虚函数的类不允许实例化，称为<strong>抽象类</strong>。 事实上纯虚函数提供了面向对象中接口的功能。当然，这样的接口是以继承的方式实现的。</p>
+<p>纯虚函数的意义，让所有的类对象（主要是派生类对象）都可以执行纯虚函数的动作，但类无法为纯虚函数提供一个合理的缺省实现。所以类纯虚函数的声明就是在告诉子类的设计者，“你必须提供一个纯虚函数的实现，但我不知道你会怎样实现它”</p>
+<p>虚函数的意义，就在于定义了一个从最早的父类，到最后的子类，都必须具备的一个功能（函数），只是在不断的进化（继承）中，这个功能会略微发生改变。通过虚函数，我们在调用不同的衍生类的时候，可以拥有不同的功能。然后我会说：这么麻烦，干脆每个继承类都重写命名一个函数么算了，只要知道重命名的函数有这个功能就行了不是？理论上来说，完全可以，在一个父类和其继承类不多的项目中，这么做完全可以，只要你自己能熟记或者找到这个重命名函数是干嘛用的；但是在大一点的项目中，由于类中的函数成百上千，恐怕你就会为此疯狂。另外还有一点，是重命名函数无法做到的，这一点我会在纯虚函数中一并解释。</p>
+<p>纯虚函数，就是虚函数了以后，末尾还要加=0的那一类函数。我一直没想通的是，既然这个函数完全没有实现方法，那么定义这个函数有个蛋用啊？我也曾经试着在网上搜索过纯虚函数的意义和作用，回答大多千篇一律照本宣科。于是我渐渐的也就无视这个纯虚函数了。直到现在我开始写一个PSO算法的时候，才发现天哪这居然是一个完全不可或缺的东西！如果说虚函数还可以用重命名作为另外一种解决方法，那么纯虚函数则是没有第二种可以替代的方法。我可以拿一个非常简单的代码说明一下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span>&#123;</span> </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">order</span><span class="params">()</span></span>=<span class="number">0</span>; </span><br><span class="line">   <span class="keyword">int</span> array[<span class="number">20</span>]; </span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面声明了一个非常简单的类，它只有两个函数，其中一个是虚函数：打印，另外一个是纯虚函数：排序。其中打印函数的定义如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test::print</span><span class="params">()</span></span>&#123; </span><br><span class="line"><span class="built_in">order</span>();</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&#x27;打印结果： &#x27;</span>); </span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">20</span>; i++) </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&#x27;%d &#x27;</span>, array);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个打印函数中，调用了order函数对array进行了排序，然后输出结果。问题是：我根本不知道order函数是什么算法，或者说order函数因人而异，所以无法确定！于是网上照本宣科的内容就出来：当函数没有实现方法或者需要子类来定义实现方法的时候，可以在父类中定义纯虚函数。就是这么简单！于是当不同的子类继承这个父类的时候，定义不同的实现方法，那么实例化这个子类的时候，这个纯虚函数就有了不同的方法。这也解释了为什么包含纯虚函数的抽象类为什么不能实例化，因为它中间有函数根本不知道是怎么个实现！当然我们可以用其他方法避免使用纯虚函数，比方说在子类中重写print方法，但是这样一来等于除了order函数代码以外所有的代码都要重新复制一遍，当继承类越来越多的时候，要修改print等于这一堆继承类都要修改，会疯的！所以说纯虚函数是一个很神奇的用法，也是简化了编程使得面向对象的方法更加灵活。</p>
+<p>至于接口，这是一个只有JAVA中才用到的概念，C++中不存在接口，与接口相似的是：抽象类。因为JAVA不允许多重继承类，但可以继承多个接口。关于接口，在我编写JAVA SERVLET的时候，碰到过一个httpservlet，用户需要为doget和dopost等函数编写实现方法。而这些函数就可以看成是纯虚函数，它在HTTPservlet也类似于上述代码的order函数，有着在局部函数中的作用。</p>
+<p>面向对象编程确实很有意思，虽然从某种程度上来说，和面向过程也差不多，但是灵活多变的设计方法，也许也是C++（面向对象）比C（面向过程）强大的地方.</p>
+<h2 id="虚函数总结0409"><a href="#虚函数总结0409" class="headerlink" title="虚函数总结0409"></a>虚函数总结0409</h2><p>基类如果有函数前面加了virtual，那么构造器会为每个基类的实例增加一个隐藏的虚函数表指针，指向一张虚函数表，虚函数表记录着基类的虚函数信息。当派生类继承基类的时候，也会把基类的虚函数表指针继承下来，就不生成新的指针了。该指针就指向派生类自己的虚函数表，如果派生类选择重写基类的虚函数，那么就会在自己的虚函数表里新增一个自己的虚函数记录！如果选择不重写，那么派生类也会有一个指向基类虚函数的指针！<br>当我们new一个派生类对象并且把它的引用赋值给基类引用时，它的虚函数表指针指向的还是自己的虚函数，所以就可以实现通过基类的引用或指针来调用派生类的方法从而实现运行时多态了……<br>由于函数只是对数据的加工，编译的时候会放到代码段，所以内存模型里不会出现函数……</p>
+<h3 id="一：虚函数表指针-vptr-创建时机"><a href="#一：虚函数表指针-vptr-创建时机" class="headerlink" title="一：虚函数表指针(vptr)创建时机"></a>一：虚函数表指针(vptr)创建时机</h3><p>vptr跟着对象走，所以对象什么时候创建出来，vptr就什么时候创建出来，也就是运行的时候。<br>当程序在编译期间，编译器会为构造函数中增加为vptr赋值的代码(这是编译器的行为)，当程序在运行时，遇到创建对象的代码，执行对象的构造函数，那么这个构造函数里有为这个对象的vptr赋值的语句。</p>
+<h3 id="二：虚函数表创建时机"><a href="#二：虚函数表创建时机" class="headerlink" title="二：虚函数表创建时机"></a>二：虚函数表创建时机</h3><p>虚函数表创建时机是在编译期间。编译期间编译器就为每个类确定好了对应的虚函数表里的内容。<br>所以在程序运行时，编译器会把虚函数表的首地址赋值给虚函数表指针，所以，这个虚函数表指针就有值了。</p>
+<hr>
+<p>版权声明：本文为CSDN博主「酸菜。」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38158479/article/details/106970213">https://blog.csdn.net/qq_38158479/article/details/106970213</a></p>
+<h2 id="d1-reportSingleClassLayout"><a href="#d1-reportSingleClassLayout" class="headerlink" title="/d1 reportSingleClassLayout"></a>/d1 reportSingleClassLayout</h2><p><img src="https://i.loli.net/2021/03/16/kypzvIgfC6UbwGM.png" alt="image-20210316095119464"></p>
+<h2 id="构造函数里面能调用虚函数吗？"><a href="#构造函数里面能调用虚函数吗？" class="headerlink" title="构造函数里面能调用虚函数吗？"></a>构造函数里面能调用虚函数吗？</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hxz_qlh/article/details/14089895">https://blog.csdn.net/hxz_qlh/article/details/14089895</a></p>
+<p>我想以重复本文的主题开篇：<strong>不要在类的构造或者析构函数中调用虚函数</strong>，因为这种调用不会如你所愿，即使成功一点，最后还会使你沮丧不已。如果你以前是一个Java或者C#程序员，请密切注意本节的内容-这正是C++与其它语言的大区别之一。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CPP/" rel="tag"><i class="fa fa-tag"></i> CPP</a>
+              <a href="/tags/VTBL/" rel="tag"><i class="fa fa-tag"></i> VTBL</a>
+              <a href="/tags/VPTR/" rel="tag"><i class="fa fa-tag"></i> VPTR</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/14/Net-muduo/" rel="prev" title="muduo">
+      <i class="fa fa-chevron-left"></i> muduo
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/03/Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="多线程">
+      多线程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83"><span class="nav-number">1.</span> <span class="nav-text">虚函数的内存分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8"><span class="nav-number">1.1.</span> <span class="nav-text">多继承中的虚函数表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.2.</span> <span class="nav-text">虚函数的应用注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">虚函数与纯虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">纯虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%930409"><span class="nav-number">4.</span> <span class="nav-text">虚函数总结0409</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%EF%BC%9A%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E6%8C%87%E9%92%88-vptr-%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">4.1.</span> <span class="nav-text">一：虚函数表指针(vptr)创建时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%EF%BC%9A%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">4.2.</span> <span class="nav-text">二：虚函数表创建时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d1-reportSingleClassLayout"><span class="nav-number">5.</span> <span class="nav-text">&#x2F;d1 reportSingleClassLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E8%83%BD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">构造函数里面能调用虚函数吗？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

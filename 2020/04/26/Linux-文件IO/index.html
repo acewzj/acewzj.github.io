@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章记述了关于C++输入输出的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++输入输出">
+<meta property="og:url" content="http://acewzj.github.io/2020/04/26/Linux-%E6%96%87%E4%BB%B6IO/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章记述了关于C++输入输出的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/26/RCx1y2sFrJUdMhc.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/26/aryd8VMJWbE15t7.png">
+<meta property="og:image" content="https://i.loli.net/2020/05/05/94mlEatvNTnHDGp.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/10/FnSMyp5fQlzjHZK.png">
+<meta property="article:published_time" content="2020-04-26T14:31:42.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.272Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CPP">
+<meta property="article:tag" content="Cin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/04/26/Linux-%E6%96%87%E4%BB%B6IO/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>C++输入输出 | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/04/26/Linux-%E6%96%87%E4%BB%B6IO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++输入输出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-26 22:31:42" itemprop="dateCreated datePublished" datetime="2020-04-26T22:31:42+08:00">2020-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index"><span itemprop="name">CPP</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/IO/" itemprop="url" rel="index"><span itemprop="name">IO</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章记述了关于C++输入输出的知识点。</p>
+<span id="more"></span>
+
+<h1 id="Linux-多线程多进程文件读写"><a href="#Linux-多线程多进程文件读写" class="headerlink" title="Linux 多线程多进程文件读写"></a>Linux 多线程多进程文件读写</h1><p>文件的写入也是如此，拿到offet，调用实际的写入方法，最后更新offset。到此为止一个文件的读和写的大体过程我们是清楚了，很显然上述的过程并不是原子的，无论是文件的读还是写，都至少有两个步骤，一个是拿offset，另外一个则是实际的读和写。并且在整个过程中并没有看到加锁的动作，那么第一个问题就得到了解决。对于第二个问题我们可以简要的分析下，假如有两个线程，第一个线程拿到offset是1，然后开始写入，在写入的过程中，第二个线程也去拿offset，因为对于一个文件来说多个线程是共享同一个struct file结构，因此拿到的offset仍然是1，这个时候线程1写结束，更新offset，然后线程2开始写。最后的结果显而易见，线程2覆盖了线程1的数据，通过分析可知，多线程写文件不是原子的，会产生数据覆盖。但是否会产生数据错乱，也就是数据交叉写入了?其实这种情况是不会发生的，至于为什么请看下面这段代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">generic_file_aio_write</span><span class="params">(struct kiocb *iocb, <span class="keyword">const</span> struct iovec *iov,</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">unsigned</span> <span class="keyword">long</span> nr_segs, <span class="keyword">loff_t</span> pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">file</span> *<span class="title">file</span> =</span> iocb-&gt;ki_filp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inode</span> *<span class="title">inode</span> =</span> file-&gt;f_mapping-&gt;host;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">blk_plug</span> <span class="title">plug</span>;</span></span><br><span class="line">    <span class="keyword">ssize_t</span> ret;</span><br><span class="line"></span><br><span class="line">    BUG_ON(iocb-&gt;ki_pos != pos);</span><br><span class="line">    <span class="comment">// 文件的写入其实是加锁的</span></span><br><span class="line">    mutex_lock(&amp;inode-&gt;i_mutex);</span><br><span class="line">    blk_start_plug(&amp;plug);</span><br><span class="line">    ret = __generic_file_aio_write(iocb, iov, nr_segs, &amp;iocb-&gt;ki_pos);</span><br><span class="line">    mutex_unlock(&amp;inode-&gt;i_mutex);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ret &gt; <span class="number">0</span> || ret == -EIOCBQUEUED) &#123;</span><br><span class="line">        <span class="keyword">ssize_t</span> err;</span><br><span class="line"></span><br><span class="line">        err = generic_write_sync(file, pos, ret);</span><br><span class="line">        <span class="keyword">if</span> (err &lt; <span class="number">0</span> &amp;&amp; ret &gt; <span class="number">0</span>)</span><br><span class="line">            ret = err;</span><br><span class="line">    &#125;</span><br><span class="line">    blk_finish_plug(&amp;plug);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line">EXPORT_SYMBOL(generic_file_aio_write);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>所以并不会产生数据错乱，只会存在数据覆盖的问题，既然如此我们在实际的进行文件读写的时候是否需要进行加锁呢? 加锁的确是可以解决问题的，但是在这里未免有点牛刀杀鸡的感觉，好在OS给我们提供了原子写入的方法，第一种就是在打开文件的时候添加O_APPEND标志，通过O_APPEND标志将获取文件的offset和文件写入放在一起用锁进行了保护，使得这两步是原子的，具体代码可以看上面代码中的__generic_file_aio_write函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> __generic_file_aio_write(struct kiocb *iocb, <span class="keyword">const</span> struct iovec *iov,</span><br><span class="line">                 <span class="keyword">unsigned</span> <span class="keyword">long</span> nr_segs, <span class="keyword">loff_t</span> *ppos)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">file</span> *<span class="title">file</span> =</span> iocb-&gt;ki_filp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">address_space</span> * <span class="title">mapping</span> =</span> file-&gt;f_mapping;</span><br><span class="line">    <span class="keyword">size_t</span> ocount;      <span class="comment">/* original count */</span></span><br><span class="line">    <span class="keyword">size_t</span> count;       <span class="comment">/* after file limit checks */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inode</span>    *<span class="title">inode</span> =</span> mapping-&gt;host;</span><br><span class="line">    <span class="keyword">loff_t</span>      pos;</span><br><span class="line">    <span class="keyword">ssize_t</span>     written;</span><br><span class="line">    <span class="keyword">ssize_t</span>     err;</span><br><span class="line"></span><br><span class="line">    ocount = <span class="number">0</span>;</span><br><span class="line">    err = generic_segment_checks(iov, &amp;nr_segs, &amp;ocount, VERIFY_READ);</span><br><span class="line">    <span class="keyword">if</span> (err)</span><br><span class="line">        <span class="keyword">return</span> err;</span><br><span class="line"></span><br><span class="line">    count = ocount;</span><br><span class="line">    pos = *ppos;</span><br><span class="line"></span><br><span class="line">    vfs_check_frozen(inode-&gt;i_sb, SB_FREEZE_WRITE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* We can write back this queue in page reclaim */</span></span><br><span class="line">    current-&gt;backing_dev_info = mapping-&gt;backing_dev_info;</span><br><span class="line">    written = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 重点就在这个函数</span></span><br><span class="line">    err = generic_write_checks(file, &amp;pos, &amp;count, S_ISBLK(inode-&gt;i_mode));</span><br><span class="line">    <span class="keyword">if</span> (err)</span><br><span class="line">        <span class="keyword">goto</span> out;</span><br><span class="line">    ......<span class="comment">// 省略</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">generic_write_checks</span><span class="params">(struct file *file, <span class="keyword">loff_t</span> *pos, <span class="keyword">size_t</span> *count, <span class="keyword">int</span> isblk)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inode</span> *<span class="title">inode</span> =</span> file-&gt;f_mapping-&gt;host;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> limit = rlimit(RLIMIT_FSIZE);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (unlikely(*pos &lt; <span class="number">0</span>))</span><br><span class="line">                <span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!isblk) &#123;</span><br><span class="line">        <span class="comment">/* <span class="doctag">FIXME:</span> this is for backwards compatibility with 2.4 */</span></span><br><span class="line">        <span class="comment">// 如果带有O_APPEND标志，会直接拿到文件的大小，设置为新的offset</span></span><br><span class="line">        <span class="keyword">if</span> (file-&gt;f_flags &amp; O_APPEND)</span><br><span class="line">                        *pos = i_size_read(inode);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (limit != RLIM_INFINITY) &#123;</span><br><span class="line">            <span class="keyword">if</span> (*pos &gt;= limit) &#123;</span><br><span class="line">                send_sig(SIGXFSZ, current, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">return</span> -EFBIG;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (*count &gt; limit - (typeof(limit))*pos) &#123;</span><br><span class="line">                *count = limit - (typeof(limit))*pos;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ......<span class="comment">// 省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>最后一个问题是多个进程写同一个文件是否会造成文件写错乱，直观来说是多进程写文件不是原子的，这是很显而易见的，因为每个进程都拥有一个struct file对象，是独立的，并且都拥有独立的文件offset，所以很显然这会导致上文中说到的数据覆盖的情况，但是否会导致数据错乱呢?，答案是不会，虽然struct file对象是独立的，但是struct inode是共享的(相同的文件无论打开多少次都只有一个struct inode对象)，文件的最后写入其实是先要写入到页缓存中，而页缓存和struct inode是一一对应的关系，在实际文件写入之前会加锁，而这个锁就是属于struct inode对象(见上文中的mutex_lock(&amp;inode-&gt;i_mutex))的，所有无论有多少个进程或者线程，只要是对同一个文件写数据，拿到的都是同一把锁，是线程安全的，所以也不会出现数据写错乱的情况。</p>
+<h3 id="write：不会出现数据交叉的情况，而且父子进程交替执行写入。"><a href="#write：不会出现数据交叉的情况，而且父子进程交替执行写入。" class="headerlink" title="write：不会出现数据交叉的情况，而且父子进程交替执行写入。"></a><code>write</code>：不会出现数据交叉的情况，而且父子进程交替执行写入。</h3><p>从上面小节的测试过程可以发现，两个非亲缘关系的进程同时写一个文件时，会出现数据混乱的情况，但是两个进程写入的数据没有覆盖。</p>
+<p>这是因为这两个进程表项中指向的对应的两个文件表项对应的当前文件偏移量是不一致的，但是由于打开文件时是使用append追加的方式，使得进程指向的文件表项中的当前文件偏移量都等于当前文件中所有数据的总长度。这就是为什么写入的数据会出现错乱，但是不会出现覆盖（偏移量不一致）的原因。</p>
+<p>注意：内核write函数在写入时是<code>原子</code>操作，所以两个进程会有一个竞争关系，最终只会由某个进程写入数据。</p>
+<p>为什么fwrite会出问题? ，因为有buf，所以就会有问题?，这块还没有讲解清楚哦，还是需要分析下的，另外write为什么不会错乱? 分析不够到位啊，我之前也写过一篇文章分析过这个问题，<a target="_blank" rel="noopener" href="http://blog.csdn.net/zhangyifei216/article/details/76653746%EF%BC%8Cfwrite%E7%9A%84%E9%97%AE%E9%A2%98%E8%AF%B4%E7%99%BD%E4%BA%86%E5%85%B6%E5%AE%9E%E5%B0%B1%E6%98%AF%E7%94%A8%E6%88%B7%E6%80%81buf%EF%BC%8C%E4%BC%9A%E7%BC%93%E5%AD%98%E5%A4%9A%E6%AC%A1%E5%86%99%E5%85%A5%EF%BC%8C%E7%84%B6%E5%90%8E%E5%86%8D%E4%B8%80%E6%AC%A1%E6%80%A7%E8%B0%83%E7%94%A8%E5%BA%95%E5%B1%82%E7%9A%84write%EF%BC%8C%E6%89%80%E4%BB%A5%E7%BB%99%E4%BD%A0%E7%9A%84%E9%94%99%E8%A7%89%E5%B0%B1%E6%98%AF%E5%A4%9A%E6%AC%A1%E5%86%99%E5%85%A5%E4%B9%8B%E9%97%B4%E4%BA%A4%E5%8F%89%E4%BA%86(%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3)">http://blog.csdn.net/zhangyifei216/article/details/76653746，fwrite的问题说白了其实就是用户态buf，会缓存多次写入，然后再一次性调用底层的write，所以给你的错觉就是多次写入之间交叉了(个人理解)</a></p>
+<h2 id="从文本读取数据C"><a href="#从文本读取数据C" class="headerlink" title="从文本读取数据C++"></a>从文本读取数据C++</h2><p>包含头文件#include <fstream></p>
+<p>逐词读取</p>
+<p>逐行读取</p>
+<pre><code>ifstream filestream(&quot;text.txt&quot;);
+if (filestream.is_open()) &#123;
+
+&#125;</code></pre>
+<p><img src="https://i.loli.net/2020/03/30/buXMqazylTYwIBL.png" alt="image-20191221120517828"></p>
+<h2 id="Cin"><a href="#Cin" class="headerlink" title="Cin"></a>Cin</h2><p>在理解 cin 功能时，不得不提标准输入缓冲区。当我们从键盘输入字符串的时候需要敲一下回车键才能够将这个字符串送入到缓冲区中，那么敲入的这个回车键（\r）会被转换为一个换行符（\n），这个换行符也会被存储在 cin 的缓冲区中并且被当成一个字符来计算！比如我们在键盘上敲下了 123456 这个字符串，然后敲一下回车键（\r）将这个字符串送入了缓冲区中，那么此时缓冲区中的字节个数是 7 ，而不是 6。<br>cin 读取数据也是从缓冲区中获取数据，缓冲区为空时，cin 的成员函数会阻塞等待数据的到来，一旦缓冲区中有数据，就触发 cin 的成员函数去读取数据。</p>
+<p>使用 cin 从标准输入读取数据时，通常用到的方法有 cin&gt;&gt;、cin.get()，getline(cin,str)</p>
+<p><strong>当 cin&gt;&gt; 从缓冲区中读取数据时，若缓冲区中第一个字符是空格、tab或换行这些分隔符时，cin&gt;&gt; 会将其忽略并清除，继续读取下一个字符，若缓冲区为空，则继续等待。</strong></p>
+<p><strong>但是如果读取成功，字符后面的分隔符是残留在缓冲区的，cin&gt;&gt; 不做处理。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> a;</span><br><span class="line">	<span class="keyword">int</span> b;</span><br><span class="line">	<span class="keyword">float</span> c;</span><br><span class="line">	<span class="built_in">string</span> str;</span><br><span class="line">	<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b&gt;&gt;c&gt;&gt;str;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;b&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;c&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">string</span> test;</span><br><span class="line">	getline(<span class="built_in">cin</span>,test);<span class="comment">//不阻塞</span></span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;test:&quot;</span>&lt;&lt;test&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://i.loli.net/2020/04/26/RCx1y2sFrJUdMhc.png" alt="image-20200426223706565"></p>
+<p>从结果可以看出，cin&gt;&gt; 对缓冲区中的第一个换行符视而不见，采取的措施是忽略清除，继续阻塞等待缓冲区有效数据的到来。但是，getline() 读取数据时，并非像 cin&gt;&gt; 那样忽略第一个换行符，getline() 发现 cin 的缓冲区中有一个残留的换行符，不阻塞请求键盘输入，直接读取，送入目标字符串后，因为读取的内容为空，所以程序中的变量 test 为空串。</p>
+<blockquote>
+<p>cin流在读取数据之后会把回车符之前的字符拿去传递给buf然后将回车符残留在cin流中，所以当getline在读取cin流的时候会第一个读到回车符随之而退出。</p>
+<p>解决方法很简单:<br>可以在getline之前使用cin.ignore()函数来将cin的残留回车符清除</p>
+</blockquote>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> a;</span><br><span class="line">	<span class="keyword">char</span> b;</span><br><span class="line">	a=<span class="built_in">cin</span>.get();</span><br><span class="line">	<span class="built_in">cin</span>.get(b);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; a &lt;&lt; b &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输入：e[回车]，输出：</p>
+<p><img src="https://i.loli.net/2020/04/26/aryd8VMJWbE15t7.png" alt="image-20200426224435867"></p>
+<p>（1）从结果可以看出，cin.get(array,20);读取一行时，遇到换行符时结束读取，但是不对换行符进行处理，换行符仍然残留在输入缓冲区。第二次由cin.get()将换行符读入变量b，打印输入换行符的ASCII码值为10。这也是cin.get()读取一行与使用getline读取一行的区别所在。getline读取一行字符时，默认遇到’\n’时终止，并且将’\n’直接从输入缓冲区中删除掉，不会影响下面的输入处理。</p>
+<hr>
+<p>版权声明：本文为CSDN博主「Dablelv」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/K346K346/article/details/48213811">https://blog.csdn.net/K346K346/article/details/48213811</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在你写getline()函数之前，一定有使用过了回车了吧</span><br><span class="line">不论你输入的是字符，数字或是回车，空格符，getline()函数都接收</span><br><span class="line">而cin&gt;&gt;这种输入方式却是忽略回车的，如果你在getline()之前cin的一个数，回车被cin忽略了，却被getline函数接收了，感觉就是这条语句被跳过了 </span><br><span class="line">所以解决的办法是在getline函数之前再使用getline一次，将输入流里的回车符接收掉，后面就能正常输入了</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num,sum,a,times;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; num;</span><br><span class="line">    <span class="keyword">while</span>(num--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; times;</span><br><span class="line">        sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(times--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; a;</span><br><span class="line">            sum+=a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; sum &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题目描述</p>
+<p>计算一系列数的和</p>
+<p>输入描述:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入数据有多组, 每行表示一组输入数据。</span><br><span class="line"></span><br><span class="line">每行不定有n个整数，空格隔开。(1 &lt;= n &lt;= 100)。</span><br></pre></td></tr></table></figure>
+
+<p>输出描述:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">每组数据输出求和的结果</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num,sum,a,times;   </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; a)</span><br><span class="line">    &#123;</span><br><span class="line">        sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            sum+=a;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">cin</span>.get()==<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; sum &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> a[<span class="number">20</span>];</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; a;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">输入：</span><br><span class="line">    asasdascaasd</span><br><span class="line">输出：</span><br><span class="line">    asasdascaasd</span><br><span class="line">输入：</span><br><span class="line">    asasdasd kkkkkkk</span><br><span class="line">输出：</span><br><span class="line">    asasdasd</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="对输入的字符串进行排序后输出"><a href="#对输入的字符串进行排序后输出" class="headerlink" title="对输入的字符串进行排序后输出"></a>对输入的字符串进行排序后输出</h2><p>输入描述:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入有两行，第一行n</span><br><span class="line"></span><br><span class="line">第二行是n个空格隔开的字符串</span><br><span class="line">5</span><br><span class="line">c d a bb e</span><br></pre></td></tr></table></figure>
+
+<p>输出描述:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输出一行排序后的字符串，空格隔开，无结尾空格</span><br><span class="line">a bb c d e</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; str;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; num;</span><br><span class="line">    <span class="keyword">int</span> nn = num;</span><br><span class="line">    <span class="keyword">while</span>(num--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span> temp;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; temp;</span><br><span class="line">        str.push_back(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    sort(str.begin(),str.end());</span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nn; i++)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">if</span>(i&lt;nn<span class="number">-1</span>) </span><br><span class="line">           <span class="built_in">cout</span>&lt;&lt;str[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">       <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;str[i];       </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>链接：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/320/I">https://ac.nowcoder.com/acm/contest/320/I</a><br>来源：牛客网</p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>对输入的字符串进行排序后输出</p>
+<h2 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a>输入描述:</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">多个测试用例，每个测试用例一行。</span><br><span class="line"></span><br><span class="line">每行通过空格隔开，有n个字符，n＜100</span><br><span class="line">a c bb</span><br><span class="line">f dddd</span><br><span class="line">nowcoder</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a>输出描述:</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">对于每组测试用例，输出一行排序过的字符串，每个字符串通过空格隔开</span><br><span class="line">a bb c</span><br><span class="line">dddd f</span><br><span class="line">nowcoder</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; str;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> nn = num;</span><br><span class="line">    <span class="built_in">string</span> temp;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; temp)</span><br><span class="line">    &#123;</span><br><span class="line">        str.push_back(temp);</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">cin</span>.get() == <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            sort(str.begin(),str.end());</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.size()<span class="number">-1</span>;i++)</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;str[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;str[str.size()<span class="number">-1</span>]&lt;&lt;<span class="built_in">endl</span>;   <span class="comment">//保持输出格式，这里要注意</span></span><br><span class="line">            str.clear();            </span><br><span class="line">        &#125;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="find函数"><a href="#find函数" class="headerlink" title="find函数"></a>find函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find(_In_z_ <span class="keyword">const</span> _Elem* <span class="keyword">const</span> _Ptr, <span class="keyword">const</span> size_type _Off = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>    for (int j=0;j&lt;TIMES;j++)
+    &#123;
+        getline(cin, OPERATOR_STYLE);
+        int IDX;
+        if (OPERATOR_STYLE.find(&quot;PUSH&quot;) != OPERATOR_STYLE.npos)
+        &#123;
+            IDX = OPERATOR_STYLE.find(&quot; &quot;);
+            int x = stoi(OPERATOR_STYLE.substr(IDX + 1));
+            q1.push(x);
+
+        &#125;</code></pre>
+<h2 id="substr函数"><a href="#substr函数" class="headerlink" title="substr函数"></a>substr函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">substr</span> <span class="params">(<span class="keyword">size_t</span> pos = <span class="number">0</span>, <span class="keyword">size_t</span> len = npos)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+<p>string str(“12345asdf”);</p>
+<p>string strTmp1= str.substr(1); //获得字符串str中 从第1位开始到结束的字符串,strTmp1值为：”2345asdf”<br>string strTmp2 = str.substr(1,5); //获得字符串s中 从第1位开始的长度为5的字符串,strTmp1值为：”2345a”</p>
+<h2 id="SplitString"><a href="#SplitString" class="headerlink" title="SplitString"></a>SplitString</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void SplitString(const string &amp;s, vector&lt;string&gt; &amp;v, const string &amp;c)</span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">    string::size_type pos1, pos2;</span><br><span class="line">    pos2 = s.find(c);</span><br><span class="line">    pos1 = 0;</span><br><span class="line">    while (string::npos != pos2)</span><br><span class="line">    &#123;</span><br><span class="line">        v.push_back(s.substr(pos1, pos2 - pos1));</span><br><span class="line">        pos1 = pos2 + c.size();</span><br><span class="line">        pos2 = s.find(c, pos1);</span><br><span class="line">    &#125;</span><br><span class="line">    if (pos1 != s.length())</span><br><span class="line">        v.push_back(s.substr(pos1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="对输入的字符串进行排序后输出-1"><a href="#对输入的字符串进行排序后输出-1" class="headerlink" title="对输入的字符串进行排序后输出"></a>对输入的字符串进行排序后输出</h2><p>输入描述:<br>多个测试用例，每个测试用例一行。<br>每行通过,隔开，有n个字符，n＜100</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a,c,bb</span><br><span class="line">f,dddd</span><br><span class="line">nowcoder</span><br></pre></td></tr></table></figure>
+
+<p>输出描述:<br>对于每组用例输出一行排序后的字符串，用’,’隔开，无结尾空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a,bb,c</span><br><span class="line">dddd,f</span><br><span class="line">nowcoder</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; str;</span><br><span class="line">    <span class="built_in">string</span> temp;</span><br><span class="line">    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,temp))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> index1 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> index2 = temp.find(<span class="string">&#x27;,&#x27;</span>);        </span><br><span class="line">        <span class="keyword">while</span>(index2 != <span class="built_in">string</span>::npos)</span><br><span class="line">        &#123;</span><br><span class="line">            str.push_back(temp.substr(index1,index2-index1));</span><br><span class="line">            index1 = index2 + <span class="number">1</span>;</span><br><span class="line">            index2 = temp.find(<span class="string">&#x27;,&#x27;</span>,index1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (index1 != temp.length())</span><br><span class="line">            str.push_back(temp.substr(index1));        </span><br><span class="line">        sort(str.begin(),str.end());</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.size()<span class="number">-1</span>;i++)</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;str[i]&lt;&lt;<span class="string">&quot;,&quot;</span>;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;str[str.size()<span class="number">-1</span>]&lt;&lt;<span class="built_in">endl</span>;   <span class="comment">//保持输出格式，这里要注意</span></span><br><span class="line">        str.clear(); </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h1><h2 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h2><p><code>#include &lt;string.h&gt;</code></p>
+<p><code>int strcmp(const char *s1, const char *s2);</code></p>
+<p><strong>功能:</strong> 用来比较两个字符串</p>
+<p><strong>参数：</strong> s1、s2为两个进行比较的字符串</p>
+<p><strong>返回值:</strong> 若s1、s2字符串相等，则返回零；若s1大于s2，则返回大于零的数；否则，则返回小于零的数。</p>
+<p><strong>说明：</strong> strcmp()函数是根据ACSII码的值来比较两个字符串的；strcmp()函数首先将s1字符串的第一个字符值减去s2第一个字符，若差值为零则继续比较下去；若差值不为零，则返回差值。<br>直到出现不同的字符或遇’\0’为止。</p>
+<h3 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h3><p>strncpy函数是拷贝N个字符到另一个字符数组中的库函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> dest[<span class="number">4</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">char</span> src[] = <span class="string">&quot;123456789&quot;</span>;</span><br><span class="line"><span class="built_in">strncpy</span>(dest, src+<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line"><span class="built_in">puts</span>(dest);</span><br><span class="line">---</span><br><span class="line"><span class="number">456</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="C-string-成员函数-length-size-和-strlen-的区别"><a href="#C-string-成员函数-length-size-和-strlen-的区别" class="headerlink" title="C++ string 成员函数 length() size() 和 strlen() 的区别"></a>C++ string 成员函数 length() size() 和 strlen() 的区别</h2><p>1、sizeof()是运算符，在编译期间就计算好了，所以对于字符串来说会统计到‘\0’的个数。（这都是早期落后的C故意设计的–字符串后面加一个\0，之后先进的length等函数都不用统计\0的个数了）</p>
+<p>2、size()、length()是c++中string的类的方法，只有string类的对象才可以用该方法，而字符串数组不可用，size()是由于string 毕竟也是一个容器，容器会为了统一都有一个size()函数，size()与length()完全等同，遇到空字符不会被截断，可以返回字符串真实长度</p>
+<p>3、而strlen、strcpy等源于C语言的字符串处理函数库，需要include&lt;string.h&gt;,同时也只有字符串数组才可以用，<br>strlen()遇到空字符会截断，从而无法返回字符串真实长度<br>strlen同样也可以用于C++的string。但是需要用c_str()将C++ string转换为char*类型。</p>
+<blockquote>
+<p>The length of a C string is determined by the terminating null-character: A <em>C string</em> is as long as the number of characters between the beginning of the string and the terminating null character (without including the terminating null character itself).</p>
+<p>This should not be confused with the size of the array that holds the string. For example:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> mystr[<span class="number">100</span>]=<span class="string">&quot;test string&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>defines an array of characters with a size of 100 <code>char</code>s, but the C string with which <em>mystr</em> has been initialized has a length of only 11 characters. Therefore, while <code>sizeof(mystr)</code> evaluates to <code>100</code>, <code>strlen(mystr)</code> returns <code>11</code>.</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[] = <span class="string">&quot;Hello\0&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>sizeof str</code> is 7 - five bytes for the “Hello” text, plus the explicit NUL terminator, plus the implicit NUL terminator.</p>
+<p><code>strlen(str)</code> is 5 - the five “Hello” bytes only.</p>
+<p>The key here is that the implicit nul terminator is <em>always</em> added - even if the string literal just happens to end with <code>\0</code>. Of course, <code>strlen</code> just stops at the first <code>\0</code> - it can’t tell the difference.</p>
+</blockquote>
+<h2 id="strlen-“aaa-txt-n”-长度为8，它只会碰到-0-十进制0-截断，空格（十进制32）换行符-n（十进制10）不会进行截断，而且最后的-0不会计入长度。"><a href="#strlen-“aaa-txt-n”-长度为8，它只会碰到-0-十进制0-截断，空格（十进制32）换行符-n（十进制10）不会进行截断，而且最后的-0不会计入长度。" class="headerlink" title="strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。"></a>strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</h2><p><img src="https://i.loli.net/2020/05/05/94mlEatvNTnHDGp.png" alt="image-20200505204223719"></p>
+<p>转载自<a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-27105712-id-3270102.html">http://blog.chinaunix.net/uid-27105712-id-3270102.html</a></p>
+<p>在Linux 开发中，有几个关系到性能的东西，技术人员非常关注：进程，CPU，MEM，网络IO，磁盘IO。本篇文件打算详细全面，深入浅出。剖析文件IO的细节。从多个角度探索如何提高IO性能。本文尽量用通俗易懂的视角去阐述。不copy内核代码。</p>
+<p>  阐述之前，要先有个大视角，让我们站在万米高空，鸟瞰我们的文件IO，它们设计是分层的，分层有2个好处，一是架构清晰，二是解耦。让我们看一下下面这张图。</p>
+<p><img src="https://i.loli.net/2021/03/10/FnSMyp5fQlzjHZK.png" alt="image-20210310193204172"></p>
+<ol>
+<li>穿越各层写文件方式</li>
+</ol>
+<p>程序的最终目的是要把数据写到磁盘上, 但是系统从通用性和性能角度，尽量提供一个折中的方案来保证这些。让我们来看一个最常用的写文件典型example，也是路径最长的IO。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="keyword">char</span> *buf = <span class="built_in">malloc</span>(MAX_BUF_SIZE);</span><br><span class="line"><span class="built_in">strncpy</span>(buf, src, , MAX_BUF_SIZE);</span><br><span class="line">fwrite(buf, MAX_BUF_SIZE, <span class="number">1</span>, fp);</span><br><span class="line">fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里malloc的buf对于图层中的application buffer，即应用程序的buffer；调用fwrite后，把数据从application buffer 拷贝到了 CLib buffer，即C库标准IObuffer。fwrite返回后，数据还在CLib buffer，如果这时候进程core掉。这些数据会丢失。没有写到磁盘介质上。当调用fclose的时候，fclose调用会把这些数据刷新到磁盘介质上。除了fclose方法外，还有一个主动刷新操作fflush 函数，不过fflush函数只是把数据从CLib buffer 拷贝到page cache 中，并没有刷新到磁盘上，从page cache刷新到磁盘上可以通过调用fsync函数完成。</p>
+<p>从上面类子看到，一个常用的fwrite函数过程，基本上历经千辛万苦，数据经过多次copy，才到达目的地。有人心生疑问，这样会提高性能吗，反而会降低性能吧。这个问题先放一放。有人说，我不想通过fwrite+fflush这样组合，我想直接写到page cache。这就是我们常见的文件IO调用read/write函数。这些函数基本上是一个函数对应着一个系统调用，如sys_read/sys_write. 调用write函数，是直接通过系统调用把数据从应用层拷贝到内核层，从application buffer 拷贝到 page cache 中。</p>
+<p>系统调用，write会触发用户态/内核态切换？是的。那有没有办法避免这些消耗。这时候该mmap出场了，mmap把page cache 地址空间映射到用户空间，应用程序像操作应用层内存一样，写文件。省去了系统调用开销。</p>
+<p>那如果继续刨根问底，如果想绕过page cache，直接把数据送到磁盘设备上怎么办。通过open文件带上O_DIRECT参数，这是write该文件。就是直接写到设备上。</p>
+<p>如果继续较劲，直接写扇区有没有办法。这就是所谓的RAW设备写，绕开了文件系统，直接写扇区，想fdsik，dd，cpio之类的工具就是这一类操作。</p>
+<ol start="2">
+<li>IO调用链</li>
+</ol>
+<p>列举了上述各种穿透各种cache 层写操作，可以看到系统提供的接口相当丰富，满足你各种写要求。下面通过讲解图一，了解一下文件IO的调用链。</p>
+<p>fwrite是系统提供的最上层接口，也是最常用的接口。它在用户进程空间开辟一个buffer，将多次小数据量相邻写操作先缓存起来，合并，最终调用write函数一次性写入（或者将大块数据分解多次write调用）。</p>
+<p>Write函数通过调用系统调用接口，将数据从应用层copy到内核层，所以<strong>write**</strong>会触发内核态**<strong>/**</strong>用户态切换<strong>。当数据到达page cache后，内核并不会立即把数据往下传递。而是返回用户空间。数据什么时候写入硬盘，有内核IO调度决定，所以</strong>write**<strong>是一个异步调用</strong>。这一点和read不同，read调用是先检查page cache里面是否有数据，如果有，就取出来返回用户，如果没有，就同步传递下去并等待有数据，再返回用户，所以read是一个同步过程。当然你也可以把write的异步过程改成同步过程，就是在open文件的时候带上O_SYNC标记。</p>
+<p>数据到了page cache后，内核有pdflush线程在不停的检测脏页，判断是否要写回到磁盘中。把需要写回的页提交到IO队列——即IO调度队列。又IO调度队列调度策略调度何时写回。</p>
+<p>提到IO调度队列，不得不提一下磁盘结构。这里要讲一下，磁头和电梯一样，尽量走到头再回来，避免来回抢占是跑，磁盘也是单向旋转，不会反复逆时针顺时针转的。从网上copy一个图下来，具体这里就不介绍。</p>
+<p>IO队列有2个主要任务。一是合并相邻扇区的，而是排序。合并相信很容易理解，排序就是尽量按照磁盘选择方向和磁头前进方向排序。因为磁头寻道时间是和昂贵的。</p>
+<p>这里IO队列和我们常用的分析工具IOStat关系密切。IOStat中rrqm/s wrqm/s表示读写合并个数。avgqu-sz表示平均队列长度。</p>
+<p>内核中有多种IO调度算法。当硬盘是SSD时候，没有什么磁道磁头，人家是随机读写的，加上这些调度算法反而画蛇添足。OK，刚好有个调度算法叫noop调度算法，就是什么都不错（合并是做了）。刚好可以用来配置SSD硬盘的系统。</p>
+<p>从IO队列出来后，就到了驱动层(当然内核中有更多的细分层，这里忽略掉)，驱动层通过DMA，将数据写入磁盘cache。</p>
+<p>至于磁盘cache时候写入磁盘介质，那是磁盘控制器自己的事情。如果想要睡个安慰觉，确认要写到磁盘介质上。就调用fsync函数吧。可以确定写到磁盘上了。</p>
+<ol start="3">
+<li>一致性和安全性<br>谈完调用细节，再将一下一致性问题和安全问题。既然数据没有到到磁盘介质前，可能处在不同的物理内存cache中，那么如果出现进程死机，内核死，掉电这样事件发生。数据会丢失吗。</li>
+</ol>
+<p>当进程死机后：只有数据还处在application cache或CLib cache时候，数据会丢失。数据到了page cache。进程core掉，即使数据还没有到硬盘。数据也不会丢失。当内核core掉后，只要数据没有到达disk cache，数据都会丢失。掉电情况呢，哈哈，这时候神也救不了你，哭吧。</p>
+<p>那么一致性呢，如果两个进程或线程同时写，会写乱吗？或A进程写，B进程读，会写脏吗？</p>
+<p>文章写到这里，写得太长了，就举出各种各样的例子。讲一下大概判断原则吧。fwrite操作的buffer是在进程私有空间，两个线程读写，肯定需要锁保护的。如果进程，各有各的地址空间。是否要加锁，看应用场景。</p>
+<p>write操作如果写大小小于PIPE_BUF（一般是4096），是原子操作，能保证两个进程“AAA”，“BBB”写操作，不会出现“ABAABB”这样的数据交错。O_APPEND 标志能保证每次重新计算pos，写到文件尾的原子性。</p>
+<p>数据到了内核层后，内核会加锁，会保证一致性的。</p>
+<ol start="4">
+<li>性能问题<br>性能从系统层面和设备层面去分析；磁盘的物理特性从根本上决定了性能。IO的调度策略，系统调用也是致命杀手。</li>
+</ol>
+<p>磁盘的寻道时间是相当的慢，平均寻道时间大概是在10ms，也就是是每秒只能100-200次寻道。</p>
+<p>磁盘转速也是影响性能的关键，目前最快15000rpm，大概就每秒500转，满打满算，就让磁头不寻道，设想所有的数据连续存放在一个柱面上。大家可以算一下每秒最多可以读多少数据。当然这个是理论值。一般情况下，盘片转太快，磁头感应跟不上，所以需要转几圈才能完全读出磁道内容。</p>
+<p>另外设备接口总线传输率是实际速率的上限。</p>
+<p>另外有些等密度磁盘，磁盘外围磁道扇区多，线速度快，如果频繁操作的数据放在外围扇区，也能提高性能。</p>
+<p>利用多磁盘并发操作，也不失为提高性能的手段。</p>
+<p>这里给个业界经验值：机械硬盘顺序写～30MB，顺序读取速率一般~50MB好的可以达到100多M, SSD读达到～400MB，SSD写性能和机械硬盘差不多。</p>
+<p>Ps：</p>
+<p>O_DIRECT 和 RAW设备最根本的区别是O_DIRECT是基于文件系统的，也就是在应用层来看，其操作对象是文件句柄，内核和文件层来看，其操作是基于inode和数据块，这些概念都是和ext2/3的文件系统相关，写到磁盘上最终是ext3文件。</p>
+<p>而RAW设备写是没有文件系统概念，操作的是扇区号，操作对象是扇区，写出来的东西不一定是ext3文件（如果按照ext3规则写就是ext3文件）。</p>
+<p>一般基于O_DIRECT来设计优化自己的文件模块，是不满系统的cache和调度策略，自己在应用层实现这些，来制定自己特有的业务特色文件读写。但是写出来的东西是ext3文件，该磁盘卸下来，mount到其他任何linux系统上，都可以查看。</p>
+<p>而基于RAW设备的设计系统，一般是不满现有ext3的诸多缺陷，设计自己的文件系统。自己设计文件布局和索引方式。举个极端例子：把整个磁盘做一个文件来写，不要索引。这样没有inode限制，没有文件大小限制，磁盘有多大，文件就能多大。这样的磁盘卸下来，mount到其他linux系统上，是无法识别其数据的。</p>
+<p>两者都要通过驱动层读写；在系统引导启动，还处于实模式的时候，可以通过bios接口读写raw设备。</p>
+<p>stevenrao 深圳写于2012 年 情人节。献给天下有情码农</p>
+<h2 id="文件IO之我见"><a href="#文件IO之我见" class="headerlink" title="文件IO之我见"></a>文件IO之我见</h2><p>read函数是怎么实现的？</p>
+<p>read 会使用一个参数叫 fd，文件描述符，在内核中通过fd定位到文件打开表项。</p>
+<p>这里我有个疑问，内核中一定存在文件打开表项吗？万一第一次打开，内核中肯定是没有这个文件打开表项的哈。其实我们打开文件都会通过open函数查询一个路径，这个时候文件打开表项就已经被加载到内核里了。文件打开表项的内容主要是Inode节点，偏移，访问状态等。</p>
+<p>在inode中，通过文件内容偏移量计算出要读取的页；</p>
+<p>这个地方也有个疑问，inode节点里存放着以下内容：文件的字节数、拥有者、修改时间、有多少个文件名指向该inode节点、文件数据block的指针数组等。</p>
+<p>这里着重说一下这个引用连接数，类似于智能指针的那个原则，有一个文件名该引用数就加一、删除一个文件名就减一，等引用数为0时，OS就会回收该inode节点和其指向的block 区域。这里顺便说一下目录文件的”链接数”。创建目录时，默认会生成两个目录项：”.”和”..”。前者的inode号码就是当前目录的inode号码，等同于当前目录的”硬链接”；后者的inode号码就是当前目录的父目录的inode号码，等同于父目录的”硬链接”。所以，任何一个目录的”硬链接”总数，总是等于2加上它的子目录总数（含隐藏目录）。</p>
+<p>通过 inode 找到文件对应的 address_space；</p>
+<p>在 address_space 中访问该文件的页缓存树，查找对应的页缓存结点：</p>
+<ul>
+<li><ul>
+<li>如果页缓存命中，那么直接返回文件内容；</li>
+</ul>
+</li>
+<li><ul>
+<li>如果页缓存缺失，那么产生一个页缺失异常，创建一个页缓存页，同时通过 inode 找到文件该页的磁盘地址，读取相应的页填充该缓存页；重新进行第 6 步查找页缓存；</li>
+</ul>
+</li>
+</ul>
+<p>文件内容读取成功</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CPP/" rel="tag"><i class="fa fa-tag"></i> CPP</a>
+              <a href="/tags/Cin/" rel="tag"><i class="fa fa-tag"></i> Cin</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/26/Linux-%E8%BF%9B%E7%A8%8B/" rel="prev" title="孤儿进程与僵尸进程">
+      <i class="fa fa-chevron-left"></i> 孤儿进程与僵尸进程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/13/CPP-%E6%8C%87%E9%92%88/" rel="next" title="C 语言指针与指针的指针">
+      C 语言指针与指针的指针 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.</span> <span class="nav-text">Linux 多线程多进程文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write%EF%BC%9A%E4%B8%8D%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%95%B0%E6%8D%AE%E4%BA%A4%E5%8F%89%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E8%80%8C%E4%B8%94%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%A7%E8%A1%8C%E5%86%99%E5%85%A5%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">write：不会出现数据交叉的情况，而且父子进程交替执行写入。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E6%9C%AC%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AEC"><span class="nav-number">1.1.</span> <span class="nav-text">从文本读取数据C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cin"><span class="nav-number">1.2.</span> <span class="nav-text">Cin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA"><span class="nav-number">1.3.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.4.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.5.</span> <span class="nav-text">输入描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.6.</span> <span class="nav-text">输出描述:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find%E5%87%BD%E6%95%B0"><span class="nav-number">1.7.</span> <span class="nav-text">find函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substr%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">substr函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SplitString"><span class="nav-number">1.9.</span> <span class="nav-text">SplitString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%BE%93%E5%85%A5%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E5%90%8E%E8%BE%93%E5%87%BA-1"><span class="nav-number">1.10.</span> <span class="nav-text">对输入的字符串进行排序后输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strcmp"><span class="nav-number">2.1.</span> <span class="nav-text">strcmp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符串截取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-string-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-length-size-%E5%92%8C-strlen-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">C++ string 成员函数 length() size() 和 strlen() 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E2%80%9Caaa-txt-n%E2%80%9D-%E9%95%BF%E5%BA%A6%E4%B8%BA8%EF%BC%8C%E5%AE%83%E5%8F%AA%E4%BC%9A%E7%A2%B0%E5%88%B0-0-%E5%8D%81%E8%BF%9B%E5%88%B60-%E6%88%AA%E6%96%AD%EF%BC%8C%E7%A9%BA%E6%A0%BC%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B632%EF%BC%89%E6%8D%A2%E8%A1%8C%E7%AC%A6-n%EF%BC%88%E5%8D%81%E8%BF%9B%E5%88%B610%EF%BC%89%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E6%88%AA%E6%96%AD%EF%BC%8C%E8%80%8C%E4%B8%94%E6%9C%80%E5%90%8E%E7%9A%84-0%E4%B8%8D%E4%BC%9A%E8%AE%A1%E5%85%A5%E9%95%BF%E5%BA%A6%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">strlen(“aaa.txt\n”)长度为8，它只会碰到\0(十进制0)截断，空格（十进制32）换行符\n（十进制10）不会进行截断，而且最后的\0不会计入长度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6IO%E4%B9%8B%E6%88%91%E8%A7%81"><span class="nav-number">2.4.</span> <span class="nav-text">文件IO之我见</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

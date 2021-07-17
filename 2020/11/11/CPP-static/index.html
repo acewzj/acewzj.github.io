@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章记述了关于static关键字的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="static">
+<meta property="og:url" content="http://acewzj.github.io/2020/11/11/CPP-static/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章记述了关于static关键字的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-11T12:54:38.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.276Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="static">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/11/11/CPP-static/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>static | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-static/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          static
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-11 20:54:38" itemprop="dateCreated datePublished" datetime="2020-11-11T20:54:38+08:00">2020-11-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index"><span itemprop="name">CPP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章记述了关于static关键字的知识点。</p>
+<span id="more"></span>
+
+<h2 id="static面向过程"><a href="#static面向过程" class="headerlink" title="static面向过程"></a>static面向过程</h2><p>1、<strong>静态全局变量</strong></p>
+<p>在全局变量前，加上关键字static，该变量就被定义成为一个静态全局变量。</p>
+<p><strong>静态全局变量有以下特点：</strong><br>• 该变量在全局数据区分配内存；<br>• 未经初始化的静态全局变量会被程序自动初始化为0（自动变量的值是随机的，除非它被显式初始化）；<br>• 静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见的；　</p>
+<p>2、<strong>静态局部变量</strong></p>
+<p>在局部变量前，加上关键字static，该变量就被定义成为一个静态局部变量。</p>
+<p>静态局部变量有以下特点：<br>• 该变量在全局数据区分配内存；<br>• 静态局部变量在程序执行到该对象的声明处时被首次初始化，即以后的函数调用不再进行初始化；<br>• 静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0；<br>• 它始终驻留在全局数据区，直到程序运行结束。但其作用域为局部作用域，当定义它的函数或语句块结束时，其作用域随之结束；</p>
+<p>3、<strong>静态函数</strong></p>
+<p>在函数的返回类型前加上static关键字,函数即被定义为静态函数。静态函数与普通函数不同，它只能在声明它的文件当中可见，不能被其它文件使用。</p>
+<p>定义静态函数的好处：<br>• 静态函数不能被其它文件所用；<br>• 其它文件中可以定义相同名字的函数，不会发生冲突；</p>
+<h2 id="static面向对象"><a href="#static面向对象" class="headerlink" title="static面向对象"></a>static面向对象</h2><p><strong>4、静态数据成员</strong><br>在类内数据成员的声明前加上关键字static，该数据成员就是类内的静态数据成员。</p>
+<p>可以看出，静态数据成员有以下特点：<br>• 对于非静态数据成员，每个类对象都有自己的拷贝。而静态数据成员被当作是类的成员。无论这个类的对象被定义了多少个，静态数据成员在程序中也只有一份拷贝，由该类型的所有对象共享访问。也就是说，静态数据成员是该类的所有对象所共有的。对该类的多个对象来说，静态数据成员只分配一次内存，供所有对象共用。所以，静态数据成员的值对每个对象都是一样的，它的值可以更新；</p>
+<p>5、<strong>静态成员函数</strong><br>　　与静态数据成员一样，我们也可以创建一个静态成员函数，它为类的全部服务而不是为某一个类的具体对象服务。静态成员函数与静态数据成员一样，都是类的内部实现，属于类定义的一部分。<strong>普通的成员函数一般都隐含了一个this指针，this指针指向类的对象本身，因为普通成员函数总是具体的属于某个类的具体对象的。</strong>通常情况下，this是缺省的。如函数fn()实际上是this-&gt;fn()。<strong>但是与普通函数相比，静态成员函数由于不是与任何的对象相联系，因此它不具有this指针。从这个意义上讲，它无法访问属于类对象的非静态数据成员，也无法访问非静态成员函数，它只能调用其余的静态成员函数。</strong>（上次被问到能不能在静态成员函数里调用非静态成员函数，答案在这里！！！！）</p>
+<h2 id="类中的静态变量"><a href="#类中的静态变量" class="headerlink" title="类中的静态变量"></a>类中的静态变量</h2><p>由于声明为static的变量只被初始化一次，因为它们在单独的静态存储中分配了空间，因此类中的静态变量<strong>由对象共享。</strong>对于不同的对象，不能有相同静态变量的多个副本。也是因为这个原因，<strong>静态变量不能使用构造函数初始化。而是必须在类外进行初始化，不然编译能通过，链接却通不过。（2020.11补充）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// variables inside a class </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">int</span> i; </span><br><span class="line"></span><br><span class="line">        Apple() </span><br><span class="line">        &#123; </span><br><span class="line">            <span class="comment">// Do nothing </span></span><br><span class="line">        &#125;; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    Apple obj1; </span><br><span class="line">    Apple obj2; </span><br><span class="line">    obj1.i =<span class="number">2</span>; </span><br><span class="line">    obj2.i = <span class="number">3</span>; </span><br><span class="line"></span><br><span class="line">    <span class="comment">// prints value of i </span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; obj1.i&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;obj2.i; </span><br><span class="line">&#125; </span><br><span class="line">--------------------</span><br><span class="line">/tmp/cc6TTR48.o: In function `main<span class="number">&#x27;</span>:</span><br><span class="line">/home/acewzj/CPlusPlusThings/basic_content/<span class="keyword">static</span>/static_error_variable.cpp:<span class="number">21</span>: undefined reference to `Apple::i<span class="number">&#x27;</span></span><br><span class="line">/home/acewzj/CPlusPlusThings/basic_content/<span class="keyword">static</span>/static_error_variable.cpp:<span class="number">22</span>: undefined reference to `Apple::i<span class="number">&#x27;</span></span><br><span class="line">/home/acewzj/CPlusPlusThings/basic_content/<span class="keyword">static</span>/static_error_variable.cpp:<span class="number">25</span>: undefined reference to `Apple::i<span class="number">&#x27;</span></span><br><span class="line">/home/acewzj/CPlusPlusThings/basic_content/<span class="keyword">static</span>/static_error_variable.cpp:<span class="number">25</span>: undefined reference to `Apple::i<span class="number">&#x27;</span></span><br><span class="line">collect2: error: ld returned <span class="number">1</span> <span class="built_in">exit</span> status</span><br><span class="line">终端进程已终止，退出代码: <span class="number">1</span>  </span><br></pre></td></tr></table></figure>
+
+<p>您可以在上面的程序中看到我们已经尝试为多个对象创建静态变量i的多个副本。但这并没有发生。因此，类中的静态变量应由用户使用类外的类名和范围解析运算符显式初始化，如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i; </span><br><span class="line"></span><br><span class="line">    Apple() </span><br><span class="line">    &#123; </span><br><span class="line">        <span class="comment">// Do nothing </span></span><br><span class="line">    &#125;; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> Apple::i = <span class="number">1</span>; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    Apple obj; </span><br><span class="line">    <span class="comment">// prints value of i </span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; obj.i; </span><br><span class="line">&#125; </span><br><span class="line">---------------</span><br><span class="line">    <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="类对象为静态"><a href="#类对象为静态" class="headerlink" title="类对象为静态"></a>类对象为静态</h2><p>就像变量一样，对象也在声明为static时具有范围，直到程序的生命周期。</p>
+<p>考虑以下程序，其中对象是非静态的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">    <span class="keyword">int</span> i; </span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">        Apple() </span><br><span class="line">        &#123; </span><br><span class="line">            i = <span class="number">0</span>; </span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Inside Constructor\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        ~Apple() </span><br><span class="line">        &#123; </span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Inside Destructor\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">if</span> (x==<span class="number">0</span>) </span><br><span class="line">    &#123; </span><br><span class="line">        Apple obj; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;End of main\n&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line">---------------</span><br><span class="line">Inside Constructor</span><br><span class="line">Inside Destructor</span><br><span class="line">End of main</span><br></pre></td></tr></table></figure>
+
+<p>在上面的程序中，对象在if块内声明为非静态。因此，变量的范围仅在if块内。因此，当创建对象时，将调用构造函数，并且在if块的控制权越过析构函数的同时调用，因为对象的范围仅在声明它的if块内。 如果我们将对象声明为静态，现在让我们看看输出的变化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">    <span class="keyword">int</span> i; </span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">        Apple() </span><br><span class="line">        &#123; </span><br><span class="line">            i = <span class="number">0</span>; </span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Inside Constructor\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        ~Apple() </span><br><span class="line">        &#123; </span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Inside Destructor\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">if</span> (x==<span class="number">0</span>) </span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">static</span> Apple obj; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;End of main\n&quot;</span>; </span><br><span class="line">&#125; </span><br><span class="line">--------------</span><br><span class="line">Inside Constructor</span><br><span class="line">End of main</span><br><span class="line">Inside Destructor</span><br></pre></td></tr></table></figure>
+
+<p>您可以清楚地看到输出的变化。现在，在main结束后调用析构函数。这是因为静态对象的范围是贯穿程序的生命周期。</p>
+<h2 id="类中的静态函数"><a href="#类中的静态函数" class="headerlink" title="类中的静态函数"></a>类中的静态函数</h2><p>就像类中的静态数据成员或静态变量一样，静态成员函数也不依赖于类的对象。我们被允许使用对象和’.’来调用静态成员函数。但建议使用类名和范围解析运算符调用静态成员。</p>
+<p>允许静态成员函数仅访问静态数据成员或其他静态成员函数，它们无法访问类的非静态数据成员或成员函数。为啥？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">        <span class="comment">// static member function </span></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printMsg</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Welcome to Apple!&quot;</span>; </span><br><span class="line">        &#125;</span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">// main function </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="comment">// invoking a static member function </span></span><br><span class="line">    Apple::printMsg(); </span><br><span class="line">&#125; </span><br><span class="line">------------------------</span><br><span class="line">Welcome to Apple!</span><br></pre></td></tr></table></figure>
+
+<h2 id="阿里：如何在C-中定义一个不能被继承的类呢？"><a href="#阿里：如何在C-中定义一个不能被继承的类呢？" class="headerlink" title="阿里：如何在C++中定义一个不能被继承的类呢？"></a>阿里：如何在C++中定义一个不能被继承的类呢？</h2><p><strong>想法一：私有构造函数来解决</strong><br>我们都知道在C++中子类的构造函数会自动调用父类的构造函数，子类的析构函数也会自动调用父类的析构函数。如果想要一个类无法被继承，那仫这个类的构造函数和析构函数必须是私有的，但是这样又会出现新的问题？就是这个类的构造函数和析构函数是私有的，我们如何获取和删除这个类的实例化对象呢？共有的静态函数就可以解决这个问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Base* <span class="title">getNewBase</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Base();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">deleteBase</span><span class="params">(Base* b)</span></span>&#123;</span><br><span class="line">       <span class="keyword">delete</span> b;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//私有化构造和析构函数</span></span><br><span class="line">    Base();</span><br><span class="line">    ~Base();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//静态成员函数没有隐含this指针参数，使用类型::作用域访问符直接调用静态成员函数</span></span><br><span class="line">    Base *b=Base::GetSpace();</span><br><span class="line">    Base::DeleteSpace(b);</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的实现会不会存在什仫问题呢？通过观察上面的代码我发现实例化一个对象只能使用new来实例，也就是说这个新创建的对象只能在堆上生成，这就存在一定的局限性。那仫如何解决呢？<br><strong>想法二：利用虚拟继承的方法</strong><br>同样是将父类的构造函数私有化，但是却定义了一个模板类型的友元，因为友元的特性：如果一个类是另一个类的友元，友元类的每个成员函数都是另一个类的友元函数，都可访问另一个类中的保护或私有数据成员。我们在子类中调用父类的构造和析构函数是不会出错的。<br>这种想法比方法一的想法好的一点就是：既可以在堆上实例化对象也可以在栈上实例化对象。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">friend</span> T;  <span class="comment">//定义友元，子类可以访问父类的私有成员对象</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Base()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Base()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Base()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;~Base()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//虚继承</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span>:</span><span class="keyword">virtual</span> <span class="keyword">public</span> Base&lt;Sub&gt;  </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Sub()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Sub()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Sub()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;~Sub()&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Sub s1;   <span class="comment">//可以在栈上开辟</span></span><br><span class="line">    Sub *s2=<span class="keyword">new</span> Sub; <span class="comment">//可以在堆上开辟</span></span><br><span class="line">    <span class="keyword">delete</span> s2;</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">执行结果--</span><br><span class="line">    先执行 Sub s1 --&gt; 执行Base的构造函数（因为可以访问友元的私有变量和函数） </span><br><span class="line">    输出：Base()  Sub()</span><br><span class="line">    再执行 Sub *s2 = <span class="keyword">new</span> Sub;--&gt;在堆上创建对象</span><br><span class="line">    输出：Base()  Sub()</span><br><span class="line">    再执行<span class="keyword">delete</span> s2;--&gt;删除堆上创建的对象（删除时先执行子类的析构函数，再执行基类的析构函数）</span><br><span class="line">    输出：~Sub() ~Base()</span><br><span class="line">    最后停在pause这里，当按下任意按键时，栈上的对象也执行析构函数</span><br><span class="line">    输出：按任意键继续 按下以后输出 ~Sub() ~Base() （这句话几乎看不到）</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h1><p>当编译器隐式执行类型转换时，大多数的编译器都会给出一个警告：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e:\vs 2010 projects\static_cast\static_cast\static_cast.cpp(11): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据</span><br></pre></td></tr></table></figure>
+
+<p>　　使用static_cast可以明确告诉编译器，这种损失精度的转换是在知情的情况下进行的，也可以让阅读程序的其他程序员明确你转换的目的而不是由于疏忽。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/static/" rel="tag"><i class="fa fa-tag"></i> static</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" rel="prev" title="指针与引用">
+      <i class="fa fa-chevron-left"></i> 指针与引用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/12/Net-HTTPS/" rel="next" title="HTTPS">
+      HTTPS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#static%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">static面向过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">static面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">类中的静态变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AF%B9%E8%B1%A1%E4%B8%BA%E9%9D%99%E6%80%81"><span class="nav-number">4.</span> <span class="nav-text">类对象为静态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">类中的静态函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BF%E9%87%8C%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8C-%E4%B8%AD%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E4%B8%8D%E8%83%BD%E8%A2%AB%E7%BB%A7%E6%89%BF%E7%9A%84%E7%B1%BB%E5%91%A2%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">阿里：如何在C++中定义一个不能被继承的类呢？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#static-cast"><span class="nav-number"></span> <span class="nav-text">static_cast</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要记述了TCP&#x2F;IP以及网络编程的知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP&#x2F;IP">
+<meta property="og:url" content="http://acewzj.github.io/2020/03/21/Net-TCP_IP/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了TCP&#x2F;IP以及网络编程的知识。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/03/07/XBKIYlh52rN7gHV.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/03/qOBXQYjWLgJhE2b.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/30/FbwsceRBKtXmDAQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/25/xG87V19zldecJwa.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/1IBXQuPW5wl6AcL.png">
+<meta property="og:image" content="https://i.loli.net/2021/02/18/JtUqm78BY2GwFuZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/30/y89m3b1XxsJu4FC.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/6c9dl4iKB2mYPuQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/SqD9LpRzmKA2Qo3.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/7jhTwgWozZEFAqi.png">
+<meta property="og:image" content="https://i.loli.net/2020/05/02/UPsewREpYHOimFz.png">
+<meta property="article:published_time" content="2020-03-21T02:16:18.000Z">
+<meta property="article:modified_time" content="2021-07-17T01:01:03.069Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="TCP&#x2F;IP">
+<meta property="article:tag" content="网络编程">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/07/XBKIYlh52rN7gHV.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/03/21/Net-TCP_IP/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCP/IP | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/03/21/Net-TCP_IP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCP/IP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-21 10:16:18" itemprop="dateCreated datePublished" datetime="2020-03-21T10:16:18+08:00">2020-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-17 09:01:03" itemprop="dateModified" datetime="2021-07-17T09:01:03+08:00">2021-07-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index"><span itemprop="name">TCP/IP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要记述了TCP/IP以及网络编程的知识。</p>
+<span id="more"></span>
+
+<p><img src="https://i.loli.net/2021/03/07/XBKIYlh52rN7gHV.png" alt="image-20210307145546083"></p>
+<p>废话少说，首先，我们需要知道TCP在网络OSI的七层模型中的第四层——<code>Transport层</code>，IP在第三层——<code>Network层</code>，ARP在第二层——<code>Data Link层</code>，在第二层上的数据，我们叫<code>Frame</code>，在第三层上的数据叫<code>Packet</code>，第四层的数据叫<code>Segment</code>。</p>
+<p>首先，我们需要知道，我们程序的数据首先会打到TCP的<code>Segment</code>中，然后TCP的<code>Segment</code>会打到IP的<code>Packet</code>中，然后再打到以太网<code>Ethernet</code>的<code>Frame</code>中，传到对端后，各个层解析自己的协议，然后把数据交给更高层的协议处理。</p>
+<p><img src="https://i.loli.net/2020/04/03/qOBXQYjWLgJhE2b.png" alt="image-20200403110519731"></p>
+<h2 id="IP头格式"><a href="#IP头格式" class="headerlink" title="IP头格式"></a>IP头格式</h2><p><img src="https://i.loli.net/2020/03/30/TyvP24FAzuBcQ9g.png" alt="1576646164341"></p>
+<p><img src="https://i.loli.net/2020/03/30/1LgXTeqvRxWmznf.png" alt="1576646175250"></p>
+<h2 id="TCP头格式（1460-20-1480）"><a href="#TCP头格式（1460-20-1480）" class="headerlink" title="TCP头格式（1460+20 = 1480）"></a>TCP头格式（1460+20 = 1480）</h2><h3 id="acknowledge-告知已收到"><a href="#acknowledge-告知已收到" class="headerlink" title="acknowledge(告知已收到)"></a>acknowledge(告知已收到)</h3><p>接下来，我们来看一下TCP头的格式</p>
+<p><img src="https://i.loli.net/2020/10/30/FbwsceRBKtXmDAQ.png" alt="image-20200320091059508"></p>
+<p><img src="https://i.loli.net/2021/03/25/xG87V19zldecJwa.png" alt="image-20210325191908453"></p>
+<p>逐个分析：</p>
+<ul>
+<li>16位源端口号和16位目的端口号。</li>
+<li>32位序号：一次TCP通信过程中某一个传输方向上的字节流的每个字节的编号，通过这个来确认发送的数据有序，比如现在序列号为1000，发送了1000，下一个序列号就是2000。</li>
+<li>32位确认号：用来响应TCP报文段，给收到的TCP报文段的序号加1，三握时还要携带自己的序号。</li>
+<li>4位头部长度：标识该TCP头部有多少个4字节，共表示最长15*4=60字节。同IP头部。</li>
+<li>6位保留。6位标志。URG（紧急指针是否有效）ACK（表示确认号是否有效）PSH（提示接收端应用程序应该立即从TCP接收缓冲区读走数据）RST（表示要求对方重新建立连接）SYN（表示请求建立一个连接）FIN（表示通知对方本端要关闭连接）</li>
+<li>16位窗口大小：TCP流量控制的一个手段，用来告诉对端TCP缓冲区还能容纳多少字节。</li>
+<li>16位校验和：由发送端填充，接收端对报文段执行CRC算法以检验TCP报文段在传输中是否损坏。</li>
+<li>16位紧急指针：一个正的偏移量，它和序号段的值相加表示最后一个紧急数据的下一字节的序号。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/11/02/1IBXQuPW5wl6AcL.png" alt="image-20201102145632808"></p>
+<h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p><img src="https://i.loli.net/2021/02/18/JtUqm78BY2GwFuZ.png" alt="image-20210218205123388"></p>
+<p><strong>握手过程可以简化为下面的四次交互：</strong></p>
+<ul>
+<li>1 ) clien 端首先发送一个 SYN 包告诉 Server 端我的初始序列号是 X；</li>
+<li>2 ) Server 端收到 SYN 包后回复给 client 一个 ACK 确认包，告诉 client 说我收到了；</li>
+<li>3 ) 接着 Server 端也需要告诉 client 端自己的初始序列号，于是 Server 也发送一个 SYN 包告诉 client 我的初始序列号是Y；</li>
+<li>4 ) Client 收到后，回复 Server 一个 ACK 确认包说我知道了。</li>
+</ul>
+<h4 id="这里为什么服务器也要发一个初始序列号？"><a href="#这里为什么服务器也要发一个初始序列号？" class="headerlink" title="这里为什么服务器也要发一个初始序列号？"></a>这里为什么服务器也要发一个初始序列号？</h4><p>因为有可能客户端之前与服务器连过一次，后来网络断了，客户端再连接时你服务器好意思再从头给人家发一次吗？</p>
+<p><strong>在三次握手过程中，细心的同学可能会有以下疑问：</strong></p>
+<p><strong>问题1</strong>：初始化序列号X、Y是可以是写死固定的吗，为什么不能呢？</p>
+<p>如果初始化序列号（缩写为ISN：Inital Sequence Number）可以固定，我们来看看会出现什么问题：<br>假设ISN固定是1，Client和Server建立好一条TCP连接后，Client连续给Server发了10个包，这10个包不知怎么被链路上的路由器缓存了(路由器会毫无先兆地缓存或者丢弃任何的数据包)，这个时候碰巧Client挂掉了；<br>然后Client用同样的端口号重新连上Server，Client又连续给Server发了几个包，假设这个时候Client的序列号变成了5；<br>接着，之前被路由器缓存的10个数据包全部被路由到Server端了，Server给Client回复确认号10，这个时候，Client整个都不好了，这是什么情况？我的序列号才到5，你怎么给我的确认号是10了，整个都乱了。</p>
+<p>seq的初始值是在创建连接时初始化的（值是随机的）</p>
+<hr>
+<p><strong>问题2</strong>：假如Client发送一个SYN包给Server后就挂了或是不管了，这个时候这个连接处于什么状态呢？会超时吗？为什么呢？</p>
+<p>Client发送SYN包给Server后挂了，Server回给Client的SYN-ACK一直没收到Client的ACK确认，这个时候这个连接既没建立起来，也不能算失败。这就需要一个超时时间让Server将这个连接断开，否则这个连接就会一直占用Server的SYN连接队列中的一个位置，大量这样的连接就会将Server的SYN连接队列耗尽，让正常的连接无法得到处理。</p>
+<p>目前，Linux下默认会进行5次重发SYN-ACK包，重试的间隔时间从1s开始，下次的重试间隔时间是前一次的双倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了.所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会把断开这个连接。</p>
+<p>由于，SYN超时需要63秒，那么就给攻击者一个攻击服务器的机会，攻击者在短时间内发送大量的SYN包给Server(俗称 SYN flood 攻击)，用于耗尽Server的SYN队列。对于应对SYN 过多的问题，linux提供了几个TCP参数：tcp_syncookies、tcp_synack_retries、tcp_max_syn_backlog、tcp_abort_on_overflow 来调整应对。</p>
+<hr>
+<p><strong>问题3</strong>：四次挥手能不能变成三次挥手呢？</p>
+<p>答案是可能的。</p>
+<p>TCP是全双工通信，Cliet在自己已经不会在有新的数据要发送给Server后，可以发送FIN信号告知Server，这边已经终止Client到对端Server那边的数据传输。但是，这个时候对端Server可以继续往Client这边发送数据包。于是，两端数据传输的终止在时序上是独立并且可能会相隔比较长的时间，这个时候就必须最少需要2+2 = 4 次挥手来完全终止这个连接。但是，如果Server在收到Client的FIN包后，在也没数据需要发送给Client了，那么对Client的ACK包和Server自己的FIN包就可以合并成为一个包发送过去，这样四次挥手就可以变成三次了(似乎linux协议栈就是这样实现的)。</p>
+<p>TCP进行断开连接的目标是：回收资源、终止数据传输。由于TCP是全双工的，需要Peer两端分别各自拆除自己通向Peer对端的方向的通信信道。</p>
+<p><strong>这样需要四次挥手来分别拆除通信信道，就比较清晰明了了：</strong></p>
+<ul>
+<li><p>1）Client 发送一个FIN包来告诉 Server 我已经没数据需要发给 Server了；</p>
+</li>
+<li><p>2）Server 收到后回复一个 ACK 确认包说我知道了；</p>
+</li>
+<li><p>3）然后 server 在自己也没数据发送给client后，Server 也发送一个 FIN 包给 Client 告诉 Client 我也已经没数据发给client 了；</p>
+</li>
+<li><p>4）Client 收到后，就会回复一个 ACK 确认包说我知道了。</p>
+<hr>
+</li>
+</ul>
+<p><strong>问题4：</strong>很多人会问，为什么建链接要3次握手，断链接需要4次挥手？</p>
+<ul>
+<li><strong>对于建链接的3次握手，</strong>主要是要初始化Sequence Number 的初始值。通信的双方要互相通知对方自己的初始化的Sequence Number（缩写为ISN：Inital Sequence Number）——所以叫SYN，全称Synchronize Sequence Numbers。也就上图中的 x 和 y。这个号要作为以后的数据通信的序号，以保证应用层接收到的数据不会因为网络上的传输的问题而乱序（TCP会用这个序号来拼接数据）。</li>
+<li><strong>对于4次挥手，</strong>其实你仔细看是2次，因为TCP是全双工的，所以，发送方和接收方都需要Fin和Ack。只不过，有一方是被动的，所以看上去就成了所谓的4次挥手。如果两边同时断连接，那就会就进入到CLOSING状态，然后到达TIME_WAIT状态。下图是双方同时断连接的示意图（你同样可以对照着TCP状态机看）：</li>
+</ul>
+<p>不知道大家有没有注意到客户端在发送了最后一个断开请求的ACK后，又等待了2MSL的时间才关闭连接。为什么不直接关闭连接呢？如果客户端直接关闭连接，而此时客户端最后发送的ACK又在网络中丢失，从而可能导致服务器端的连接无法正常关闭。那为什么又要设置为2MSL呢？1MSL表示一个IP数据报在网络中的最多存活时间。假设客户端最后发送的ACK经过将近1MSL快要到达服务器端的时候丢失了，那么服务器端在规定的时间内未收到最后客户端发送的ACK，则服务器端重新发送最后的FIN给客户端，请求客户端重发ACK，该FIN经过1MSL到达客户端。所以如上最坏情况，如果客户端在2MSL内没有收到FIN请求，则表明服务器端已经断开连接。</p>
+<p>另外，有几个事情需要注意一下：</p>
+<ul>
+<li><strong>关于建连接时SYN超时</strong>。试想一下，如果server端接到了client发的SYN后回了SYN-ACK后client掉线了，server端没有收到client回来的ACK，那么，这个连接处于一个中间状态，即没成功，也没失败。于是，server端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻售，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP才会把断开这个连接。</li>
+<li><strong>关于SYN Flood攻击</strong>。一些恶意的人就为此制造了SYN Flood攻击——给服务器发了一个SYN后，就下线了，于是服务器需要默认等63s才会断开连接，这样，攻击者就可以把服务器的syn连接的队列耗尽，让正常的连接请求不能处理。于是，Linux下给了一个叫<strong>tcp_syncookies</strong>的参数来应对这个事——当SYN队列满了后，TCP会通过源地址端口、目标地址端口和时间戳打造出一个特别的Sequence Number发回去（又叫cookie），如果是攻击者则不会有响应，如果是正常连接，则会把这个 SYN Cookie发回来，然后服务端可以通过cookie建连接（即使你不在SYN队列中）。请注意，<strong>请先千万别用tcp_syncookies来处理正常的大负载的连接的情况</strong>。因为，synccookies是妥协版的TCP协议，并不严谨。对于正常的请求，你应该调整三个TCP参数可供你选择，第一个是：tcp_synack_retries 可以用他来减少重试次数；第二个是：tcp_max_syn_backlog，可以增大SYN连接数；第三个是：tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。</li>
+<li><strong>关于ISN的初始化</strong>。ISN是不能hard code的，不然会出问题的——比如：如果连接建好后始终用1来做ISN，如果client发了30个segment过去，但是网络断了，于是 client重连，又用了1做ISN，但是之前连接的那些包到了，于是就被当成了新连接的包，此时，client的Sequence Number 可能是3，而Server端认为client端的这个号是30了。全乱了。<a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc793">RFC793</a>中说，ISN会和一个假的时钟绑在一起，这个时钟会在每4微秒对ISN做加一操作，直到超过2^32，又从0开始。这样，一个ISN的周期大约是4.55个小时。因为，我们假设我们的TCP Segment在网络上的存活时间不会超过Maximum Segment Lifetime（缩写为MSL – <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Maximum_Segment_Lifetime">Wikipedia语条</a>），所以，只要MSL的值小于4.55小时，那么，我们就不会重用到ISN。</li>
+<li><strong>关于 MSL 和 TIME_WAIT</strong>。通过上面的ISN的描述，相信你也知道MSL是怎么来的了。我们注意到，在TCP的状态图中，从TIME_WAIT状态到CLOSED状态，有一个超时设置，这个超时设置是 2*MSL（<a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc793">RFC793</a>定义了MSL为2分钟，Linux设置成了30s）为什么要这有TIME_WAIT？为什么不直接给转成CLOSED状态呢？主要有两个原因：1）TIME_WAIT确保有足够的时间让对端收到了ACK，如果被动关闭的那方没有收到Ack，就会触发被动端重发Fin，一来一去正好2个MSL，2）有足够的时间让这个连接不会跟后面的连接混在一起（你要知道，有些自做主张的路由器会缓存IP数据包，如果连接被重用了，那么这些延迟收到的包就有可能会跟新连接混在一起）。你可以看看这篇文章《<a target="_blank" rel="noopener" href="http://www.serverframework.com/asynchronousevents/2011/01/time-wait-and-its-design-implications-for-protocols-and-scalable-servers.html">TIME_WAIT and its design implications for protocols and scalable client server systems</a>》</li>
+<li><strong>关于TIME_WAIT数量太多</strong>。从上面的描述我们可以知道，TIME_WAIT是个很重要的状态，但是如果在大并发的短链接下，TIME_WAIT 就会太多，这也会消耗很多系统资源。只要搜一下，你就会发现，十有八九的处理方式都是教你设置两个参数，一个叫<strong>tcp_tw_reuse</strong>，另一个叫<strong>tcp_tw_recycle</strong>的参数，这两个参数默认值都是被关闭的，后者recyle比前者resue更为激进，resue要温柔一些。另外，如果使用tcp_tw_reuse，必需设置tcp_timestamps=1，否则无效。这里，你一定要注意，<strong>打开这两个参数会有比较大的坑——可能会让TCP连接出一些诡异的问题</strong>（因为如上述一样，如果不等待超时重用连接的话，新的连接可能会建不上。正如<a target="_blank" rel="noopener" href="https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt">官方文档</a>上说的一样“<strong>It should not be changed without advice/request of technical experts</strong>”）。</li>
+<li><strong>关于tcp_tw_reuse</strong>。官方文档上说tcp_tw_reuse 加上tcp_timestamps（又叫PAWS, for Protection Against Wrapped Sequence Numbers）可以保证协议的角度上的安全，但是你需要tcp_timestamps在两边都被打开（你可以读一下<a target="_blank" rel="noopener" href="http://lxr.free-electrons.com/ident?i=tcp_twsk_unique">tcp_twsk_unique</a>的源码 ）。我个人估计还是有一些场景会有问题。</li>
+<li><strong>关于tcp_tw_recycle</strong>。如果是tcp_tw_recycle被打开了话，会假设对端开启了tcp_timestamps，然后会去比较时间戳，如果时间戳变大了，就可以重用。但是，如果对端是一个NAT网络的话（如：一个公司只用一个IP出公网）或是对端的IP被另一台重用了，这个事就复杂了。建链接的SYN可能就被直接丢掉了（你可能会看到connection time out的错误）（如果你想观摩一下Linux的内核代码，请参看源码<a target="_blank" rel="noopener" href="http://lxr.free-electrons.com/ident?i=tcp_timewait_state_process"> tcp_timewait_state_process</a>）。</li>
+<li><strong>关于tcp_max_tw_buckets</strong>。这个是控制并发的TIME_WAIT的数量，默认值是180000，如果超限，那么，系统会把多的给destory掉，然后在日志里打一个警告（如：time wait bucket table overflow），官网文档说这个参数是用来对抗DDoS攻击的。也说的默认值180000并不小。这个还是需要根据实际情况考虑。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/30/y89m3b1XxsJu4FC.png" alt="image-20200415213059169"></p>
+<h2 id="time-wait状态原因："><a href="#time-wait状态原因：" class="headerlink" title="time_wait状态原因："></a>time_wait状态原因：</h2><h5 id="实现TCP全双工连接的可靠释放"><a href="#实现TCP全双工连接的可靠释放" class="headerlink" title="实现TCP全双工连接的可靠释放"></a>实现TCP全双工连接的可靠释放</h5><p>由TCP转换图可知，假设发起主动关闭的一方（client）最后发送的ACK在网络中丢失，由于TCP协议的重传机制，执行被动关闭的一方（server）将会重发其FIN，在该FIN到达client之前，client必须维护这条连接状态，也就是说这条TCP所连接的对应资源（client方的local_ip,local_port）不能被立即释放或重新分配，直到另一方重发的FIN到达 之后，client重发ACK之后，经过2MSL时间周期没有再收到另一方的FIN之后该TCP连接才能恢复到初始的closed状态。如果主动关闭的一方不去维护这个time_wait状态，那么当被关闭一方重发的FIN到达时，主动关闭一方的TCP传输层会用RST包响应对方，这会被对方认为是有错误发生，然而这些事实上只是正常的关闭连接的过程，并非异常。</p>
+<h5 id="为了使旧的数据包在网络中因过期而消失"><a href="#为了使旧的数据包在网络中因过期而消失" class="headerlink" title="为了使旧的数据包在网络中因过期而消失"></a>为了使旧的数据包在网络中因过期而消失</h5><p>我们先假设TCP协议中不存在TIME_WAIT状态的额限制，再假设当前有一条TCP连接：（local_ip, local_port, remote_ip,remote_port）,因为某些原因，我们先关闭，接着很快以相同的四元组建立一条新的连接。本文前面介绍过，TCP连接由四元组唯一标识，因此，在我们假设的情况中，TCP协议栈是无法区分连接的不同的，在它看来，这根本就是同一条连接，中间先释放再连接的过程它也是“感知”不到的。这样就可能发生这样的情况：前一条TCP连接由local peer发送的数据到达remote peer后，会被该remot peer的TCP传输层当做当前TCP连接的正常数据接收并向上传递至应用层（而事实上，在我们假设的场景下，这些旧数据到达remote peer前，旧连接已断开且一条由相同四元组构成的新TCP连接已建立，因此，这些旧数据是不应该被向上传递至应用层的），从而引起数据错乱进而导致各种无法预知的诡异现象。作为一种可靠的传输协议，TCP必须在协议层面考虑并避免这种情况的发生，这正是TIME_WAIT状态存在的第2个原因。</p>
+<h2 id="出现过多的close-wait可能是什么原因？"><a href="#出现过多的close-wait可能是什么原因？" class="headerlink" title="出现过多的close_wait可能是什么原因？"></a>出现过多的close_wait可能是什么原因？</h2><p>过多的close_wait可能是什么原因：</p>
+<ol>
+<li>程序问题：说的具体一点，服务器端的代码，没有写 close 函数关闭 socket 连接，也就不会发出 FIN 报文段；或者出现死循环，服务器端的代码永远执行不到 close。</li>
+<li>服务端接口耗时较长，客户端主动断开了连接，此时，服务端就会出现 close_wait。</li>
+</ol>
+<p>常用的三个状态是：<strong>ESTABLISHED 表示正在通信，TIME_WAIT 表示主动关闭，CLOSE_WAIT 表示被动关闭</strong>。<br>具体每种状态什么意思，其实无需多说，看看下面这种图就明白了，注意这里提到的服务器应该是业务请求接受处理的一方：</p>
+<p>这么多状态不用都记住，只要了解到我上面提到的最常见的三种状态的意义就可以了。一般不到万不得已的情况也不会去查看网络状态，如果服务器出了异常，百分之八九十都是下面两种情况：<br>1.服务器保持了大量TIME_WAIT状态<br>2.服务器保持了大量CLOSE_WAIT状态</p>
+<p>值得一说的是，对于基于TCP的HTTP协议，关闭TCP连接的是Server端，这样，Server端会进入TIME_WAIT状态，可 想而知，对于访问量大的Web Server，会存在大量的TIME_WAIT状态，假如server一秒钟接收1000个请求，那么就会积压240*1000=240，000个 TIME_WAIT的记录，维护这些状态给Server带来负担。当然现代操作系统都会用快速的查找算法来管理这些TIME_WAIT，所以对于新的 TCP连接请求，判断是否hit中一个TIME_WAIT不会太费时间，但是有这么多状态要维护总是不好。<br>HTTP协议1.1版规定default行为是Keep-Alive，也就是会重用TCP连接传输多个 request/response，一个主要原因就是发现了这个问题。</p>
+<p>也就是说HTTP的交互跟上面画的那个图是不一样的，关闭连接的不是客户端，而是服务器，所以web服务器也是会出现大量的TIME_WAIT的情况的。<br>现在来说如何来解决这个问题。<br>解决思路很简单，就是让服务器能够快速回收和重用那些TIME_WAIT的资源</p>
+<h2 id="tcp粘包"><a href="#tcp粘包" class="headerlink" title="tcp粘包"></a>tcp粘包</h2><p><a target="_blank" rel="noopener" href="https://network.51cto.com/art/201910/604438.htm">https://network.51cto.com/art/201910/604438.htm</a></p>
+<p>为什么会出现粘包呢？</p>
+<p>TCP粘包可以分为发送端的粘包和接收端的粘包。</p>
+<p>发送端的粘包是因为早期人们使用 telnet 进行远程连接，telnet经常会发送只有一个字符的报文段，然而TCP头部都有40字节了，只发送一个字节的话带宽利用率太低；加之那个时候网络带宽也比较紧张，所以就发明了一个Nagle算法来避免这个问题：Nagle算法就是将发送端的报文先放到发送缓冲区里攒一攒，攒到数据超过最大发送报文段（MSS）或者收到对端的一个ACK之后才发出去。（这样本来是一个一个发送的报文现在变成一坨要发送的报文，直观上感觉像是被粘住了）</p>
+<p><strong>当然现在网络带宽上去了，Linux内核提供了一个TCP_NODELAY开关来关闭Nagle算法。</strong></p>
+<p>接收端的报文是由于你网卡接收到报文，由内核将报文存储在相应的socket的接收缓冲区里，如果你应用层没能及时通过recv read等操作将报文拷贝到用户的缓存里，那么可能会出现好几个报文的首尾相连的情况。</p>
+<p>解决办法：循环处理，应用程序从接收缓存中读取分组时，读完一条数据，就应该循环读取下一条数据，直到所有数据都被处理完成，但是如何判断每条数据的长度呢？</p>
+<p>格式化数据：每条数据有固定的格式（开始符，结束符），这种方法简单易行，但是选择开始符和结束符时一定要确保每条数据的内部不包含开始符和结束符。<br>发送长度：发送每条数据时，将数据的长度一并发送，例如规定数据的前4位是数据的长度，应用层在处理时可以根据长度来判断每个分组的开始和结束位置。<br>5.Q：UDP会不会产生粘包问题呢？<br>TCP为了保证可靠传输并减少额外的开销（每次发包都要验证），采用了基于流的传输，基于流的传输不认为消息是一条一条的，是无保护消息边界的（保护消息边界：指传输协议把数据当做一条独立的消息在网上传输，接收端一次只能接受一条独立的消息）。</p>
+<p>UDP则是面向消息传输的，是有保护消息边界的，接收方一次只接受一条独立的信息，所以不存在粘包问题。</p>
+<p>举个例子：有三个数据包，大小分别为2k、4k、6k，如果采用UDP发送的话，不管接受方的接收缓存有多大，我们必须要进行至少三次以上的发送才能把数据包发送完，但是使用TCP协议发送的话，我们只需要接受方的接收缓存有12k的大小，就可以一次把这3个数据包全部发送完毕。</p>
+<h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><p>tcpdump默认会监视eth0网卡，想要其监视127.0.0.1需要指定 -i lo 本地回环地址</p>
+<p><img src="https://i.loli.net/2020/11/02/6c9dl4iKB2mYPuQ.png" alt="image-20201102213655527"></p>
+<p><img src="https://i.loli.net/2020/11/02/SqD9LpRzmKA2Qo3.png" alt="image-20201102211103718"></p>
+<h1 id="Reactor"><a href="#Reactor" class="headerlink" title="Reactor"></a>Reactor</h1><p>最最原始的网络编程思路就是服务器用一个while循环，不断监听端口是否有新的套接字连接，如果有，那么就调用一个处理函数处理，类似：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    socket = accept();</span><br><span class="line">    handle(socket)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方法的最大问题是无法并发，效率太低，如果当前的请求没有处理完，那么后面的请求只能被阻塞，服务器的吞吐量太低。<br>之后，想到了使用多线程，也就是很经典的connection per thread，每一个连接用一个线程处理，类似：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    socket = accept();</span><br><span class="line">    <span class="keyword">new</span> thread(socket);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>tomcat服务器的早期版本确实是这样实现的。多线程的方式确实一定程度上极大地提高了服务器的吞吐量，因为之前的请求在read阻塞以后，不会影响到后续的请求，因为他们在不同的线程中。这也是为什么通常会讲“一个线程只能对应一个socket”的原因。最开始对这句话很不理解，线程中创建多个socket不行吗？语法上确实可以，但是实际上没有用，每一个socket都是阻塞的，所以在一个线程里只能处理一个socket，就算accept了多个也没用，前一个socket被阻塞了，后面的是无法被执行到的。<br>缺点在于资源要求太高，系统中创建线程是需要比较高的系统资源的，如果连接数太高，系统无法承受，而且，线程的反复创建-销毁也需要代价。<br>线程池本身可以缓解线程创建-销毁的代价，这样优化确实会好很多，不过还是存在一些问题的，就是线程的粒度太大。每一个线程把一次交互的事情全部做了，包括读取和返回，甚至连接，表面上似乎连接不在线程里，但是如果线程不够，有了新的连接，也无法得到处理，所以，目前的方案线程里可以看成要做三件事，连接，读取和写入。<br>线程同步的粒度太大了，限制了吞吐量。应该把一次连接的操作分为更细的粒度或者过程，这些更细的粒度是更小的线程。整个线程池的数目会翻倍，但是线程更简单，任务更加单一。这其实就是Reactor出现的原因，<strong>在Reactor中，这些被拆分的小线程或者子过程对应的是handler，每一种handler会出处理一种event。这里会有一个全局的管理者selector，我们需要把channel注册感兴趣的事件，那么这个selector就会不断在channel上检测是否有该类型的事件发生，如果没有，那么主线程就会被阻塞，否则就会调用相应的事件处理函数即handler来处理。</strong>典型的事件有连接，读取和写入，当然我们就需要为这些事件分别提供处理器，每一个处理器可以采用线程的方式实现。一个连接来了，显示被读取线程或者handler处理了，然后再执行写入，那么之前的读取就可以被后面的请求复用，吞吐量就提高了。</p>
+<p>tomcat服务器的早期版本确实是这样实现的。多线程的方式确实一定程度上极大地提高了服务器的吞吐量，因为之前的请求在read阻塞以后，不会影响到后续的请求，因为他们在不同的线程中。这也是为什么通常会讲“一个线程只能对应一个socket”的原因。最开始对这句话很不理解，线程中创建多个socket不行吗？语法上确实可以，但是实际上没有用，每一个socket都是阻塞的，所以在一个线程里只能处理一个socket，就算accept了多个也没用，前一个socket被阻塞了，后面的是无法被执行到的。<br>缺点在于资源要求太高，系统中创建线程是需要比较高的系统资源的，如果连接数太高，系统无法承受，而且，线程的反复创建-销毁也需要代价。<br>线程池本身可以缓解线程创建-销毁的代价，这样优化确实会好很多，不过还是存在一些问题的，就是线程的粒度太大。每一个线程把一次交互的事情全部做了，包括读取和返回，甚至连接，表面上似乎连接不在线程里，但是如果线程不够，有了新的连接，也无法得到处理，所以，目前的方案线程里可以看成要做三件事，连接，读取和写入。<br>线程同步的粒度太大了，限制了吞吐量。应该把一次连接的操作分为更细的粒度或者过程，这些更细的粒度是更小的线程。整个线程池的数目会翻倍，但是线程更简单，任务更加单一。这其实就是Reactor出现的原因，<strong>在Reactor中，这些被拆分的小线程或者子过程对应的是handler，每一种handler会出处理一种event。这里会有一个全局的管理者selector，我们需要把channel注册感兴趣的事件，那么这个selector就会不断在channel上检测是否有该类型的事件发生，如果没有，那么主线程就会被阻塞，否则就会调用相应的事件处理函数即handler来处理。</strong>典型的事件有连接，读取和写入，当然我们就需要为这些事件分别提供处理器，每一个处理器可以采用线程的方式实现。一个连接来了，显示被读取线程或者handler处理了，然后再执行写入，那么之前的读取就可以被后面的请求复用，吞吐量就提高了。</p>
+<p>这种方法的最大问题是无法并发，效率太低，如果当前的请求没有处理完，那么后面的请求只能被阻塞，服务器的吞吐量太低。<br>之后，想到了使用多线程，也就是很经典的connection per thread，每一个连接用一个线程处理，类似：<br>while(true){<br>socket = accept();<br>new thread(socket);<br>}<br>tomcat服务器的早期版本确实是这样实现的。多线程的方式确实一定程度上极大地提高了服务器的吞吐量，因为之前的请求在read阻塞以后，不会影响到后续的请求，因为他们在不同的线程中。这也是为什么通常会讲“一个线程只能对应一个socket”的原因。最开始对这句话很不理解，线程中创建多个socket不行吗？语法上确实可以，但是实际上没有用，每一个socket都是阻塞的，所以在一个线程里只能处理一个socket，就算accept了多个也没用，前一个socket被阻塞了，后面的是无法被执行到的。<br>缺点在于资源要求太高，系统中创建线程是需要比较高的系统资源的，如果连接数太高，系统无法承受，而且，线程的反复创建-销毁也需要代价。<br>线程池本身可以缓解线程创建-销毁的代价，这样优化确实会好很多，不过还是存在一些问题的，就是线程的粒度太大。每一个线程把一次交互的事情全部做了，包括读取和返回，甚至连接，表面上似乎连接不在线程里，但是如果线程不够，有了新的连接，也无法得到处理，所以，目前的方案线程里可以看成要做三件事，连接，读取和写入。<br>线程同步的粒度太大了，限制了吞吐量。应该把一次连接的操作分为更细的粒度或者过程，这些更细的粒度是更小的线程。整个线程池的数目会翻倍，但是线程更简单，任务更加单一。这其实就是Reactor出现的原因，<strong>在Reactor中，这些被拆分的小线程或者子过程对应的是handler，每一种handler会出处理一种event。这里会有一个全局的管理者selector，我们需要把channel注册感兴趣的事件，那么这个selector就会不断在channel上检测是否有该类型的事件发生，如果没有，那么主线程就会被阻塞，否则就会调用相应的事件处理函数即handler来处理。</strong>典型的事件有连接，读取和写入，当然我们就需要为这些事件分别提供处理器，每一个处理器可以采用线程的方式实现。一个连接来了，显示被读取线程或者handler处理了，然后再执行写入，那么之前的读取就可以被后面的请求复用，吞吐量就提高了。</p>
+<p>几乎所有的网络连接都会经过读请求内容——》解码——》计算处理——》编码回复——》回复的过程，Reactor模式的的演化过程如下：</p>
+<p><img src="https://i.loli.net/2020/04/06/7jhTwgWozZEFAqi.png" alt="image-20200406221245258"></p>
+<p>这种模型由于IO在阻塞时会一直等待，因此在用户负载增加时，性能下降的非常快。</p>
+<p>server导致阻塞的原因：</p>
+<p>1、serversocket的accept方法，阻塞等待client连接，直到client连接成功。</p>
+<p>2、线程从socket inputstream读入数据，会进入阻塞状态，直到全部数据读完。</p>
+<p>3、线程向socket outputstream写入数据，会阻塞直到全部数据写完。</p>
+<p>使用同步IO模型（以epoll_wait为例）实现的 Reactor 模式的工作流程为：</p>
+<p>1、主线程往 epoll 内核事件表中注册 socket 上的读就绪事件；</p>
+<p>2、主线程调用 epoll_wait 等待 socket 上有数据可读；</p>
+<p>3、当 socket 上有数据可读时，epoll_wait 通知主线程。主线程则将socket 可读事件放入请求队列中；</p>
+<p>4、睡眠在请求队列上的某个工作线程被唤醒，它从 socket 读取数据，并处理客户请求，然后往 epoll 内核事件表中注册该 socket 上的写就绪事件；</p>
+<p>5、主线程调用 epoll_wait 等待socket 可写；</p>
+<p>6、当 socket 可写时，epoll_wait 通知主线程。主线程将socket 可写事件放入请求队列；</p>
+<p>7、睡眠在请求队列上的某个工作线程被唤醒，它往 socket 上写入服务器处理客户请求的结果。</p>
+<p><img src="https://i.loli.net/2020/05/02/UPsewREpYHOimFz.png" alt="image-20200502082157458"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/TCP-IP/" rel="tag"><i class="fa fa-tag"></i> TCP/IP</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 网络编程</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"><i class="fa fa-tag"></i> 服务器</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/17/Schedule/" rel="prev" title="Schedule">
+      <i class="fa fa-chevron-left"></i> Schedule
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/29/Matlab/" rel="next" title="Matlab">
+      Matlab <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%A4%B4%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">IP头格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E5%A4%B4%E6%A0%BC%E5%BC%8F%EF%BC%881460-20-1480%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">TCP头格式（1460+20 &#x3D; 1480）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#acknowledge-%E5%91%8A%E7%9F%A5%E5%B7%B2%E6%94%B6%E5%88%B0"><span class="nav-number">2.1.</span> <span class="nav-text">acknowledge(告知已收到)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">3.</span> <span class="nav-text">三次握手与四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%99%E9%87%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E8%A6%81%E5%8F%91%E4%B8%80%E4%B8%AA%E5%88%9D%E5%A7%8B%E5%BA%8F%E5%88%97%E5%8F%B7%EF%BC%9F"><span class="nav-number">3.0.1.</span> <span class="nav-text">这里为什么服务器也要发一个初始序列号？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-wait%E7%8A%B6%E6%80%81%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">time_wait状态原因：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0TCP%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%8F%AF%E9%9D%A0%E9%87%8A%E6%94%BE"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">实现TCP全双工连接的可靠释放</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BA%86%E4%BD%BF%E6%97%A7%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8C%85%E5%9C%A8%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%9B%A0%E8%BF%87%E6%9C%9F%E8%80%8C%E6%B6%88%E5%A4%B1"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">为了使旧的数据包在网络中因过期而消失</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BA%E7%8E%B0%E8%BF%87%E5%A4%9A%E7%9A%84close-wait%E5%8F%AF%E8%83%BD%E6%98%AF%E4%BB%80%E4%B9%88%E5%8E%9F%E5%9B%A0%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">出现过多的close_wait可能是什么原因？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp%E7%B2%98%E5%8C%85"><span class="nav-number">6.</span> <span class="nav-text">tcp粘包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpdump"><span class="nav-number">7.</span> <span class="nav-text">tcpdump</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactor"><span class="nav-number"></span> <span class="nav-text">Reactor</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

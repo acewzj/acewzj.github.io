@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要记述了STL和一些C++的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 和 STL 的知识点">
+<meta property="og:url" content="http://acewzj.github.io/2019/12/02/CPP-STL/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了STL和一些C++的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/04/08/EBwdnzF3LA8M2Js.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/06/2eK3CMPjGTDgvmX.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/fK1yzJdoSA7VRWg.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/02/G4CH2ypvqLIKT9M.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/qOHBIDR8TVUbaGp.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/mDnCTt48ZzyhaXF.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/wAq2eMDOSRUjl5a.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/VQPYsLJjzCTWnfr.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/aKpUckOP2NVDQJl.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/TQuPz1cew8p6atl.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/08/1ntR6YcLUVMK7WO.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/caYW31lkdThB7qR.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/NKdZD8fH1anhATQ.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/KFsXC3H18rieR4S.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/03/w2KsNOf4ypomkzG.png">
+<meta property="article:published_time" content="2019-12-02T02:16:18.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.276Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CPP">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/08/EBwdnzF3LA8M2Js.jpg">
+
+<link rel="canonical" href="http://acewzj.github.io/2019/12/02/CPP-STL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>C++ 和 STL 的知识点 | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2019/12/02/CPP-STL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++ 和 STL 的知识点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-02 10:16:18" itemprop="dateCreated datePublished" datetime="2019-12-02T10:16:18+08:00">2019-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index"><span itemprop="name">CPP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要记述了STL和一些C++的知识点。</p>
+<span id="more"></span>
+
+
+
+<p><img src="https://i.loli.net/2020/04/08/EBwdnzF3LA8M2Js.jpg" alt="P6150569"></p>
+<h2 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxValue</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b ? a : b;</span><br><span class="line">&#125;     </span><br></pre></td></tr></table></figure>
+
+<p>而这段代码编译后生成的CPU指令存储在代码区，而这段代码其实是可以获取其地址的(只能是在编译时获取的吧，在运行时获取感觉不太现实啊)，而其地址就是函数名，我们可以使用指针存储这个函数的地址——函数指针。<br> 函数指针其实就是一种特殊的指针——指向一个函数的指针。在很多高级语言中，它的思想是很重要的，尤其是它的“回调函数”，所以理解它是很有必要的。</p>
+<h3 id="函数指针定义与使用"><a href="#函数指针定义与使用" class="headerlink" title="函数指针定义与使用"></a>函数指针定义与使用</h3><hr>
+<p>任何变量定义都包含三部分: 变量类型 + 变量名 = 初值，那么定义一个函数指针，首先我们需要知道要定义一个什么样的函数指针（指针类型），那么问题来了，函数的类型又是什么呢？我们继续分析这段代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxValue</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b ? a : b;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+
+<p>这个函数的类型是有两个整型参数，返回值是个整型。对应的函数指针类型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*) (<span class="keyword">int</span> a, <span class="keyword">int</span> b);  </span><br></pre></td></tr></table></figure>
+
+<p>对应的函数指针定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*p)(<span class="keyword">int</span> x, <span class="keyword">int</span>  y);    </span><br></pre></td></tr></table></figure>
+
+<p>参数名可以去掉，并且通常都是去掉的。这样指针p就可以保存函数类型为两个整型参数，返回值是整型的函数地址了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*p)(<span class="keyword">int</span>, <span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
+<p>通过函数指针调用函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*p)(<span class="keyword">int</span>, <span class="keyword">int</span>) = <span class="literal">NULL</span>;</span><br><span class="line">p = maxValue;</span><br><span class="line"><span class="built_in">p</span>(<span class="number">20</span>, <span class="number">45</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><hr>
+<p>上述内容是函数指针的基础用法，然而我们可以看得出来，直接使用函数maxValue岂不是更方便？没错，其实函数指针更重要的意义在于函数回调，而上述内容只是一个铺垫。<br> 举个例子:<br> 现在我们有这样一个需求：实现一个函数，将一个整形数组中比50大的打印在控制台，我们可能这样实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">compareNumberFunction</span><span class="params">(<span class="keyword">int</span> *numberArray, <span class="keyword">int</span> count, <span class="keyword">int</span> compareNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (*(numberArray + i) &gt; compareNumber) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, *(numberArray + i));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> numberArray[<span class="number">5</span>] = &#123;<span class="number">15</span>, <span class="number">34</span>, <span class="number">44</span>, <span class="number">56</span>, <span class="number">64</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> compareNumber = <span class="number">50</span>;</span><br><span class="line">    <span class="built_in">compareNumberFunction</span>(numberArray, <span class="number">5</span>, compareNumber);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p>这样实现是没有问题的，然而现在我们又有这样一个需求：实现一个函数，将一个整形数组中比50小的打印在控制台。”What the fuck!”</p>
+<p> 然而回到现实，这种需求是不可避免的，你可能想过复制粘贴，更改一下判断条件，然而作为开发者，我们要未雨绸缪，要考虑到将来可能添加更多类似的需求，那么你将会有大量的重复代码，使你的项目变得臃肿，所以这个时候我们需要冷静下来思考，其实这两个需求很多代码都是相同的，只要更改一下判断条件即可，而判断条件我们如何变得更加灵活呢？这时候我们就用到回调函数的知识了，我们可以定义一个函数，这个函数需要两个int型参数，函数内部实现代码是将两个整形数字做比较，将比较结果的bool值作为函数的返回值返回出来，以大于被比较数字的情况为例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">compareGreater</span><span class="params">(<span class="keyword">int</span> number, <span class="keyword">int</span> compareNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> number &gt; compareNumber;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p>同理，小于被比较的数字函数定义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">compareLess</span><span class="params">(<span class="keyword">int</span> number, <span class="keyword">int</span> compareNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> number &lt; compareNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们可以将这个函数作为compareNumberFunction的一个参数进行传递（没错，函数可以作为参数），那么我们就需要一个函数指针获取函数的地址，从而在compareNumberFunction内部进行对函数的调用，于是，compareNumberFunction函数的定义变成了这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">compareNumberFunction</span><span class="params">(<span class="keyword">int</span> *numberArray, <span class="keyword">int</span> count, <span class="keyword">int</span> compareNumber, BOOL (*p)(<span class="keyword">int</span>, <span class="keyword">int</span>))</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">p</span>(*(numberArray + i), compareNumber)) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, *(numberArray + i));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体使用时代吗如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> numberArray[<span class="number">5</span>] = &#123;<span class="number">15</span>, <span class="number">34</span>, <span class="number">44</span>, <span class="number">56</span>, <span class="number">64</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> compareNumber = <span class="number">50</span>;</span><br><span class="line">    <span class="comment">// 大于被比较数字情况：</span></span><br><span class="line">    <span class="built_in">compareNumberFunction</span>(numberArray, <span class="number">5</span>, compareNumber, compareGreater);</span><br><span class="line">    <span class="comment">// 小于被比较数字情况：</span></span><br><span class="line">    <span class="built_in">compareNumberFunction</span>(numberArray, <span class="number">5</span>, compareNumber, compareLess);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据上述案例，我们可以得出结论：函数回调本质为函数指针作为函数参数，函数调用时传入函数地址，这使我们的代码变得更加灵活，可复用性更强。</p>
+<h3 id="函数指针作为函数返回值"><a href="#函数指针作为函数返回值" class="headerlink" title="函数指针作为函数返回值"></a>函数指针作为函数返回值</h3><p>没错，既然函数指针可以作为参数，自然也可以作为返回值。再接着上案例。<br>需求：定义一个函数，通过传入功能的名称获取到对应的函数。</p>
+<table>
+<thead>
+<tr>
+<th>功能名（name）</th>
+<th>调用函数（function）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“max”</td>
+<td>maxValue()</td>
+</tr>
+<tr>
+<td>“min”</td>
+<td>minValue()</td>
+</tr>
+</tbody></table>
+<p>当前我们需要定义一个叫做findFunction的函数，这个函数传入一个字符串之后会返回一个 int (*)(int, int)类型的函数指针，那么我们这个函数的声明是不是可以写成这样呢？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>) <span class="built_in">findFunction</span>(<span class="keyword">char</span> *);   </span><br></pre></td></tr></table></figure>
+
+<p>这看起来很符合我们的理解，然而，这并不正确，编译器无法识别两个完全并行的包含形参的括号(int, int)和(char *),真正的形式其实是这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*<span class="built_in">findFunction</span>(<span class="keyword">char</span> *))(<span class="keyword">int</span>, <span class="keyword">int</span>);  </span><br></pre></td></tr></table></figure>
+
+<p>这种声明从外观上看更像是脸滚键盘出来的结果，现在让我们来逐步的分析一下这个声明的组成步骤：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">findFunction 是一个标识符</span><br><span class="line">findFunction()是一个函数</span><br><span class="line">findFunction(<span class="keyword">char</span> *)函数接受一个类型为<span class="keyword">char</span> *的参数</span><br><span class="line">*findFunction(<span class="keyword">char</span> *)函数返回一个指针</span><br><span class="line">(*findFunction(<span class="keyword">char</span>*))()这个指针指向一个函数</span><br><span class="line">(*findFunction(<span class="keyword">char</span>*))(<span class="keyword">int</span>, <span class="keyword">int</span>)指针指向的函数接受两个整形参数</span><br><span class="line"><span class="keyword">int</span> (*findFunction(<span class="keyword">char</span> *))(<span class="keyword">int</span>, <span class="keyword">int</span>)指针指向的函数返回一个整</span><br></pre></td></tr></table></figure>
+
+<p>  最终代码演变成了这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重定义函数指针类型</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*FUNC)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 求最大值函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxValue</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 求最小值函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minValue</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &lt; b ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// findFunction函数定义</span></span><br><span class="line"><span class="function">FUNC <span class="title">findFunction</span><span class="params">(<span class="keyword">char</span> *name)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == <span class="built_in">strcmp</span>(name, <span class="string">&quot;max&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> maxValue;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0</span> == <span class="built_in">strcmp</span>(name, <span class="string">&quot;min&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> minValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Function name error&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in"><span class="keyword">int</span></span> (*p)(<span class="keyword">int</span>, <span class="keyword">int</span>) = <span class="built_in">findFunction</span>(<span class="string">&quot;max&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">p</span>(<span class="number">3</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in"><span class="keyword">int</span></span> (*p1)(<span class="keyword">int</span>, <span class="keyword">int</span>) = <span class="built_in">findFunction</span>(<span class="string">&quot;min&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;min = %d\n&quot;</span>, <span class="built_in">p1</span>(<span class="number">3</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到了这里，函数指针的基础内容已经结束了，有的同学还有可能困惑，为什么我要以函数去获取函数呢，直接使用maxValue和minValue不就好了么，其实在以后的编程过程中，很有可能maxValue和minValue被封装了起来，类的外部是不能直接使用的，那么我们就需要这种方式，如果你学习了Objective-C你会发现，所有的方法调用的实现原理都是如此。</p>
+<h2 id="仿函数"><a href="#仿函数" class="headerlink" title="仿函数"></a>仿函数</h2><h2 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a>explicit关键字</h2><p>在C++中，explicit关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换，只能以显示的方式进行类型转换。</p>
+<p>注意事项：</p>
+<p>1、explicit关键字只能用于类内部的构造函数声明上；</p>
+<p>2、explicit关键字作用于单个参数（或者除了第一个参数外其余参数都有缺省值的多参构造函数）的构造函数；</p>
+<h2 id="restrict-关键字"><a href="#restrict-关键字" class="headerlink" title="restrict 关键字"></a>restrict 关键字</h2><p>restrict 是 C 的关键字(出现于 C99 标准)，用在指针声明中，C++ 的标准中没有 restrict ，但是现代的主流编译器都保留了对 restrict 的支持，如 VC++, GCC, Clang, Icc 等，不同编译器的书写形式或许不同，可能是 restrict, <strong>restrict</strong>, __restrict 等.<br>restrict 的含义是由编程者向编译器声明，在这个指针的生命周期中，只有这个指针本身或者直接由它产生的指针(如 ptr + 1)能够用来访问该指针指向的对象．他的作用是限制指针别名，帮助编译器做优化．如果该指针与另外一个指针指向同一对象，那么结果是未定义的．</p>
+<p>例如在下列代码中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span> <span class="params">(<span class="keyword">int</span>* a, <span class="keyword">int</span>* b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    *a = <span class="number">10</span>;</span><br><span class="line">    *b = <span class="number">12</span>;</span><br><span class="line">    <span class="keyword">return</span> *a + *b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　这个函数直观的作用便是将 a 和 b 指向的 int 对象赋值为 10 和 12, 然后返回他们两个的和，可以看出最后 <code>return *a + *b</code> 这条语句中是不需要的访问内存单元的，a 中一定是 10, b 中一定是 12, 所以编译器可以在这里做优化直接返回 22.<br>　　但是如果 a 和 b 指向的是同一个 int 对象呢? 这时编译器就不应该做优化，实际上编译器的优化策略是保守的，当无法判断这里能不能优化时，便不做优化，所以可得如下汇编代码，这已经是编译器在已知信息下所能做的最好的优化，优化等级是 -O3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(int*, int*):</span><br><span class="line">  mov DWORD PTR [rdi], 10</span><br><span class="line">  mov DWORD PTR [rsi], 12</span><br><span class="line">  mov eax, DWORD PTR [rdi]</span><br><span class="line">  add eax, 12</span><br><span class="line">  ret</span><br></pre></td></tr></table></figure>
+
+<p>　　但是如果加上 <code>restrict</code> 修饰(编译器 GCC)，代码如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span> <span class="params">(<span class="keyword">int</span>* __restrict__ a, <span class="keyword">int</span>* __restrict__ b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    *a = <span class="number">10</span>;</span><br><span class="line">    *b = <span class="number">12</span>;</span><br><span class="line">    <span class="keyword">return</span> *a + *b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　编译器已经得知 a, b 两指针不会指向同一单元(此点应由编程者保证)，所以在这里会减少一次内存的访问，可以得到如下的汇编代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add(int*, int*):</span><br><span class="line">  mov DWORD PTR [rdi], 10</span><br><span class="line">  mov DWORD PTR [rsi], 12</span><br><span class="line">  mov eax, 22</span><br><span class="line">  ret</span><br></pre></td></tr></table></figure>
+
+<p>　　可见少了一条内存访问的指令</p>
+<h2 id="void"><a href="#void" class="headerlink" title="void *"></a>void *</h2><p>指向void的指针是“通用”指针类型；</p>
+<p>可以将void *转换为任何其他指针类型，而无需显式强制转换。</p>
+<p>您不能解引用void *或对其进行指针运算； 您必须先将其转换为指向完整数据类型的指针</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> thread_params = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> *temp = &amp;thread_params;<span class="comment">//temp = 0x7fffffffe1c4</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> * tmp = (<span class="keyword">void</span>*) temp;<span class="comment">//tmp = 0x7fffffffe1c4</span></span><br><span class="line">  </span><br><span class="line">  pthread_create(&amp;t_id,<span class="literal">NULL</span>, thread_main, (<span class="keyword">void</span>*)&amp;thread_params)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">int</span> cnt = *((<span class="keyword">int</span> *)arg);</span><br><span class="line"><span class="comment">//先将void * 指针类型转换为 int *  ==》 （int *）arg</span></span><br><span class="line"><span class="comment">//接着进行解引用 *((int *)arg);</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h1 id="向上-下强制转换"><a href="#向上-下强制转换" class="headerlink" title="向上/下强制转换"></a>向上/下强制转换</h1><ul>
+<li><p>将派生类引用或指针转换为基类引用或指针被称为向上强制转换。</p>
+</li>
+<li><p>将基类引用或指针转换为派生类引用或指针被称为向下强制转换。</p>
+</li>
+</ul>
+<p>如果不使用显示类型转换，向下强制转换是不允许的，因为is-a关系是不可逆的。</p>
+<p>比如香蕉是水果，但是水果不是香蕉。派生类香蕉可以新增数据成员，因此这些数据成员不能应用于基类水果，比如香蕉中有黄色，但是不是所有水果都是黄色的。</p>
+<h1 id="STL"><a href="#STL" class="headerlink" title="STL"></a>STL</h1><p>STL有六种序列容器类型：</p>
+<ul>
+<li>1 Vector:相当于一个数组，在内存中分配一块连续的内存空间进行存储；STL内部实现时首先分配一个非常大的内存空间预备进行存储（可以通过capacity()函数返回其大小）</li>
+<li>2 List：双向链表</li>
+<li>3 Deque:双端队列<br>人们习惯上把程序员分三个等级，知其然，知其所以然，造其所以然</li>
+</ul>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>hash也称散列，哈希。基本原理就是将<strong>任意长度</strong>的输入变成<strong>固定长度</strong>的输出。这个映射的规则就是哈希算法，而原始数据经过映射形成的二进制字符串就是哈希值。开发中的MD5和SHA都是历史悠久的哈希算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo md5(<span class="string">&quot;This is a test md5!&quot;</span>);</span><br><span class="line">//output 2124968af757ed51e7abecd04f98e</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="hash的优点"><a href="#hash的优点" class="headerlink" title="hash的优点"></a>hash的优点</h3><p>1 不能从hash值反向推导出原始的数据</p>
+<p>2 输入数据的微小变化会得到完全不同的hash值，相同的数据会得到相同的值</p>
+<p>3 哈希算法的执行效率要高效，长的文本也能快速的计算出哈希值</p>
+<p>4 哈希算法的冲突概率要小</p>
+<p>由于哈希的原理就是将输入空间的值映射成hash空间内，而hash值的空间远小于输入的空间，根据鸽笼原理，一定会存在不同的输入被映射成相同输出的情况。</p>
+<h3 id="hash碰撞的解决方案"><a href="#hash碰撞的解决方案" class="headerlink" title="hash碰撞的解决方案"></a>hash碰撞的解决方案</h3><p>前面提到了哈希算法是一定会有碰撞的，那么如果我们遇到了hash冲突需要解决的时候该怎么处理呢？常用的方法就是 <strong>链地址法</strong>和<strong>开放地址法</strong>。</p>
+<p>开放地址法就是构造一个M的数组保存N个键值对（M&gt;N)。我们需要依靠数组中的空位解决碰撞冲突。基于这种策略的所以方法统称为“开放地址法”。线性探测法，就是比较常见的一种实现方式。它的核心思想是当冲突发生时，顺序查看表的下一个单元，直到找到一个空单元或查遍全表。只要散列表足够大，空的散列地址总能找到。</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>就是个数组，不能扩充。</p>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>vector的增长是2倍2倍的扩充容量（capacity）,注意这里不是在原来的基础上成长：它是在另外的地方找一个两倍的空间然后一个一个元素搬过去。。。。。。所以vector的size是元素的数量，但是capacity却是扩充 的2的倍数。补充：容器的data指的是在内存中首元素的地址。</p>
+<p>vector初始化：</p>
+<p>vector<int> (6);参数 初始化6个相同的0元素</p>
+<p>vector<int>{6};列表初始化，里面只有一个6</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> aa[<span class="number">8</span>] = &#123;<span class="number">9</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">a</span><span class="params">(aa, aa + <span class="number">8</span>)</span></span>;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>vector 要删除中间某个元素的时候不要直接用 erase,可以将其置换到最后面然后进行pop_back</p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>list与vector不同，它是采用的环状双向链表</p>
+<p>某些容器（如list）自带sort，这个要比全局的sort要快</p>
+<p><img src="https://i.loli.net/2019/12/06/2eK3CMPjGTDgvmX.png"></p>
+<p><img src="https://i.loli.net/2019/12/08/fK1yzJdoSA7VRWg.png"></p>
+<p>c++中箭头运算符-&gt;，相当于把解引用和成员访问符两个操作符结合在一起，换句话说，</p>
+<p>p-&gt;func()和(*p).func()所表示的意思一样。</p>
+<p>地址-&gt;一个东西   <em>ite去解引用了ite这个地址<br>&amp;（</em>ite）又取回来这个地址</p>
+<h3 id="std-list-splice-详解"><a href="#std-list-splice-详解" class="headerlink" title="std::list::splice 详解"></a><code>std::list::splice</code> 详解</h3><p><code>splice</code> 方法将 list 的元素进行<strong>拼接合并</strong>，原理是改变结点指针的指向，属于常数的复杂度。这个方法是 <code>std::list</code> 特有的，它<strong>不需要复制拷贝</strong>，直接对同类型的 list 中的节点的指针进行操作。</p>
+<p>list 容器底层实现是一个带头结点的双向链表 double linked list。由于 list 每个节点是单独的，所以 list 在随机插入和随机删除都是 O (1) 的复杂度。在 list 中移动数据或者两个 list 之间移动数据的时候，直接把节点摘下来，接入到新的位置就可以了，非常高效。</p>
+<p><code>splice</code> 方法有三种声明 / 作用 / 复杂度：</p>
+<ol>
+<li>entire list:</li>
+</ol>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void splice ( iterator pos, list&amp; other );</span><br></pre></td></tr></table></figure>
+
+- 将 list `other` 中的元素全都移到 caller container 的 position 处
+- **复杂度: Constant**</code></pre>
+<ol start="2">
+<li>single element:</li>
+</ol>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void splice ( iterator pos, list&amp; other, iterator it );</span><br></pre></td></tr></table></figure>
+
+- 仅将 list `other` 中的由迭代器 it 指向的元素移到 caller container 的 position 处
+- **复杂度: Constant**</code></pre>
+<ol start="3">
+<li>element range:</li>
+</ol>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void splice ( iterator pos, list&amp; other, iterator first, iterator last );</span><br></pre></td></tr></table></figure>
+
+- list `other` 的迭代器区间 $[\mathrm &#123;first&#125;, \mathrm &#123;last&#125;)$ 中的元素移动到 caller container 的 position 处
+- **复杂度: Constant if `other` refers to the same object as `\*this`, otherwise linear in `std::distance(first, last)`.** [1](https://cakebytheoceanluo.github.io/2020/04/19/std-list-splice/#fn1)</code></pre>
+<p>caller container := 调用者容器</p>
+<p>由此可见，<strong>这个方法总是将 list <code>other</code> 中元素移动 (剪切) 到 caller container 中。</strong></p>
+<h2 id="Deque"><a href="#Deque" class="headerlink" title="Deque"></a>Deque</h2><p>分段连续，类似于二维指针：由一个指针指向一个缓冲区</p>
+<p><img src="https://i.loli.net/2019/12/02/G4CH2ypvqLIKT9M.png"></p>
+<p><img src="https://i.loli.net/2019/12/08/qOHBIDR8TVUbaGp.png"></p>
+<ul>
+<li><p>这里：node指向deque的控制大脑，first指向某一段的开头，last指向某一段的结尾，前闭后开区间，cur指向当前的这一段里面的节点。当走到头时，会由node进行段的切换；</p>
+</li>
+<li><p>控制中心是一个vector。如果你想在前面插入的话，且前面空间不够了，你依旧也是需要开辟一个2倍原来空间的控制中心区域一个一个的拷贝构造一下。但是它很狡猾的拷贝到2倍区域的中段来，这样可以让首尾控制中心的扩充更为均衡一些；</p>
+</li>
+<li><p>start与finish指向的是deque中所有元素的首跟尾；</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/08/mDnCTt48ZzyhaXF.png"></p>
+<ul>
+<li><p>区分前++与后++的方法是：后++会传int的形参，这是规定</p>
+</li>
+<li><p>后++会生成一个临时的tmp对象，然后对原对象进行前++操作，再把tmp对象返回</p>
+</li>
+<li><h3 id="self的用处是？？？？？"><a href="#self的用处是？？？？？" class="headerlink" title="self的用处是？？？？？"></a>self的用处是？？？？？</h3></li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/08/wAq2eMDOSRUjl5a.png"></p>
+<p><img src="https://i.loli.net/2019/12/08/VQPYsLJjzCTWnfr.png"></p>
+<p><img src="https://i.loli.net/2019/12/08/aKpUckOP2NVDQJl.png" alt="4.9"></p>
+<p><img src="https://i.loli.net/2019/12/08/TQuPz1cew8p6atl.png"></p>
+<p><img src="https://i.loli.net/2019/12/08/1ntR6YcLUVMK7WO.png"></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>multimap&lt;key,value&gt;//multi允许重复</p>
+<p>snprintf(buf,10,”%d”,rand（）)；//如果格式化后的字符串长度 &gt;= size，则只将其中的(size-1)个字符复制到str中，并给其后添加一个字符串结束符(‘\0’)，返回值为欲写入的字符串长度</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> a[<span class="number">16</span>];</span><br><span class="line">  <span class="keyword">size_t</span> i;</span><br><span class="line"> </span><br><span class="line">  i = <span class="built_in">snprintf</span>(a, <span class="number">13</span>, <span class="string">&quot;%012d&quot;</span>, <span class="number">12345</span>);  <span class="comment">// 第 1 种情况 12位宽</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;i = %lu, a = %s\n&quot;</span>, i, a);    <span class="comment">// 输出：i = 12, a = 000000012345</span></span><br><span class="line"> </span><br><span class="line">  i = <span class="built_in">snprintf</span>(a, <span class="number">9</span>, <span class="string">&quot;%012d&quot;</span>, <span class="number">12345</span>);   <span class="comment">// 第 2 种情况 0000 0001 2345</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;i = %lu, a = %s\n&quot;</span>, i, a);    <span class="comment">// 输出：i = 12, a = 00000001</span></span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c.insert(pair&lt;long,string&gt;(i,buf))</p>
+<ul>
+<li>multimap不可以用[作Insertion,map却可以，注意重复与不重复.</li>
+</ul>
+<h2 id="OOP：-amp-GP：Generic-Programming"><a href="#OOP：-amp-GP：Generic-Programming" class="headerlink" title="OOP：&amp;GP：Generic Programming"></a>OOP：&amp;GP：Generic Programming</h2><p>Object-Oriented-Programming</p>
+<p>GP 可以使得两个团队可以专注于闭门造车</p>
+<p>OOP相当于菜谱（数据相当于原材料，方法相当于烹饪步骤）</p>
+<p>标准库用的全局的：：sort排序需要的是RandomAccessIterator，随机的迭代器，而list不能随意的像数组那样一下子蹦5个单元，所以List不能使用全局的：：sort排序。</p>
+<h2 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h2><p>类模板与函数模板</p>
+<p><img src="https://i.loli.net/2019/12/03/caYW31lkdThB7qR.jpg"></p>
+<p><img src="https://i.loli.net/2019/12/03/NKdZD8fH1anhATQ.jpg"></p>
+<p>类模板如果不进行<double> <int>的绑定，它不知道该给T初始化为多少？毕竟2.5初始化为float也行，初始化为double也行。</p>
+<p>但是函数模板就不一样了，因为编译器可以进行类型推导，从r1那个Stone r1就可以推出T的类型，进而重载Stone类的&lt;操作符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span>和下面相同  </span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">complex</span>&#123;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="泛化与特化"><a href="#泛化与特化" class="headerlink" title="泛化与特化"></a>泛化与特化</h2><ul>
+<li>类模板中我可以通过T来形成各种各样的类的蓝图。但是如果你是一种特定的类型比如int，我可以提供给你一种更为有效的做法，这就叫做特化。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/03/KFsXC3H18rieR4S.png" alt="特化"></p>
+<ul>
+<li><p>template&lt;&gt;有时候是__STL_TEMPLATE_NULL</p>
+</li>
+<li><p>以上是FULL 特化，还有偏特化    Partial Specialization</p>
+<img src="https://i.loli.net/2019/12/03/w2KsNOf4ypomkzG.png" style="zoom:75%;" />
+
+
+
+
+
+
+
+</li>
+</ul>
+<h2 id="traits-萃取"><a href="#traits-萃取" class="headerlink" title="traits 萃取"></a>traits 萃取</h2><p>萃取，特征，一种人为制造的萃取机器：我丢给它一些东西，它可以萃取出我想要的特征</p>
+<p>STL 中，容器和算法是分开的，两者之间靠的是迭代器进行连接。算法是如何从迭代器中知道元素的类型的呢？靠的就是萃取。。。</p>
+<p>简单来说，如果我们封装了一个算法，这个算法可能会由于输入数据类型的不同导致算法内部处理逻辑的不同（比如说传入的是int类型我们做一种操作，而传入的是double类型我们将进行另外一种操作），而我们并不想由于这种原因修改算法的封装时，Traits就派上用场了，它可以帮我们很方便的实现功能，而又不破坏函数的封装。<br>迭代器所指对象的类型，称为该迭代器的 value_type。我们来简单模拟一个迭代器 traits classes 的实现。</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主模板 不使用模板参数列表--》 my_iterator_traits&lt;Iter T&gt;</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">IterT</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">my_iterator_traits</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> IterT::value_type value_type;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//简单的偏特化版本</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">IterT</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">my_iterator_traits</span>&lt;</span>IterT*&gt; &#123;</span><br><span class="line">    <span class="keyword">typedef</span> IterT value_type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;fun(int) is called&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(<span class="keyword">double</span> a)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;fun(double) is called&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(<span class="keyword">char</span> a)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;fun(char) is called&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line">my_iterator_traits&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator&gt;::value_type a;</span><br><span class="line">fun(a);  <span class="comment">// 输出 fun(int) is called</span></span><br><span class="line">my_iterator_traits&lt;<span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt;::iterator&gt;::value_type b;</span><br><span class="line">fun(b);  <span class="comment">// 输出 fun(double) is called</span></span><br><span class="line">my_iterator_traits&lt;<span class="keyword">char</span>*&gt;::value_type c;</span><br><span class="line">fun(c);  <span class="comment">// 输出 fun(char) is called</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 为了便于理解，我们这里贴出 vector 迭代器声明代码的简化版本：</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, ...&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">vector</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">iterator</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">typedef</span> T value_type;</span><br><span class="line">        ...</span><br><span class="line">    &#125;;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>my_iterator_traits 其实就是个类模板，其中包含一个类型的声明。有上面 typename 的基础，相信大家不难理解 typedef typename IterT::value_type value_type; 的含义：将迭代器的value_type 通过 typedef 为 value_type。</p>
+<blockquote>
+<p>为什么要在typedef后面加上typename关键字？</p>
+<p>之所以使用 typename 是由于C++默认使用 ：： 访问的名字不是类型</p>
+<p>原因：</p>
+<p>实际上，模板类型在实例化之前，编译器并不知道<code>vector&lt;T&gt;::size_type</code>是什么东西，事实上一共有三种可能：</p>
+<blockquote>
+<p>静态数据成员<br>静态成员函数<br>嵌套类型</p>
+</blockquote>
+<p>那么此时<code>typename</code>的作用就在此时体现出来了——定义就不再模棱两可。</p>
+<p><code>typedef</code>创建了存在类型的别名，而<code>typename</code>告诉编译器<code>std::vector&lt;T&gt;::size_type</code>是一个类型而不是一个成员。</p>
+<p>默认情况下，C++ 语言假定通过作用域运算符访问的名字不是类型。因此，如果我们希望使用一个模板类型参数的类型成员，就必须显式告诉编译器该名字是一个类型。我们通过使用关键字 typename 来实现这一点：</p>
+</blockquote>
+<p> 我们来解释 my_iterator_traits&lt;vector<int>::iterator&gt;::value_type a; 语句的含义。<br>vector<int>::iterator 为vector<int> 的迭代器，该迭代器包含了 value_type 的声明，由 vector 的代码可以知道该迭代器的value_type 即为 int 类型。<br>接着，my_iterator_traits&lt;vector<int>::iterator&gt; 会采用 my_iterator_traits 的通用版本，即 my_iterator_traits&lt;vector<int>::iterator&gt;::value_type 使用 typename IterT::value_type 这一类型声明，这里 IterT 为 vector<int>::iterator，故整个语句萃取出来的类型为 int 类型。</p>
+<p>对 double 类型的 vector 迭代器的萃取也是类似的过程。</p>
+<p>而 my_iterator_traits&lt;char*&gt;::value_type 则使用 my_iterator_traits 的偏特化版本，直接返回 char 类型。</p>
+<p>由此看来，通过 my_iterator_traits ，我们正确萃取出了迭代器所指元素的类型。</p>
+<p>总结一下我们设计并实现一个 traits class 的过程：<br>1）确认若干我们希望将来可取得的类型相关信息，例如，对于上面的迭代器，我们希望取得迭代器所指元素的类型；<br>2）为该信息选择一个名称，例如，上面我们起名为 value_type；<br>3）提供一个 template 和一组特化版本（例如，我们上面的 my_iterator_traits），内容包含我们希望支持的类型相关信息。</p>
+<p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/XiangJiaoJun_/article/details/84843194![](https://i.loli.net/2019/12/06/5FO9TWbmznukGlx.png)">https://blog.csdn.net/XiangJiaoJun_/article/details/84843194![](https://i.loli.net/2019/12/06/5FO9TWbmznukGlx.png)</a></p>
+<h2 id="RB-Tree"><a href="#RB-Tree" class="headerlink" title="RB_Tree"></a>RB_Tree</h2><p>关联式容器。红黑树。散列表。</p>
+<ul>
+<li>红黑树的++操作类似于中序遍历，它是按照元素增大的顺序进行遍历的</li>
+<li>我们不应该使用红黑树的迭代器进行修改值的操作：因为会破坏严谨的红黑树的平衡</li>
+</ul>
+<h2 id="C-编程技巧Tips"><a href="#C-编程技巧Tips" class="headerlink" title="C++编程技巧Tips"></a>C++编程技巧Tips</h2><ul>
+<li><p>定义变量的时候可以不用缩进然后避免在开头集中定义，又方便查找—-侯捷</p>
+</li>
+<li><p>抽空研究一下快速排序，红黑树</p>
+</li>
+<li><p>：：find是循序查找， </p>
+</li>
+<li><p>关键字typedef在编译阶段有效，由于是在编译阶段，因此typedef有类型检查的功能。</p>
+<p>#define则是宏定义，发生在预处理阶段，也就是编译之前，它只进行简单而机械的字符串替换，而不进行任何检查。</p>
+<p>typedef用来定义类型的别名，定义与平台无关的数据类型，与struct的结合使用等。</p>
+<p>#define不只是可以为类型取别名，还可以定义常量、变量、编译开关等。</p>
+<p>#define没有作用域的限制，只要是之前预定义过的宏，在以后的程序中都可以使用。</p>
+<p>而typedef有自己的作用域。</p>
+</li>
+</ul>
+<h2 id="拷贝构造"><a href="#拷贝构造" class="headerlink" title="拷贝构造"></a>拷贝构造</h2><p><strong>拷贝构造函数必须以引用的方式传递参数</strong>。这是因为，在值传递的方式传递给一个函数的时候，会调用拷贝构造函数生成函数的实参。如果拷贝构造函数的参数仍然是以值的方式，就会无限循环的调用下去，直到函数的栈溢出。</p>
+<h2 id="拷贝赋值"><a href="#拷贝赋值" class="headerlink" title="拷贝赋值"></a>拷贝赋值</h2><p>首先返回值得是一个引用哈，是为了：p1 = p2 = p3的这种递归赋值的情况；</p>
+<p>然后注意形参是一个常量引用，成员函数后面加不加const呢？由于要修改this类的成员变量，所以不能加const</p>
+<p>进入函数要先判断this指针的p1 = p1这种情况；</p>
+<p>最后要把this类的原指针指向的内存释放一下，防止内存泄露</p>
+<p>delete []m_pData;  m_pData = nullptr;</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CMyString&amp; CMyString::<span class="keyword">operator</span> = (<span class="keyword">const</span> CMyString&amp; str)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> == &amp;str)</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> []m_pData;</span><br><span class="line">    m_pData = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    m_pData = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(str.m_pData) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_pData, str.m_pData);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1、<strong>new 关键字创建对象时  对于内置类型：加括号会初始化，不加括号不初始化；对于自定义类型，都会调用默认构造函数，加不加括号没区别。</strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CPP/" rel="tag"><i class="fa fa-tag"></i> CPP</a>
+              <a href="/tags/STL/" rel="tag"><i class="fa fa-tag"></i> STL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/07/CPP-HelloWorld/" rel="prev" title="HelloWorld的运行原理">
+      <i class="fa fa-chevron-left"></i> HelloWorld的运行原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/17/Schedule/" rel="next" title="Schedule">
+      Schedule <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">函数指针</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">函数指针定义与使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">1.3.</span> <span class="nav-text">函数指针作为函数返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">仿函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explicit%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.</span> <span class="nav-text">explicit关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#restrict-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">4.</span> <span class="nav-text">restrict 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#void"><span class="nav-number">5.</span> <span class="nav-text">void *</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%91%E4%B8%8A-%E4%B8%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number"></span> <span class="nav-text">向上&#x2F;下强制转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL"><span class="nav-number"></span> <span class="nav-text">STL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hash"><span class="nav-number">1.</span> <span class="nav-text">hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hash%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">hash的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hash%E7%A2%B0%E6%92%9E%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.</span> <span class="nav-text">hash碰撞的解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array"><span class="nav-number">2.</span> <span class="nav-text">Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector"><span class="nav-number">3.</span> <span class="nav-text">Vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">4.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#std-list-splice-%E8%AF%A6%E8%A7%A3"><span class="nav-number">4.1.</span> <span class="nav-text">std::list::splice 详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deque"><span class="nav-number">5.</span> <span class="nav-text">Deque</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#self%E7%9A%84%E7%94%A8%E5%A4%84%E6%98%AF%EF%BC%9F%EF%BC%9F%EF%BC%9F%EF%BC%9F%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">self的用处是？？？？？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">6.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOP%EF%BC%9A-amp-GP%EF%BC%9AGeneric-Programming"><span class="nav-number">7.</span> <span class="nav-text">OOP：&amp;GP：Generic Programming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Template"><span class="nav-number">8.</span> <span class="nav-text">Template</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%8C%96%E4%B8%8E%E7%89%B9%E5%8C%96"><span class="nav-number">9.</span> <span class="nav-text">泛化与特化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#traits-%E8%90%83%E5%8F%96"><span class="nav-number">10.</span> <span class="nav-text">traits 萃取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RB-Tree"><span class="nav-number">11.</span> <span class="nav-text">RB_Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7Tips"><span class="nav-number">12.</span> <span class="nav-text">C++编程技巧Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0"><span class="nav-number">13.</span> <span class="nav-text">拷贝构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E8%B5%8B%E5%80%BC"><span class="nav-number">14.</span> <span class="nav-text">拷贝赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">15.</span> <span class="nav-text">注意事项</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

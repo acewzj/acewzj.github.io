@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要记述了MATLAB。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matlab">
+<meta property="og:url" content="http://acewzj.github.io/2020/03/29/Matlab/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章主要记述了MATLAB。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/04/13/jw4mgGkzrWJsaOT.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/15/O8S1zDXb9ocUgxf.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/09/JGmMENR2z4TFrdZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/09/KuSsVwoLXkPfFaZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/29/U4SpBovcEZOCNaY.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/09/CnkAH9gW5BTNQhM.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/09/6lCwRYUHMt8oFfk.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/10/DQCVHcWlTM4iome.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/15/fg5YATGO7JlpDLF.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/03/31/Q2KTpNMundXUsxl.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/03/31/amGrO9uxZVKHzfF.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/04/16/AYc5Bjs1n6tRDgI.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/16/NfOp6z7oFKnA9hE.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=C=%5Cfrac%7B1%7D%7Bm%7DXX%5E%5Cmathsf%7BT%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=Y=PX">
+<meta property="article:published_time" content="2020-03-29T14:16:18.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.268Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="MATLAB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/13/jw4mgGkzrWJsaOT.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/03/29/Matlab/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Matlab | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/03/29/Matlab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Matlab
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-29 22:16:18" itemprop="dateCreated datePublished" datetime="2020-03-29T22:16:18+08:00">2020-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MATLAB/" itemprop="url" rel="index"><span itemprop="name">MATLAB</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要记述了MATLAB。</p>
+<span id="more"></span>
+
+<p>1、首先把照片中每一个偏振角度里的值抠出来赋给im ，然后通过一个遮罩获取通过的像素点放到I 的列向量里。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:nimages</span><br><span class="line">    im = images(:,:,<span class="built_in">i</span>);<span class="comment">% 三维数组images的每一个像素的第i通道 它这一张照片有36个通道？%读取每一个通道里的值赋给im，然后im利用遮罩来把1像素下的变成I的列向量</span></span><br><span class="line">    I(:,<span class="built_in">i</span>)=im(mask);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>2、进入线性方法中，生成一个（偏振角度）行 3 列的矩阵A【第一列是单位1，第二列是偏振角度的余弦，第三列是偏振角度的正弦】</p>
+<p><code>A = [ones(nimages,1) cos(2.*angles&#39;) sin(2.*angles&#39;)];</code></p>
+<p>3、一般情况下，x=a\b是方程a<em>x =b的解，而x=b/a是方程x</em>a=b的解</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">x = A\(I&#x27;);<span class="comment">% A * x = (I&#x27;)  I&#x27; = 36行*74331列 A 36行3列</span></span><br><span class="line">   x = x&#x27;;<span class="comment">%</span></span><br><span class="line">   Imax = x(:,<span class="number">1</span>)+<span class="built_in">sqrt</span>(x(:,<span class="number">2</span>).^<span class="number">2</span>+x(:,<span class="number">3</span>).^<span class="number">2</span>);<span class="comment">% 取出x第一列的值 + 根号下（x第二列的值^2 + x第三列的值^2）</span></span><br><span class="line">   Imin = x(:,<span class="number">1</span>)-<span class="built_in">sqrt</span>(x(:,<span class="number">2</span>).^<span class="number">2</span>+x(:,<span class="number">3</span>).^<span class="number">2</span>);</span><br><span class="line">   Iun = (Imin+Imax)./<span class="number">2</span>;</span><br><span class="line">   rho = (Imax-Imin)./(Imax+Imin);</span><br><span class="line">   phi = <span class="number">0.5</span>*<span class="built_in">atan2</span>(x(:,<span class="number">3</span>),x(:,<span class="number">2</span>));</span><br><span class="line">   phi = <span class="built_in">mod</span>(phi,<span class="built_in">pi</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Linear-depth-estimation-from-an-uncalibrated-monocular-polarisation-image"><a href="#Linear-depth-estimation-from-an-uncalibrated-monocular-polarisation-image" class="headerlink" title="Linear depth estimation from an uncalibrated,monocular polarisation image"></a>Linear depth estimation from an uncalibrated,monocular polarisation image</h1><p>To do so, we show how to express polarisation constraints as equations that are linear in the unknown depth.The ambiguity in the surface normal azimuth angle is resolved globally when the optimal surface height is reconstructed.</p>
+<p>Our method is applicable to objects with uniform albedo exhibiting diffuse and specular reﬂectance.</p>
+<p>我们的方法适用于具有均匀漫反射率的物体，这些物体具有漫反射和镜面反射。</p>
+<p>We extend it to an uncalibrated scenario by demonstrating that the illumination (point source or ﬁrst/second order spherical harmonics) can be estimated from the polarisation image, up to a binary convex/concave ambiguity. We believe that our method is the ﬁrst monocular, passive shape-from-x technique that enables well-posed depth estimation with only a single, uncalibrated illumination condition. We present results on glossy objects, including in uncontrolled, outdoor illumination.</p>
+<p>通过证明可以从偏振图像估计照度（点源或一阶/二阶球面谐波），直至二元凸/凹歧义性，我们将其扩展到未经校准的情况。<br>我们相信，我们的方法是第一种单眼，被动x形技术，该技术仅用一个未经校准的照明条件即可进行精确的深度估计。<br>我们介绍了有光泽物体的结果，包括不受控制的室外照明。</p>
+<ol>
+<li>In contrast to prior work, we compute SfP in the depth, as opposed to the<br>surface normal, domain. Instead of disambiguating the polarisation normals,<br>we defer resolution of the ambiguity until surface height is computed. To do<br>so, we express the azimuthal ambiguity as a collinearity condition that is<br>satisﬁed by either interpretation of the polarisation measurements.</li>
+<li>We express polarisation and shading constraints as linear equations in the<br>unknown depth enabling e!cient and globally optimal depth estimation.</li>
+<li>We use a novel hybrid di↵use/specular polarisation and shading model, al-<br>lowing us to handle glossy surfaces.</li>
+<li>We show that illumination can be determined from the ambiguous normals<br>and unpolarised intensity up to a binary ambiguity (a particular generalised<br>Bas-relief [4] transformation: the convex/concave ambiguity). This means<br>that our method can be applied in an uncalibrated scenario and we consider<br>both point source and 1st/2nd order spherical harmonic (SH) illumination.</li>
+</ol>
+<p>1.不同于前面那些人的工作，本文采用深度进行计算而不是采用表面法向量进行计算。除了消除极化法线的歧义外，我们将方位角的去歧义性工作推迟到计算出表面高度为止。</p>
+<p>2.我们将偏振和阴影约束表示为未知深度中的线性方程，从而能够进行有效且全局最佳的深度估计</p>
+<p>3.我们使用了一种新颖的混合漫反射/镜面偏振和阴影模型，使我们能够处理光滑的表面。<br>4.我们表明，可以从模态不明确的法线和非极化强度直至二元模糊度（特定的广义Bas-relief [4]变换：凸/凹模糊度）确定照明。<br>这意味着我们的方法可以应用于未经校准的场景，并且我们同时考虑了点光源和一阶/二阶球谐（SH）照明。</p>
+<p>SFP 可以分成单纯使用偏振图片的和与其他器件混合使用的（Kinect），还可以分成只考虑漫反射的，只考虑镜面反射的，两者混合考虑的，还可以分成从表面法线域考虑的和<strong>从表面深度域</strong>进行考虑的。</p>
+<h3 id="光照约束"><a href="#光照约束" class="headerlink" title="光照约束"></a>光照约束</h3><p>这个非极化强度通过适当的反射模型在表面法线方向上提供了附加约束。我们假设，对于带有漫反射标签的像素，根据朗伯模型对光进行反射。我们还假设反照率是均匀的，并将其分解为光源向量s。<br>因此，非极化强度与表面法线的关系如下：</p>
+<p><img src="https://i.loli.net/2020/04/13/jw4mgGkzrWJsaOT.png" alt="image-20200413213335886"></p>
+<p><img src="https://i.loli.net/2020/04/15/O8S1zDXb9ocUgxf.png" alt="image-20200413213350011"></p>
+<p>首先，我们注意到相位角约束可以写为共线性条件。<br>通过相角测量所隐含的两个可能的方位角中的任何一个都可以满足这种条件。<br>以这种方式编写它是有利的，因为它意味着我们不必明确消除表面法线的歧义。</p>
+<p><img src="https://i.loli.net/2020/04/09/JGmMENR2z4TFrdZ.png" alt="偏振多光谱机器视觉的高反光无纹理目标三维重构方法"></p>
+<p><img src="https://i.loli.net/2020/04/09/KuSsVwoLXkPfFaZ.png" alt="偏振多光谱机器视觉的高反光无纹理目标三维重构方法"></p>
+<p><img src="https://i.loli.net/2020/03/29/U4SpBovcEZOCNaY.png" alt="image-20200328232453922"></p>
+<h3 id="原数据集与已知点光源"><a href="#原数据集与已知点光源" class="headerlink" title="原数据集与已知点光源"></a>原数据集与已知点光源</h3><p><img src="https://i.loli.net/2020/04/09/CnkAH9gW5BTNQhM.png" alt="image-20200409205111929"></p>
+<h3 id="原数据集与未知点光源"><a href="#原数据集与未知点光源" class="headerlink" title="原数据集与未知点光源"></a>原数据集与未知点光源</h3><p><img src="https://i.loli.net/2020/04/09/6lCwRYUHMt8oFfk.png" alt="image-20200409225311262"></p>
+<h3 id="忽略镜面反光与遮罩与未知光源"><a href="#忽略镜面反光与遮罩与未知光源" class="headerlink" title="忽略镜面反光与遮罩与未知光源"></a>忽略镜面反光与遮罩与未知光源</h3><p><img src="https://i.loli.net/2020/04/10/DQCVHcWlTM4iome.png" alt="image-20200409225110579"></p>
+<p><img src="https://i.loli.net/2020/04/15/fg5YATGO7JlpDLF.jpg"></p>
+<p><img src="https://i.loli.net/2020/03/31/Q2KTpNMundXUsxl.jpg"></p>
+<p><img src="https://i.loli.net/2020/03/31/amGrO9uxZVKHzfF.jpg"></p>
+<p><strong>两个矩阵相乘的意义是将右边矩阵中的每一列向量</strong> ai <strong>变换到左边矩阵中以每一行行向量为基所表示的空间中去。</strong></p>
+<p><img src="https://i.loli.net/2020/04/16/AYc5Bjs1n6tRDgI.png" alt="image-20200416154457440"></p>
+<p>在一维空间中我们可以用方差来表示数据的分散程度。而对于高维数据，我们用协方差进行约束，协方差可以表示两个变量的相关性。为了让两个变量尽可能表示更多的原始信息，我们希望它们之间不存在线性相关性，因为相关性意味着两个变量不是完全独立，必然存在重复表示的信息。</p>
+<p>协方差公式为：</p>
+<p><img src="https://i.loli.net/2020/04/16/NfOp6z7oFKnA9hE.png" alt="image-20200416155345698"></p>
+<p>当协方差为 0 时，表示两个变量完全独立。为了让协方差为 0，我们选择第二个基时只能在与第一个基正交的方向上进行选择，因此最终选择的两个方向一定是正交的。</p>
+<p>至此，我们得到了降维问题的优化目标：<strong>将一组 N 维向量降为 K 维，其目标是选择 K 个单位正交基，使得原始数据变换到这组基上后，各变量两两间协方差为 0，而变量方差则尽可能大（在正交的约束下，取最大的 K 个方差）。</strong></p>
+<p>总结一下 PCA 的算法步骤：</p>
+<p>设有 m 条 n 维数据。</p>
+<ol>
+<li>将原始数据按列组成 n 行 m 列矩阵 X；</li>
+<li>将 X 的每一行进行零均值化，即减去这一行的均值；</li>
+<li>求出协方差矩阵 <img src="https://www.zhihu.com/equation?tex=C=%5Cfrac%7B1%7D%7Bm%7DXX%5E%5Cmathsf%7BT%7D" alt="[公式]"> ；</li>
+<li>求出协方差矩阵的特征值及对应的特征向量；</li>
+<li>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前 k 行组成矩阵 P；</li>
+<li><img src="https://www.zhihu.com/equation?tex=Y=PX" alt="[公式]"> 即为降维到 k 维后的数据。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/MATLAB/" rel="tag"><i class="fa fa-tag"></i> MATLAB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/21/Net-TCP_IP/" rel="prev" title="TCP/IP">
+      <i class="fa fa-chevron-left"></i> TCP/IP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/02/Net-socket/" rel="next" title="socket编程">
+      socket编程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linear-depth-estimation-from-an-uncalibrated-monocular-polarisation-image"><span class="nav-number">1.</span> <span class="nav-text">Linear depth estimation from an uncalibrated,monocular polarisation image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%85%A7%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">光照约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E5%B7%B2%E7%9F%A5%E7%82%B9%E5%85%89%E6%BA%90"><span class="nav-number">1.0.2.</span> <span class="nav-text">原数据集与已知点光源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E6%9C%AA%E7%9F%A5%E7%82%B9%E5%85%89%E6%BA%90"><span class="nav-number">1.0.3.</span> <span class="nav-text">原数据集与未知点光源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%BD%E7%95%A5%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%85%89%E4%B8%8E%E9%81%AE%E7%BD%A9%E4%B8%8E%E6%9C%AA%E7%9F%A5%E5%85%89%E6%BA%90"><span class="nav-number">1.0.4.</span> <span class="nav-text">忽略镜面反光与遮罩与未知光源</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

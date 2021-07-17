@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章记述了关于 C++ const 关键字的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPP-const">
+<meta property="og:url" content="http://acewzj.github.io/2020/11/11/CPP-const/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章记述了关于 C++ const 关键字的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/04/08/LOWJmhx9GfaZ2Si.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/08/Twn25A1GWfD7izu.png">
+<meta property="article:published_time" content="2020-11-11T07:37:48.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.276Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CPP">
+<meta property="article:tag" content="Const">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/08/LOWJmhx9GfaZ2Si.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/11/11/CPP-const/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>CPP-const | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/11/11/CPP-const/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CPP-const
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-11 15:37:48" itemprop="dateCreated datePublished" datetime="2020-11-11T15:37:48+08:00">2020-11-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/" itemprop="url" rel="index"><span itemprop="name">CPP</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CPP/Const/" itemprop="url" rel="index"><span itemprop="name">Const</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章记述了关于 C++ const 关键字的知识点。</p>
+<span id="more"></span>
+
+<h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">int</span>&amp; <span class="title">fun</span><span class="params">(<span class="keyword">int</span>&amp; a)</span></span>; <span class="comment">//修饰返回值</span></span><br><span class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">fun</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>&amp; a)</span></span>; <span class="comment">//修饰形参</span></span><br><span class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">fun</span><span class="params">(<span class="keyword">int</span>&amp; a)</span> <span class="keyword">const</span></span>&#123;&#125; <span class="comment">//const成员函数</span></span><br></pre></td></tr></table></figure>
+
+<p>如果写的函数需要传入一个指针，面试官可能会问是否需要为该指针加上const，把const加在指针不同的位置是否有区别？（左定值右定向）</p>
+<p>如果写的函数需要传入的参数是一个复杂类型的实例，面试官可能会问传入值参数和传入引用参数有什么区别，什么时候需要为传入的引用参数加上const?</p>
+<ul>
+<li>如果传入的参数不是引用而是实例，那么从形参到实参会调用一次复制构造函数。如果你把复制构造函数的传入参数设置为实例，这样会导致复制构造函数内调用复制构造函数，形成无休止的递归调用从而导致堆栈溢出。同时，如果我们在函数内部不改变传入的实例的状态，应该在传入的引用参数前加上const。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/04/08/LOWJmhx9GfaZ2Si.png" alt="4D76BDE38E95CF045BB00DF2851C9DC4"></p>
+<h2 id="1、const返回值"><a href="#1、const返回值" class="headerlink" title="1、const返回值"></a>1、const返回值</h2><p>这种多是修饰返回值是引用类型的情况下，为了避免返回值被修改的情况。</p>
+<p>解释下：返回值是引用的函数， 可以肯定的是这个引用必然不是临时对象的引用（栈上的对象在返回后就消失了，自然也就不存在临时对象的引用这么一说了）， 因此一定是成员变量或者是函数参数（对象new出来是在堆上，成员变量也在堆上）， 所以在返回的时候为了避免其成为左值（下面这个例子很好的说明了什么是左值被修改）被修改，就需要加上const关键字来修饰。</p>
+<p>举个例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> data;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>(<span class="keyword">int</span> num):<span class="built_in">data</span>(num)&#123;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">int</span>&amp; <span class="title">get_data</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">A <span class="title">a</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">    a.<span class="built_in">get_data</span>()=<span class="number">3</span>;</span><br><span class="line">    cout&lt;&lt;a.<span class="built_in">get_data</span>()&lt;&lt;endl; <span class="comment">//data=3</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么这个时候为了避免成员函数被修改就需要加上const关键字，这个时候如果试图改变返回值是不允许的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: cannot assign to return value because function &#x27;get_data&#x27; returns a const value</span><br></pre></td></tr></table></figure>
+
+<p>需要指出的是，如果函数的返回类型是内置类型，比如 int char 等，修改返回值本身就是不合法的！所以 const 返回值是处理返回类型为用户定义类型的情况。</p>
+<h2 id="2、const-修饰实参"><a href="#2、const-修饰实参" class="headerlink" title="2、const 修饰实参"></a>2、const 修饰实参</h2><p>多数情况下，我们都会选择 pass by reference，这样可以节省内存，并且可以起到改变实参的目的。不过有的时候我们并不希望改变实参的值，就要加上const关键字。</p>
+<p>这个不仔细说了，很容易理解。不过在构造接口之前一定要思考函数是否会修改参数，如果不会修改的话一定要加上const，这个是代码写的是否大气的一个标准（侯捷大师原话）</p>
+<h2 id="3、const-成员函数"><a href="#3、const-成员函数" class="headerlink" title="3、const 成员函数"></a>3、const 成员函数</h2><p>首先，面向对象程序设计中，为了体现封装性，通常不允许直接修改类对象的数据成员。</p>
+<p>若要修改类对象，应调用公有成员函数来完成。</p>
+<p>为了保证const对象的常量性，编译器区分不安全和安全的成员函数（即区分试图修改类对象与不修改类对象的函数），例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Person man;</span><br><span class="line">man.<span class="built_in">eat</span>();	<span class="comment">//对象的读操作</span></span><br><span class="line">man.<span class="built_in">set</span>(age = <span class="number">34</span>);	<span class="comment">//错误：const 类对象不允许修改</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>在C++中，只有被声明为const的成员函数才能被一个const类对象调用。</strong></p>
+<p> 要声明一个const类型的类成员函数，只需要在成员函数参数列表后加上关键字const，例如，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> age)</span> <span class="keyword">const</span></span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>const 修饰成员函数， 根本上是修饰了 this 指针。</p>
+<p>在成员函数参数列表后面加上const修饰，表示函数内this指针是一个指向常量对象的指针，<strong>不能修改成员变量</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Person::setName</span><span class="params">(string name)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;name = name;</span><br><span class="line">&#125; <span class="comment">//错误，const成员函数不能修改成员变量</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>补充this指针：<br>每个对象拥有一个this指针，通过this指针来访问自己的地址。</p>
+<p>this指针并不是对象的一部分，this指针所占的内存大小是不会反应在sizeof操作符上的。</p>
+<p>在普通成员函数中，this是一个指向非const对象的const指针（如类类型为Student，那么this就是Student *const类型的指针）;<br>在const成员函数中，this指针是一个指向const对象的const指针（如类类型为Student，那么this就是const Student * const类型的指针)</p>
+<p>对于const对象或者const对象的引用和指针，对象内的成员变量是不能修改的，因此只能调用const成员函数，不会修改成员变量<br>对于非const对象，既可以调用const成员函数，也可以调用非const成员函数。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/04/08/Twn25A1GWfD7izu.png" alt="A171910534B481CF8D7F8866CDF1FB32"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CPP/" rel="tag"><i class="fa fa-tag"></i> CPP</a>
+              <a href="/tags/Const/" rel="tag"><i class="fa fa-tag"></i> Const</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/11/CPP-inline/" rel="prev" title="CPP-inline">
+      <i class="fa fa-chevron-left"></i> CPP-inline
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/11/CPP-%E6%8C%87%E9%92%88%E4%B8%8E%E5%BC%95%E7%94%A8/" rel="next" title="指针与引用">
+      指针与引用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#const"><span class="nav-number">1.</span> <span class="nav-text">const</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81const%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">1.1.</span> <span class="nav-text">1、const返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81const-%E4%BF%AE%E9%A5%B0%E5%AE%9E%E5%8F%82"><span class="nav-number">1.2.</span> <span class="nav-text">2、const 修饰实参</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81const-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">3、const 成员函数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

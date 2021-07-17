@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"acewzj.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章记述了关于 socket 的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket编程">
+<meta property="og:url" content="http://acewzj.github.io/2020/04/02/Net-socket/index.html">
+<meta property="og:site_name" content="acewzj">
+<meta property="og:description" content="这篇文章记述了关于 socket 的知识点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/8ZcPnrdFHtVwW5D.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/1gzbMQ6qr5VkNY7.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/2UY1yrgvwzsNjD8.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/OcltiYzaLw89gv3.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/L6Qp4ORXPeFi5UY.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/01/Nxpg5lwZLejzRTA.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/30/XoJF9HvuCW1Vqsl.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/17/G9SBqrh8fbLHzZO.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/20/n3NkFtTXyU5DzRO.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/e7WKMlwZguRIyE4.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/4txL8PY9qgjCdbJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/JuRfAcSBvnHa1qr.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/fHRLFJg8sGY6t4b.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/30/M1fJEvI9H56tsWQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/Sz9ytWGHPNIVhao.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/cMkU3TQhuF21p9e.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/w1b3ryzXiD8C56H.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/hlFsijIpH2gtQBm.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/9fw26apximBDQL4.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/rjTo8KVteanlGu7.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/02/BMduky69veCSYaZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/05/J3mjZ2GFWwxCDXL.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/05/ghRxuq4sJEVyzkf.png">
+<meta property="article:published_time" content="2020-04-02T02:27:17.000Z">
+<meta property="article:modified_time" content="2021-07-15T15:25:52.268Z">
+<meta property="article:author" content="acewzj">
+<meta property="article:tag" content="CPP">
+<meta property="article:tag" content="Net">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/01/8ZcPnrdFHtVwW5D.png">
+
+<link rel="canonical" href="http://acewzj.github.io/2020/04/02/Net-socket/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>socket编程 | acewzj</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-146776624-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">acewzj</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">���ҽ�</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://acewzj.github.io/2020/04/02/Net-socket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="acewzj">
+      <meta itemprop="description" content="acewzj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="acewzj">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          socket编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-02 10:27:17" itemprop="dateCreated datePublished" datetime="2020-04-02T10:27:17+08:00">2020-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-15 23:25:52" itemprop="dateModified" datetime="2021-07-15T23:25:52+08:00">2021-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/socket/" itemprop="url" rel="index"><span itemprop="name">socket</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章记述了关于 socket 的知识点。</p>
+<span id="more"></span>
+
+<h2 id="不同socket地址结构对比"><a href="#不同socket地址结构对比" class="headerlink" title="不同socket地址结构对比"></a>不同socket地址结构对比</h2><p><img src="https://i.loli.net/2020/04/01/8ZcPnrdFHtVwW5D.png" alt="image-20200401224452953"></p>
+<h2 id="accept"><a href="#accept" class="headerlink" title="accept"></a>accept</h2><p><code>clntfd = accept(serfd,(struct sockaddr*)&amp;servaddr,sizeof(clntaddr));</code></p>
+<p><code>int accept(int sock,struct sockaddr* addr,socklen_t* addrlen);</code></p>
+<p>成功时返回创建的套接字文件描述符，失败时返回-1</p>
+<p>为什么这里会再创建一个fd呢？</p>
+<p>这是因为accept函数受理连接请求队列里面待处理的客户端的连接请求。函数调用成功后，accept函数内部会生成用于数据I/O的套接字，并返回其文件描述符。以下这幅图很形象的描述了这个过程：也就是说你客户端connect到我服务器listen的队列里，服务器有空了就从队列里取队头的客户端进行accept创建套接字进行连接。</p>
+<p>它之所以被命名为套接字，就是说得配套，客户端人家是有connect给自动创建出来的fd，服务器先开始通过socket函数返回了文件描述符server_fd，这个是告诉进程可以通过像读写文件那样来进行网络通信</p>
+<p>这里第二个参数是保存连接过来的客户端的IP地址，给它填充上127.0.0.1</p>
+<p><img src="https://i.loli.net/2020/04/01/1gzbMQ6qr5VkNY7.png" alt="image-20200401101317898"></p>
+<h2 id="connection-refused"><a href="#connection-refused" class="headerlink" title="connection refused"></a>connection refused</h2><p>服务器正常启动，但是客户端一启动就在<code>connect</code>函数退出了，错误显示<code>connection refused</code>，单步调试也看不出什么来。</p>
+<p>上网一看，有的人也碰到了类似问题，他们怀疑出现这个状况最大的可能是服务器正在监听程序，但是客户端并没有按照规矩的IP和端口号来给服务器发程序：这不有的人就是因为把服务器的<code>serv_addr.sin_port = htons(atoi(argv[1]));</code>写错为<code>serv_addr.sin_port = htonl(atoi(argv[1]));</code>导致端口号分配出错了。</p>
+<p><img src="https://i.loli.net/2020/04/01/2UY1yrgvwzsNjD8.png" alt="image-20200401092200981"></p>
+<p>当然我也好不到哪里去？在使用telnet localhost 9000发现服务器正常好用之后，我坚信我的客户端程序出了问题：一行一行代码排查，终于发现<code>serv_addr.sin_port = htons(argv[1]);</code> 我特么忘了加atoi，这端口号肯定是错了啊【初始端口为9000，16进制为0x2328经过hostToNetShort后变成0x2823–&gt;10275】</p>
+<p><img src="https://i.loli.net/2020/04/01/OcltiYzaLw89gv3.png" alt="image-20200401100250744"></p>
+<p><img src="https://i.loli.net/2020/04/01/L6Qp4ORXPeFi5UY.png" alt="image-20200401100638777"></p>
+<h2 id="如何判断机器的大端与小端？"><a href="#如何判断机器的大端与小端？" class="headerlink" title="如何判断机器的大端与小端？"></a>如何判断机器的大端与小端？</h2><h3 id="常见的字节序"><a href="#常见的字节序" class="headerlink" title="常见的字节序"></a>常见的字节序</h3><p>一般操作系统都是小端，而通讯协议是大端的。</p>
+<p><img src="https://i.loli.net/2020/04/01/Nxpg5lwZLejzRTA.png" alt="image-20200401213715103"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BigtoLittle16(A)  ((((uint16)(A) &amp; 0xff00) &gt;&gt; 8) | </span></span><br><span class="line">							(((uint16)(A) &amp; <span class="number">0x00ff</span>) &lt;&lt; <span class="number">8</span>))</span><br><span class="line">  </span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BigtoLittle32(A)  ((((uint32)(A) &amp; 0xff000000) &gt;&gt; 24) |                                            						(((uint32)(A) &amp; 0x00ff0000) &gt;&gt; 8) | \</span></span><br><span class="line"><span class="meta">                   (((uint32)(A) &amp; 0x0000ff00) &lt;&lt; 8) | \</span></span><br><span class="line"><span class="meta">                   (((uint32)(A) &amp; 0x000000ff) &lt;&lt; 24))</span></span><br><span class="line">                                </span><br><span class="line">                                </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0x11223344</span>;</span><br><span class="line">    <span class="keyword">char</span> *p;</span><br><span class="line"></span><br><span class="line">    p = (<span class="keyword">char</span> *) &amp;i;</span><br><span class="line">    <span class="keyword">if</span> (*p == <span class="number">0x44</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Little endian\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Big endian\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;                                </span><br></pre></td></tr></table></figure>
+
+<h2 id="IP地址怎么存入int里面"><a href="#IP地址怎么存入int里面" class="headerlink" title="IP地址怎么存入int里面"></a>IP地址怎么存入int里面</h2><p>$127.0.0.1$</p>
+<p>$1 &lt;&lt; 24 = 1 * 2^{24}-&gt;16777216 + 127 = 16777343$</p>
+<p>因为通讯协议是大端，也就是高位127在低地址处0</p>
+<p> 输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10.0.3.193</span><br><span class="line">167969729</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">167773121</span><br><span class="line">10.3.3.193</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> a,b,c,d;</span><br><span class="line"><span class="keyword">char</span> ch;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;ch&gt;&gt;b&gt;&gt;ch&gt;&gt;c&gt;&gt;ch&gt;&gt;d)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;((a&lt;&lt;<span class="number">24</span>)|(b&lt;&lt;<span class="number">16</span>)|(c&lt;&lt;<span class="number">8</span>)|d)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;a;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;((a&amp;<span class="number">0xff000000</span>)&gt;&gt;<span class="number">24</span>)&lt;&lt;<span class="string">&quot;.&quot;</span>&lt;&lt;((a &amp; <span class="number">0x00ff0000</span>)&gt;&gt;<span class="number">16</span>)&lt;&lt;<span class="string">&quot;.&quot;</span>&lt;&lt;((a&amp;<span class="number">0x0000ff00</span>)&gt;&gt;<span class="number">8</span>)&lt;&lt;<span class="string">&quot;.&quot;</span>&lt;&lt;(a &amp; <span class="number">0x000000ff</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h2><p>文件描述符的监视范围与第一个参数有关，实际上，select函数通过第一个参数来传递监视对象文件描述符的数量。因此，需要得到注册在fd_set变量中的文件描述符数量。但是每次新建文件描述符时，其值都会加1，故只需要将最大的文件描述符值加1再传递到select函数即可。加1是因为文件描述符的值从0开始。</p>
+<p>select实现（2.6的内核，其他版本的内核，应该都相差不多）<br>应用程序<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>select，进入内核<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>sys_select，做些简单初始化工作，接着进入 core_sys_select，<br>此<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>主要工作是把描述符集合从<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/yonghu/">用户</a>空间复制到内核空间， 最终进入do_select，完成其主要的<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/gongneng/">功能</a>。<br>do_select里，<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a> poll_initwait，主要工作是<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/zhuce/">注册</a>poll_wait的回调<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>为__pollwait，<br>当在设备驱动的poll回调<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>里<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>poll_wait，其实就是<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>__pollwait，<br>__pollwait的主要工作是把当前进程挂载到等待队列里，当等待的事件到来就会唤醒此进程。<br>接着执行for循环，循环里首先遍历每个<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/wenjian/">文件</a>描述符，<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>对应描述符的poll回调<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>，检测是否就绪，<br>遍历完所有描述符之后，只要有描述符处于就绪状态,信号中断,出错或者超时，就<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/tuichu/">退出</a>循环，<br>否则会<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>schedule_xxx<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>，让当前进程睡眠，一直到超时或者有描述符就绪被唤醒。<br>接着又会再次遍历每个描述符，<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>poll再次检测。<br>如此循环，直到符合条件才会<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/tuichu/">退出</a>。</p>
+<p>我们从上面<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/daima/">代码</a>分析，可以总结出select/poll天生的缺陷：<br>1）每次<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>select/poll都需要要把描述符集合从<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/yonghu/">用户</a>空间copy到内核空间，检测完成之后，又要把检测的结果集合从内核空间copy到<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/yonghu/">用户</a>空间<br>当描述符很多，而且select经常被唤醒，这种开销会比较大<br>2）如果说描述符集合来<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/huifu/">回复</a>制不算什么，那么多次的全部描述符遍历就比较恐怖了，<br>我们在应用程序中，每次<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>select/poll 都必须首先遍历描述符，把他们加到fd_set集合里，这是应用层的第一次遍历，<br>接着进入内核空间，至少进行一次遍历和<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/diaoyong/">调用</a>每个描述符的poll回调检测，一般可能是2次遍历，第一次没发现就绪描述符，<br>加入等待队列，第二次是被唤醒，接着再遍历一遍。再回到应用层，我们还必须再次遍历所有描述符，用 FD_ISSET检测结果集。<br>如果描述符很多，这种遍历就很消耗<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/cpu/">cpu</a>资源了。<br>3）描述符多少限制，当然poll没有限制，select却有1024的硬性限制，除了<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/xiugai/">修改</a>内核<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/zengjia/">增加</a>1024限制外没别的办法。<br>既然有这么些缺点 ，那不是 select/poll变得一无是处了，那就大错特错了。<br>他们依然是<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/daima/">代码</a>移植的最好<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/hanshu/">函数</a>，因为几乎所有平台都有对它们的实现提供接口。<br>在描述符不是太多，他们依然十分出色的完成多路复用IO，<br>而且如果每个连接上的描述符都处于活跃状态，他们的效率其实跟epoll也差不了多少。<br>曾经使用多个线程+每个线程采用poll的办法开发TCP服务器，处理<a target="_blank" rel="noopener" href="https://www.jb51.cc/tag/wenjian/">文件</a>收发，连接达到几千个，<br>当时的瓶颈已经不在网络IO，而在磁盘IO了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>((fd_num = select(fd_max+<span class="number">1</span>,&amp;cpy_reads,<span class="number">0</span>,<span class="number">0</span>,&amp;timeout)) == <span class="number">-1</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;fd_max+<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(FD_ISSET(i,&amp;cpy_reads))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i == servfd)</span><br><span class="line">                &#123;</span><br><span class="line">                    clntfd = </span><br><span class="line">                     accept(i,(struct sockaddr*)&amp;servaddr,<span class="keyword">sizeof</span>(clntaddr));</span><br><span class="line">                    FD_SET(clntfd,&amp;reads);<span class="comment">//reset 1</span></span><br><span class="line">                    <span class="keyword">if</span>(fd_max &lt; clntfd)</span><br><span class="line">                        fd_max = clntfd;<span class="comment">//last fd occur</span></span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;connected! client :%d\n&quot;</span>,clntfd);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    str_len = read(i,buf,BUF_SIZE);</span><br><span class="line">                    <span class="keyword">if</span>(str_len == <span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        FD_CLR(i,&amp;reads);</span><br><span class="line">                        close(i);</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">&quot;closed client:%d \n&quot;</span>,i);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        write(i,buf,BUF_SIZE);</span><br><span class="line">                    &#125;                   </span><br><span class="line">                    </span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">socklen_t clntsocklen = sizeof(clntaddr);</span><br><span class="line">                    clntfd = accept(i,(struct sockaddr*)&amp;servaddr,&amp;clntsocklen);</span><br></pre></td></tr></table></figure>
+
+<p>请注意这两个代码段里面关于accept函数最后一个参数，它要求的是</p>
+<p><code>int accept(int __fd, struct sockaddr *__restrict__ __addr, socklen_t *__restrict__ __addr_len)</code></p>
+<p>其实是一个指向一个长度整数的地址。先开始我给传的是sizeof(clntaddr),但是调试时在这里返回-1.</p>
+<p><img src="https://i.loli.net/2020/04/30/XoJF9HvuCW1Vqsl.png" alt="image-20200429224802055"></p>
+<h2 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h2><p>非常好<a target="_blank" rel="noopener" href="https://blog.csdn.net/daaikuaichuan/article/details/83862311">https://blog.csdn.net/daaikuaichuan/article/details/83862311</a></p>
+<p><img src="https://i.loli.net/2021/03/17/G9SBqrh8fbLHzZO.png" alt="image-20210317190102914"></p>
+<h2 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a>epoll_create</h2><p><code>int fd = epoll_create(int size)</code></p>
+<p>这个函数创建文件描述符，它创建的fd主要是用来区分epoll例程；size参数已废弃</p>
+<p>比如<code>servfd = socket(PF_INET,SOCK_STREAM,0);</code>创建的<code>servfd</code>是5；</p>
+<p><code>epfd = epoll_create(EPOLL_SIZE);</code>创建的<code>epfd</code>就是6,实际上也是一个文件描述符；</p>
+<h2 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl"></a>epoll_ctl</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//create fd    </span></span><br><span class="line">epfd = epoll_create(EPOLL_SIZE);</span><br><span class="line">ep_events = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct epoll_event) * EPOLL_SIZE);</span><br><span class="line"></span><br><span class="line">event.events = EPOLLIN;</span><br><span class="line">event.data.fd=servfd;</span><br><span class="line">epoll_ctl(epfd,EPOLL_CTL_ADD,servfd,&amp;event);<span class="comment">//将servfd注册到epollpoll里面</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h2><p><code>int epoll_wait(int epfd,struct epoll_event *event,int maxevents,int timeout)</code></p>
+<p><code>event_cnt = epoll_wait(epfd,ep_events,EPOLL_SIZE,-1);</code></p>
+<p>返回值是发生事件的文件描述符数量，如果有5个客户端连接，就是返回5；</p>
+<p>同时在第二个参数所指向的缓冲中保存发生事件的文件描述符集合。因此无需像select那样插入针对所有文件描述符的循环。</p>
+<p><code>int maxevents</code> ：第二个参数中可以保存的最大事件数；</p>
+<p>timeout:以1ms为单位的等待时间，传递-1时，一直等待直到事件发生；</p>
+<p><img src="https://i.loli.net/2020/04/20/n3NkFtTXyU5DzRO.png" alt="image-20200420224546779"></p>
+<p>epoll:产生的事件数；及消息；使用注意</p>
+<p>epoll 全称 eventpoll，是 linux 内核实现IO多路复用（IO multiplexing）的一个实现</p>
+<p>epoll 监听的fd(File Descriptor)集合是常驻内核的,它有3个系统调用(<em>epoll_create</em>, <em>epoll_wait</em>, epoll_ctl)通过 <em>epoll_wait</em> 可以多次监听同一个 fd 集合，只返回可读写那部分</p>
+<p>select 只有一个系统调用，每次要监听都要将其从用户态传到内核，有事件时返回整个集合。</p>
+<p>从性能上看，如果 fd 集合很大，用户态和内核态之间数据复制的花销是很大的，所以 select 一般限制 fd 集合最大1024。</p>
+<p>从使用上看，epoll 返回的是可用的 fd 子集，select 返回的是全部，哪些可用需要用户遍历判断。</p>
+<p>尽管如此，epoll 的性能并不必然比 select 高，对于 fd 数量较少并且 fd IO 都非常繁忙的情况 select 在性能上有优势。</p>
+<h2 id="数字电路里的边沿触发和电平触发"><a href="#数字电路里的边沿触发和电平触发" class="headerlink" title="数字电路里的边沿触发和电平触发"></a>数字电路里的边沿触发和电平触发</h2><p>边沿触发包括上升边沿触发和下降边沿触发，边沿触发检测的是电平变化，高电平转低电平或低电平转高电平时，触发一次中断。</p>
+<p>边沿触发通过D触发器来锁存中断信号，即：若CPU来不及响应中断，外部中断信号撤消后，由于D触发器的记忆作用，消失的中断信号仍然有效，直到中断被响应并进入中断ISR，记忆的中断信号才会由硬件自动清除。</p>
+<hr>
+<p>电平触发分为高电平触发和低电平触发；电平触发需要手动清除中断信号</p>
+<p>电平触发根据硬件设计的不同，分为即时触发和信号锁存触发；</p>
+<p>（1）即时的电平触发，当外部中断信号撤消时，中断申请信号随之消失。如果在外部中断信号申请期间，CPU来不及响应此中断，那么有可能这次中断申请就漏掉了。</p>
+<p>即时的电平触发是一个时间段，需要一直触发中断的，就用电平触发。比如高电平触发，只要检测到是高电平就触发中断。</p>
+<p>（2）信号锁存的电平触发，当检测到高电平或低电平信号，该触发信号也会被锁存，类似于边沿触发，但是触发信号需要进行手动清除；（注意前面的边沿触发会由硬件自动清除）</p>
+<p>3、边沿触发及电平触发的区别</p>
+<p>如果是采用边沿检测外部中断，检测到电平变化会中断，但是如果中断检测口一直保持某一电平，则无法产生下次中断，需要等下次检测到电平变化才会中断。中断得到响应后由硬件自动清除。</p>
+<p>如果是采用电平检测外部中断，检测到低/高电平会中断，但是如果中断检测口一直保持低电平，中断处理完成后，会继续产生下次中断，需要检测到高电平才会停止中断产生。中断得到响应后由硬件手动清除。</p>
+<p><img src="https://i.loli.net/2020/03/30/e7WKMlwZguRIyE4.png" alt="image-20200328232423802"></p>
+<h2 id="条件触发程序"><a href="#条件触发程序" class="headerlink" title="条件触发程序"></a>条件触发程序</h2><p>在条件触发方式中，只要输入缓冲有数据就会一直通知该事件。</p>
+<p>当我的服务器接收缓冲区只有4的时候，客户端发了一个“Hello？”</p>
+<p>这时服务器会从wait返回，读取的时候只能读入Hell四个字符</p>
+<p>剩下的字符o?会再次触发，再次从wait返回。</p>
+<h2 id="边缘触发程序"><a href="#边缘触发程序" class="headerlink" title="边缘触发程序"></a>边缘触发程序</h2><p>边缘触发事件中，接收数据时仅注册一次该事件</p>
+<p>所以一旦发生输入相关事件，就应该读取输入缓冲中的全部数据。因此需要验证输入缓冲是否为空。</p>
+<p><code>read函数返回 -1， 变量errno中的值为EAGAIN时，说明没有数据可读</code></p>
+<p>既然如此，为何还需要将套接字变成非阻塞模式？</p>
+<p>边缘触发下，以阻塞方式工作的read &amp; write函数有可能引起服务器端的长时间停顿。</p>
+<blockquote>
+<p>这里的长时间停顿是指：当读或者写大量数据时，比如1KB 数据时，肯定会长时间停顿。</p>
+</blockquote>
+<p>因此边缘触发方式中一定要采用非阻塞的read &amp; write函数。</p>
+<h2 id="慢系统调用阻塞状态下来了个信号（Vital）"><a href="#慢系统调用阻塞状态下来了个信号（Vital）" class="headerlink" title="慢系统调用阻塞状态下来了个信号（Vital）"></a>慢系统调用阻塞状态下来了个信号（Vital）</h2><p>select函数、accept函数等都是慢系统调用函数，就是它得等系统网络IO准备好了才能执行，没有准备好就进入阻塞状态下，如果这个时候来了一个信号（因为我们知道信号是模仿的中断的嘛），当执行完信号处理函数返回后，PC指针就会跑到select函数的下一条指令去执行去了。。。。。。这不完蛋了吗：我等待的事件还没来呢我就被信号处理函数给跳过去了。</p>
+<p>所以我们需要在select函数的返回值上做文章，如果select函数失败会返回-1，如果是去执行信号处理函数去了，error = EINTR</p>
+<h2 id="非阻塞编程fcntl"><a href="#非阻塞编程fcntl" class="headerlink" title="非阻塞编程fcntl"></a>非阻塞编程fcntl</h2><p>对于一个给定的描述符，有两种为其指定非阻塞IO的方法；</p>
+<p>1、如果调用 open 获得描述符，则可指定 O_NONBLOCK 标志；</p>
+<p>2、对于已经打开的一个描述符，则可调用 fcntl ，由该函数打开 O_NONBLOCK 标志</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setnonblockingmode</span><span class="params">(<span class="keyword">int</span> fd)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> flag = fcntl(fd, F_GETFL, <span class="number">0</span>);</span><br><span class="line">    fcntl(fd,F_SETFL, flag|O_NONBLOCK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">setnonblocking</span><span class="params">( <span class="keyword">int</span> fd )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> old_option = fcntl( fd, F_GETFL );<span class="comment">//2</span></span><br><span class="line">    <span class="keyword">int</span> new_option = old_option | O_NONBLOCK;<span class="comment">//O_NONBLOCK = 04000(八进制) 2048十进制 或之后变成2050</span></span><br><span class="line">    fcntl( fd, F_SETFL, new_option );</span><br><span class="line">    <span class="keyword">return</span> old_option;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>POSIX.1 要求，对于一个非阻塞的描述符如果无数据可读，则 read 返回 -1，errno 被置为 EAGAIN；</p>
+<p>让服务器不会阻塞在send，accept等函数之上，防止有人恶意攻击</p>
+<p><img src="https://i.loli.net/2020/03/30/4txL8PY9qgjCdbJ.png" alt="image-20200322111836020"></p>
+<p><img src="https://i.loli.net/2020/03/30/JuRfAcSBvnHa1qr.png" alt="image-20200322112447217"></p>
+<p><img src="https://i.loli.net/2020/03/30/fHRLFJg8sGY6t4b.png" alt="image-20200322112833866"></p>
+<p><img src="https://i.loli.net/2020/03/30/M1fJEvI9H56tsWQ.png" alt="image-20200322113420519"></p>
+<h2 id="用户进程缓冲区"><a href="#用户进程缓冲区" class="headerlink" title="用户进程缓冲区"></a>用户进程缓冲区</h2><p>前面提到，用户进程通过系统调用访问系统资源的时候，需要切换到内核态，而这对应一些特殊的堆栈和内存环境，必须在系统调用前建立好。而在系统调用结束后，cpu会从核心模式切回到用户模式，而堆栈又必须恢复成用户进程的上下文。而这种切换就会有大量的耗时。</p>
+<p>你看一些程序在读取文件时，会先申请一块内存数组，称为buffer，然后每次调用read，读取设定字节长度的数据，写入buffer。（用较小的次数填满buffer）。之后的程序都是从buffer中获取数据，当buffer使用完后，在进行下一次调用，填充buffer。</p>
+<p>所以说：<strong>用户缓冲区的目的是为了减少系统调用次数，从而降低操作系统在用户态与核心态切换所耗费的时间。</strong></p>
+<h2 id="内核缓冲区"><a href="#内核缓冲区" class="headerlink" title="内核缓冲区"></a>内核缓冲区</h2><p>除了在进程中设计缓冲区，内核也有自己的缓冲区。</p>
+<p>当一个用户进程要从磁盘读取数据时，内核一般不直接读磁盘，而是将内核缓冲区中的数据复制到进程缓冲区中。</p>
+<p>但若是内核缓冲区中没有数据，内核会把对数据块的请求，加入到请求队列，然后把进程挂起，为其它进程提供服务。</p>
+<p>等到数据已经读取到内核缓冲区时，把内核缓冲区中的数据读取到用户进程中，才会通知进程，当然不同的io模型，在调度和使用内核缓冲区的方式上有所不同，下一小结介绍。</p>
+<p>你可以认为，read是把数据从内核缓冲区复制到进程缓冲区。write是把进程缓冲区复制到内核缓冲区。</p>
+<p>当然，write并不一定导致内核的写动作，比如os可能会把内核缓冲区的数据积累到一定量后，再一次写入。这也就是为什么断电有时会导致数据丢失。</p>
+<p>所以说<code>内核缓冲区，是为了在OS级别，提高磁盘IO效率，优化磁盘写操作。</code></p>
+<ol>
+<li>用户进程向 CPU 发起 read 系统调用读取数据，由用户态切换为内核态，然后一直阻塞等待数据的返回。</li>
+<li>CPU 在接收到指令以后对磁盘发起 I/O 请求，将磁盘数据先放入磁盘控制器缓冲区。</li>
+<li>数据准备完成以后，磁盘向 CPU 发起 I/O 中断。</li>
+<li>CPU 收到 I/O 中断以后将磁盘缓冲区中的数据拷贝到内核缓冲区，然后再从内核缓冲区拷贝到用户缓冲区。</li>
+<li>用户进程由内核态切换回用户态，解除阻塞状态，然后等待 CPU 的下一个执行时间钟。</li>
+</ol>
+<h2 id="socket编程"><a href="#socket编程" class="headerlink" title="socket编程"></a>socket编程</h2><p>我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用PID来唯一标示一个进程，但PID只在本地唯一，网络中的两个进程PID冲突几率很大，这时候我们需要另辟它径了，我们知道IP层的ip地址可以唯一标示主机，而TCP层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用<strong>ip地址＋协议＋端口号</strong>唯一标示网络中的一个进程。</p>
+<p><img src="https://i.loli.net/2020/11/02/Sz9ytWGHPNIVhao.png" alt="image-20201102102819557"></p>
+<p>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的*TCP/IP*协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。一般由操作系统或者JVM自己实现。java.net中的socket其实就是对底层的抽象调用。有一点需要注意，运行在同一主机上的其他应用程序可能也会通过底层套接字抽象来使用网络，因此会与java socket实例竞争资源，如端口。对于“套接字结构”，是指底层实现（包括JVM和TCP/IP，但通常是后者）的数据结构集，包含了特定Socket所关联的信息。套接字和套接字数据结构是不一样的概念。套接字结构包含：</p>
+<p>1.该套接字所关联的本地和远程互联网地址和端口。</p>
+<p>2.一个FIFO队列用于存放接收到的等待分配的数据（RecvQ），以及一个用于存放等待传输数据的的队列（SendQ）。</p>
+<p>3.对于TCP套接字，还包含了与打开关闭TCP握手相关的额外协议状态信息。</p>
+<p><img src="https://i.loli.net/2020/11/02/cMkU3TQhuF21p9e.png" alt="image-20201102103000373"></p>
+<p>netstat可以查看本地和远程IP地址和端口的连接状态和sendQ和RecvQ中的字节数。</p>
+<p><img src="https://i.loli.net/2020/11/02/w1b3ryzXiD8C56H.png" alt="image-20201102103033993"></p>
+<p>TCP是一种可信赖的字节流服务，任何写入socket输出流的数据副本必须保留（保留到本地缓冲区），直到另一端成功的接收。向输出流写入信息并不意味着数据实际上已经被发送，他们只是被复制到了本地缓冲区。就算调用flush（）也不会保证能立即发送到信道。</p>
+<h3 id="缓冲与数据传输"><a href="#缓冲与数据传输" class="headerlink" title="缓冲与数据传输"></a>缓冲与数据传输</h3><p>​    ！！！不能假设从一端写入输出流的数据和在另一端从输入流读出数据之间有任何的一致性。尤其是在发送端由单个输出流的write()方法传输数据，可能要经过另一端的多个read()方法获取，而一个read（）方法可以返回多个write（）写入的内容。为了展示这种情况，给出如下程序：</p>
+<p><img src="https://i.loli.net/2020/11/02/hlFsijIpH2gtQBm.png" alt="image-20201102103112577"></p>
+<blockquote>
+<p>这个TCP连接向接收端传输8000字节，在接收端这些字节的分组方式，取决于read和write调用的时间差，以及提供给in.read的缓冲区大小。可以认为TCP连接上发送的字节序列在某一个瞬间分成了3个FIFO序列。</p>
+<p>  1.sendQ：在发送端底层实现中缓存的字节，这些字节已经写入网络流，还没有被接收端收到。</p>
+<p>  2.RecvQ：在接收端底层实现中缓存的字节，等待分配到应用程序——即从输入流中读取数据.</p>
+<p> 3.Delivered：接收着从输入流中已经读取到的字节。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/11/02/9fw26apximBDQL4.png" alt="image-20201102103247262"></p>
+<p><img src="https://i.loli.net/2020/11/02/rjTo8KVteanlGu7.png" alt="image-20201102103256072"></p>
+<h2 id="从网卡到socket"><a href="#从网卡到socket" class="headerlink" title="从网卡到socket"></a>从网卡到socket</h2><p><img src="https://i.loli.net/2020/11/02/BMduky69veCSYaZ.png" alt="image-20201102185133763"></p>
+<h2 id="使用nc发送-r-n"><a href="#使用nc发送-r-n" class="headerlink" title="使用nc发送\r\n"></a>使用nc发送\r\n</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\r是把光标移动到首字母前 CR Carriage Return 0x0D</span><br><span class="line"></span><br><span class="line">\n是换行 LF Line Feed 0x0A</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/11/05/J3mjZ2GFWwxCDXL.png" alt="image-20201105204006210"></p>
+<p>如果直接在nc中输入hello \r\n会出现上图结果</p>
+<p><img src="https://i.loli.net/2020/11/05/ghRxuq4sJEVyzkf.png" alt="image-20201105211508789"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/acewzj">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CPP/" rel="tag"><i class="fa fa-tag"></i> CPP</a>
+              <a href="/tags/Net/" rel="tag"><i class="fa fa-tag"></i> Net</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/29/Matlab/" rel="prev" title="Matlab">
+      <i class="fa fa-chevron-left"></i> Matlab
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/06/Config-Git/" rel="next" title="Config_Git">
+      Config_Git <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8Csocket%E5%9C%B0%E5%9D%80%E7%BB%93%E6%9E%84%E5%AF%B9%E6%AF%94"><span class="nav-number">1.</span> <span class="nav-text">不同socket地址结构对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#accept"><span class="nav-number">2.</span> <span class="nav-text">accept</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connection-refused"><span class="nav-number">3.</span> <span class="nav-text">connection refused</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%BA%E5%99%A8%E7%9A%84%E5%A4%A7%E7%AB%AF%E4%B8%8E%E5%B0%8F%E7%AB%AF%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何判断机器的大端与小端？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">4.1.</span> <span class="nav-text">常见的字节序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E6%80%8E%E4%B9%88%E5%AD%98%E5%85%A5int%E9%87%8C%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">IP地址怎么存入int里面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Select"><span class="nav-number">6.</span> <span class="nav-text">Select</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epoll"><span class="nav-number">7.</span> <span class="nav-text">Epoll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-create"><span class="nav-number">8.</span> <span class="nav-text">epoll_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-ctl"><span class="nav-number">9.</span> <span class="nav-text">epoll_ctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-wait"><span class="nav-number">10.</span> <span class="nav-text">epoll_wait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%87%8C%E7%9A%84%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91%E5%92%8C%E7%94%B5%E5%B9%B3%E8%A7%A6%E5%8F%91"><span class="nav-number">11.</span> <span class="nav-text">数字电路里的边沿触发和电平触发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">12.</span> <span class="nav-text">条件触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E7%A8%8B%E5%BA%8F"><span class="nav-number">13.</span> <span class="nav-text">边缘触发程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%85%A2%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81%E4%B8%8B%E6%9D%A5%E4%BA%86%E4%B8%AA%E4%BF%A1%E5%8F%B7%EF%BC%88Vital%EF%BC%89"><span class="nav-number">14.</span> <span class="nav-text">慢系统调用阻塞状态下来了个信号（Vital）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%BC%96%E7%A8%8Bfcntl"><span class="nav-number">15.</span> <span class="nav-text">非阻塞编程fcntl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">16.</span> <span class="nav-text">用户进程缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">17.</span> <span class="nav-text">内核缓冲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#socket%E7%BC%96%E7%A8%8B"><span class="nav-number">18.</span> <span class="nav-text">socket编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="nav-number">18.1.</span> <span class="nav-text">缓冲与数据传输</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E7%BD%91%E5%8D%A1%E5%88%B0socket"><span class="nav-number">19.</span> <span class="nav-text">从网卡到socket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8nc%E5%8F%91%E9%80%81-r-n"><span class="nav-number">20.</span> <span class="nav-text">使用nc发送\r\n</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">acewzj</p>
+  <div class="site-description" itemprop="description">acewzj</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acewzj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wzhongjie816@gmail.com" title="E-Mail → mailto:wzhongjie816@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/acewzj" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;acewzj" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">acewzj</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
